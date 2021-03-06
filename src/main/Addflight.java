@@ -1,22 +1,15 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Font;
+import com.toedter.calendar.JDateChooser;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.*;
-
-import com.toedter.calendar.JDateChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -346,8 +339,8 @@ public class Addflight extends javax.swing.JInternalFrame {
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from flight");
 			rs.next();
@@ -389,8 +382,8 @@ public class Addflight extends javax.swing.JInternalFrame {
 		// Database code here:
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"insert into flight(id,flightname,source,depart,date,deptime,arrtime,flightcharge)values(?,?,?,?,?,?,?,?)");
 

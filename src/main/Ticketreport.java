@@ -1,17 +1,11 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.sql.*;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -109,8 +103,8 @@ public class Ticketreport extends javax.swing.JInternalFrame {
 	public void LoadData() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement("SELECT * from Ticket");
 			ResultSet rs = pst.executeQuery();
 

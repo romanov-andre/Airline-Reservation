@@ -1,17 +1,11 @@
 package main;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JOptionPane;
-import javax.swing.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -189,7 +183,7 @@ public class Login extends javax.swing.JFrame {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(
-						"jdbc:mysql://localhost/airline", "root", "");
+						"jdbc:mysql://localhost:3306/airline", "root", "1234");
 				pst = con.prepareStatement(
 						"select * from user where username = ? and password = ?");
 				pst.setString(1, username);

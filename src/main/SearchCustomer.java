@@ -1,6 +1,11 @@
 package main;
 
-import java.awt.Image;
+import com.toedter.calendar.JDateChooser;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -8,24 +13,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.toedter.calendar.JDateChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -110,6 +104,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		radioButtonFemale = new javax.swing.JRadioButton();
 		txtcontact = new javax.swing.JTextField();
 		txtphoto = new javax.swing.JLabel();
+		txtdob = new JDateChooser();
 		jButtonBrowse = new javax.swing.JButton();
 		jButtonUpdate = new javax.swing.JButton();
 		jButtonCancel = new javax.swing.JButton();
@@ -291,6 +286,9 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 						.addGroup(jPanel2Layout.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.LEADING)
 								.addComponent(jLabelDOB)
+								.addComponent(txtdob,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										174, Short.MAX_VALUE)
 								.addGroup(jPanel2Layout.createSequentialGroup()
 										.addGroup(jPanel2Layout
 												.createParallelGroup(
@@ -313,6 +311,10 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(jPanel2Layout.createSequentialGroup()
 						.addGap(37, 37, 37).addComponent(jLabelDOB)
+						.addComponent(txtdob,
+								javax.swing.GroupLayout.PREFERRED_SIZE,
+								javax.swing.GroupLayout.DEFAULT_SIZE,
+								javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(18, 18, 18)
 						.addGroup(jPanel2Layout.createParallelGroup(
 								javax.swing.GroupLayout.Alignment.BASELINE)
@@ -541,8 +543,8 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
 
@@ -580,8 +582,8 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement("select * from customer where id = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();

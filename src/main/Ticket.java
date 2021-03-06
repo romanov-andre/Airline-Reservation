@@ -1,22 +1,15 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultFormatter;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DefaultFormatter;
 
 
 /*
@@ -588,8 +581,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"SELECT * from flight WHERE source = ? and depart = ?");
 
@@ -635,8 +628,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from Ticket");
 			rs.next();
@@ -666,8 +659,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement("select * from customer where id = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -732,8 +725,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"insert into Ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
 

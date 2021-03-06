@@ -1,6 +1,11 @@
 package main;
 
-import java.awt.Image;
+import com.toedter.calendar.JDateChooser;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -8,22 +13,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import com.toedter.calendar.JDateChooser;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -482,8 +476,8 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from customer");
 			rs.next();
@@ -569,8 +563,8 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		// Database code here:
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
 

@@ -1,20 +1,9 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.swing.*;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -250,8 +239,8 @@ public class UserCreation extends javax.swing.JInternalFrame {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			pst = con.prepareStatement(
 					"insert into user(id,firstname,lastname,username,password)values(?,?,?,?,?)");
 
@@ -281,8 +270,8 @@ public class UserCreation extends javax.swing.JInternalFrame {
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost/airline",
-					"root", "");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+					"root", "1234");
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from user");
 			rs.next();
