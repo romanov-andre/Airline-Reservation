@@ -36,16 +36,14 @@ public class Login extends javax.swing.JFrame {
 	}
 
 	//method for testing that returns the password field
-	public JPasswordField getPasswordField() {
-		return txtpass;
+	public void setPassword(String pass) {
+		txtpass.setText(pass);
 	}
 
 	//method for testing that returns the username field
-	public JTextField getUsername() {
-		return txtpass;
+	public void setUsername(String user) {
+		txtuser.setText(user);
 	}
-
-
 
 	Connection con;
 	PreparedStatement pst;
@@ -80,7 +78,9 @@ public class Login extends javax.swing.JFrame {
 		jButtonLogin.setText("Login");
 		jButtonLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButtonLoginActionPerformed(evt);
+
+					jButtonLoginActionPerformed(evt);
+
 			}
 		});
 
@@ -186,14 +186,14 @@ public class Login extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
-	public void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+	public boolean jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 		String username = txtuser.getText();
 		String password = new String(txtpass.getPassword());
 
 		if (username.isEmpty() || password.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "UserName or Password Blank");
-
+					return false;
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -217,64 +217,21 @@ public class Login extends javax.swing.JFrame {
 					txtuser.setText("");
 					txtpass.setText("");
 					txtuser.requestFocus();
-
+					return false;
 				}
 
 			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null,
+				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Class Exception Found",
 						ex);
+
 			} catch (SQLException ex) {
-				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null,
+				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Connection to Database Failed",
 						ex);
+
 			}
 		}
-
+    return true;
 	}
-
-	//Duplicate of above method to facilitate testing
-	public String loginTester(String password, String username) {//GEN-FIRST:event_jButton1ActionPerformed
-
-		if (username.isEmpty() || password.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "UserName or Password Blank");
-			return "one or more blank fields";
-		} else {
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/airline", "root", "1234");
-				pst = con.prepareStatement(
-						"select * from user where username = ? and password = ?");
-				pst.setString(1, username);
-				pst.setString(2, password);
-
-				ResultSet rs;
-				rs = pst.executeQuery();
-
-				if (rs.next()) {
-					Main m = new Main();
-					this.setVisible(false);
-					m.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(this,
-							"UserName or Password do not Match");
-					txtuser.setText("");
-					txtpass.setText("");
-					txtuser.requestFocus();
-					return "username or password do not match";
-				}
-
-			} catch (ClassNotFoundException ex) {
-				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null,
-						ex);
-			} catch (SQLException ex) {
-				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null,
-						ex);
-			}
-		}
-		return "success";
-	}
-
-
 
 	/**
 	 * @param args the command line arguments
