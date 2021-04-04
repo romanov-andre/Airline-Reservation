@@ -9,10 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,6 +59,38 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	PreparedStatement pst;
 	String path = null;
 	byte[] userimage = null;
+
+	public void setRadioButtonMale(boolean selected) {
+		this.radioButtonMale.setSelected(selected);
+	}
+
+	public void setTxtfirstname(String firstName) {
+		this.txtfirstname.setText(firstName);
+	}
+
+	public void setTxtlastname(String lastname) {
+		this.txtlastname.setText(lastname);
+	}
+
+	public void setTxtnic(String newNic) {
+		this.txtnic.setText(newNic);
+	}
+
+	public void setTxtpassport(String passportNum) {
+		this.txtpassport.setText(passportNum);
+	}
+
+	public void setTxtaddress(String address) {
+		this.txtaddress.setText(address);
+	}
+
+	public void setTxtcontact(String contact) {
+		this.txtcontact.setText(contact);
+	}
+
+	public void setTxtdob(Date dob) {
+		this.txtdob.setDate(dob);
+	}
 
 	/**
 	 * Creates new form AddCustomer
@@ -128,18 +157,6 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		jLabelAddress.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 		jLabelAddress.setForeground(new java.awt.Color(255, 255, 255));
 		jLabelAddress.setText("Address");
-
-		txtlastname.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				txtlastnameActionPerformed(evt);
-			}
-		});
-
-		txtpassport.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				txtpassportActionPerformed(evt);
-			}
-		});
 
 		txtaddress.setColumns(20);
 		txtaddress.setRows(5);
@@ -502,28 +519,36 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	}
 
-	private void txtlastnameActionPerformed(java.awt.event.ActionEvent evt) {
+	public void setUserImageWithPath(String path) throws IOException {
+		File image = new File(path);
+		FileInputStream fis = new FileInputStream(image);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buff = new byte[1024];
+		for (int readNum; (readNum = fis.read(buff)) != -1;) {
+			baos.write(buff, 0, readNum);
+		}
+		userimage = baos.toByteArray();
+		fis.close();
 	}
 
-	private void txtpassportActionPerformed(java.awt.event.ActionEvent evt) {
-	}
-
-	private void jButtonBrowseActionPerformed(ActionEvent evt) {
+	public boolean jButtonBrowseActionPerformed(ActionEvent evt) {
 
 		try {
-			JFileChooser picchooser = new JFileChooser();
-			picchooser.showOpenDialog(null);
-			File pic = picchooser.getSelectedFile();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter(
-					"*.images", "png", "jpg");
-			picchooser.addChoosableFileFilter(filter);
-			path = pic.getAbsolutePath();
-			BufferedImage img;
-			img = ImageIO.read(picchooser.getSelectedFile());
-			ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
-					.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
-			txtphoto.setIcon(imageIcon);
 
+			if(path == null) {
+				JFileChooser picchooser = new JFileChooser();
+				picchooser.showOpenDialog(null);
+				File pic = picchooser.getSelectedFile();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"*.images", "png", "jpg");
+				picchooser.addChoosableFileFilter(filter);
+				path = pic.getAbsolutePath();
+				BufferedImage img;
+				img = ImageIO.read(picchooser.getSelectedFile());
+				ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
+						.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
+				txtphoto.setIcon(imageIcon);
+			}
 			File image = new File(path);
 			FileInputStream fis = new FileInputStream(image);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -537,62 +562,69 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		} catch (IOException ex) {
 			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
+			return false;
 		}
-
+return true;
 	}
 
-	private void jButtonAddActionPerformed(ActionEvent evt) {
-		String id = txtid.getText();
-		String firstname = txtfirstname.getText();
-		String lastname = txtlastname.getText();
-		String nic = txtnic.getText();
-		String passport = txtpassport.getText();
-		String address = txtaddress.getText();
+	public boolean jButtonAddActionPerformed(ActionEvent evt) {
 
-		DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-		String date = da.format(txtdob.getDate());
+		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
+				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
+			String id = txtid.getText();
+			String firstname = txtfirstname.getText();
+			String lastname = txtlastname.getText();
+			String nic = txtnic.getText();
+			String passport = txtpassport.getText();
+			String address = txtaddress.getText();
 
-		String gender;
-		if (radioButtonMale.isSelected())
-			gender = "Male";
-		else
-			gender = "Female";
+			DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+			String date = da.format(txtdob.getDate());
 
-		String contact = txtcontact.getText();
+			String gender;
+			if (radioButtonMale.isSelected())
+				gender = "Male";
+			else
+				gender = "Female";
 
-		// Database code here:
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
-			pst = con.prepareStatement(
-					"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+			String contact = txtcontact.getText();
 
-			pst.setString(1, id);
-			pst.setString(2, firstname);
-			pst.setString(3, lastname);
-			pst.setString(4, nic);
-			pst.setString(5, passport);
-			pst.setString(6, address);
-			pst.setString(7, date);
-			pst.setString(8, gender);
-			pst.setString(9, contact);
-			pst.setBytes(10, userimage);
-			pst.executeUpdate();
+			// Database code here:
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+						"root", "1234");
+				pst = con.prepareStatement(
+						"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
 
-			JOptionPane.showMessageDialog(null, "Registration Created...");
+				pst.setString(1, id);
+				pst.setString(2, firstname);
+				pst.setString(3, lastname);
+				pst.setString(4, nic);
+				pst.setString(5, passport);
+				pst.setString(6, address);
+				pst.setString(7, date);
+				pst.setString(8, gender);
+				pst.setString(9, contact);
+				pst.setBytes(10, userimage);
+				pst.executeUpdate();
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} catch (SQLException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
+				JOptionPane.showMessageDialog(null, "Registration Created...");
+
+			} catch (ClassNotFoundException | SQLException ex) {
+				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
+						null, ex);
+				return false;
+			}
+
+		} else {
+			JOptionPane.showMessageDialog(null, "Field Left Empty..");
+			return false;
 		}
-
+		return true;
 	}
 
-	private void jButtonCancelActionPerformed(ActionEvent evt) {
+	public void jButtonCancelActionPerformed(ActionEvent evt) {
 		this.hide();
 	}
 }

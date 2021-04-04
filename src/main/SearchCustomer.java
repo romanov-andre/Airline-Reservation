@@ -74,6 +74,54 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
+	public void setRadioButtonMale(boolean selected) {
+		this.radioButtonMale.setSelected(selected);
+	}
+
+	public void setTxtcustid(String custId) {
+		this.txtcustid.setText(custId);
+	}
+
+	public void setTxtcontact(String txtcontact) {
+		this.txtcontact.setText(txtcontact);
+	}
+
+	public void setTxtfirstname(String txtfirstname) {
+		this.txtfirstname.setText(txtfirstname);
+	}
+
+	public void setTxtlastname(String txtlastname) {
+		this.txtlastname.setText(txtlastname);
+	}
+
+	public void setTxtnic(String txtnic) {
+		this.txtnic.setText(txtnic);
+	}
+
+	public void setTxtpassport(String txtpassport) {
+		this.txtpassport.setText(txtpassport);
+	}
+
+	public void setTxtaddress(String txtaddress) {
+		this.txtaddress.setText(txtaddress);
+	}
+
+	public void setTxtdob(Date dob) {
+		this.txtdob.setDate(dob);
+	}
+
+	public void setUserImageWithPath(String path) throws IOException {
+		File image = new File(path);
+		FileInputStream fis = new FileInputStream(image);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buff = new byte[1024];
+		for (int readNum; (readNum = fis.read(buff)) != -1;) {
+			baos.write(buff, 0, readNum);
+		}
+		userimage = baos.toByteArray();
+		fis.close();
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -132,19 +180,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		jLabelAddress.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 		jLabelAddress.setForeground(new java.awt.Color(255, 255, 255));
 		jLabelAddress.setText("Address");
-
-		txtlastname.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				txtlastnameActionPerformed(evt);
-			}
-		});
-
-		txtpassport.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				txtpassportActionPerformed(evt);
-			}
-		});
-
+		
 		txtaddress.setColumns(20);
 		txtaddress.setRows(5);
 		jScrollPane1.setViewportView(txtaddress);
@@ -481,27 +517,24 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void txtlastnameActionPerformed(java.awt.event.ActionEvent evt) {
-	}
+	public boolean jButtonBrowseActionPerformed(ActionEvent evt) {
 
-	private void txtpassportActionPerformed(java.awt.event.ActionEvent evt) {
-	}
-
-	private void jButtonBrowseActionPerformed(java.awt.event.ActionEvent evt) {
 		try {
-			JFileChooser picchooser = new JFileChooser();
-			picchooser.showOpenDialog(null);
-			File pic = picchooser.getSelectedFile();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter(
-					"*.images", "png", "jpg");
-			picchooser.addChoosableFileFilter(filter);
-			path = pic.getAbsolutePath();
-			BufferedImage img;
-			img = ImageIO.read(picchooser.getSelectedFile());
-			ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
-					.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
-			txtphoto.setIcon(imageIcon);
 
+			if(path == null) {
+				JFileChooser picchooser = new JFileChooser();
+				picchooser.showOpenDialog(null);
+				File pic = picchooser.getSelectedFile();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"*.images", "png", "jpg");
+				picchooser.addChoosableFileFilter(filter);
+				path = pic.getAbsolutePath();
+				BufferedImage img;
+				img = ImageIO.read(picchooser.getSelectedFile());
+				ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
+						.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
+				txtphoto.setIcon(imageIcon);
+			}
 			File image = new File(path);
 			FileInputStream fis = new FileInputStream(image);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -511,73 +544,80 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 			}
 			userimage = baos.toByteArray();
 			fis.close();
+
 		} catch (IOException ex) {
 			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
+			return false;
 		}
-
+		return true;
 	}
 
-	private void jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {
+	public boolean jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {
 
-		String id = txtcustid.getText();
-		String firstname = txtfirstname.getText();
-		String lastname = txtlastname.getText();
-		String nic = txtnic.getText();
-		String passport = txtpassport.getText();
-		String address = txtaddress.getText();
+		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
+				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
-		DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-		String date = da.format(txtdob.getDate());
-		String Gender;
+			String id = txtcustid.getText();
+			String firstname = txtfirstname.getText();
+			String lastname = txtlastname.getText();
+			String nic = txtnic.getText();
+			String passport = txtpassport.getText();
+			String address = txtaddress.getText();
 
-		if (radioButtonMale.isSelected()) {
-			Gender = "Male";
+			DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+			String date = da.format(txtdob.getDate());
+			String Gender;
+
+			if (radioButtonMale.isSelected()) {
+				Gender = "Male";
+			} else {
+				Gender = "FeMale";
+			}
+
+			String contact = txtcontact.getText();
+
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+						"root", "1234");
+				pst = con.prepareStatement(
+						"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
+
+				pst.setString(1, firstname);
+				pst.setString(2, lastname);
+				pst.setString(3, nic);
+				pst.setString(4, passport);
+				pst.setString(5, address);
+				pst.setString(6, date);
+				pst.setString(7, Gender);
+				pst.setString(8, contact);
+				pst.setBytes(9, userimage);
+				pst.setString(10, id);
+				pst.executeUpdate();
+
+				JOptionPane.showMessageDialog(null,
+						"Registation Updated...");
+
+			} catch (ClassNotFoundException | SQLException ex) {
+				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
+						null, ex);
+				return false;
+			}
 		} else {
-			Gender = "FeMale";
-		}
-		
-		
-
-		String contact = txtcontact.getText();
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
-			pst = con.prepareStatement(
-					"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
-
-			pst.setString(1, firstname);
-			pst.setString(2, lastname);
-			pst.setString(3, nic);
-			pst.setString(4, passport);
-			pst.setString(5, address);
-			pst.setString(6, date);
-			pst.setString(7, Gender);
-			pst.setString(8, contact);
-			pst.setBytes(9, userimage);
-			pst.setString(10, id);
-			pst.executeUpdate();
-
 			JOptionPane.showMessageDialog(null,
-					"Registation Updated...");
-
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} catch (SQLException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
+					"Field Left Empty...");
+			return false;
 		}
+		return true;
 
 	}
 
-	private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
+	void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
 		this.hide();
 	}
 
-	private void jButtonFindActionPerformed(java.awt.event.ActionEvent evt) {
+	public boolean jButtonFindActionPerformed(java.awt.event.ActionEvent evt) {
 		String id = txtcustid.getText();
 
 		try {
@@ -590,6 +630,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 			if (rs.next() == false) {
 				JOptionPane.showMessageDialog(this, "Record not Found");
+				return false;
 			} else {
 				String fname = rs.getString("firstname");
 				String lname = rs.getString("lastname");
@@ -605,9 +646,19 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 				byte[] _imagebytes = blob.getBytes(1, (int) blob.length());
 				ImageIcon image = new ImageIcon(_imagebytes);
 				Image im = image.getImage();
-				Image myImg = im.getScaledInstance(txtphoto.getWidth(),
-						txtphoto.getHeight(), Image.SCALE_SMOOTH);
-				ImageIcon newImage = new ImageIcon(myImg);
+				ImageIcon newImage;
+
+				if(txtphoto.getWidth() == 0 || txtphoto.getHeight() == 0) {
+					Image myImg = im.getScaledInstance(250,
+							250, Image.SCALE_SMOOTH);
+					newImage = new ImageIcon(myImg);
+				} else {
+					Image myImg = im.getScaledInstance(txtphoto.getWidth(),
+							txtphoto.getHeight(), Image.SCALE_SMOOTH);
+					newImage = new ImageIcon(myImg);
+				}
+
+
 
 				if (gender.equals("Female")) {
 					radioButtonMale.setSelected(false);
@@ -639,7 +690,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 			Logger.getLogger(SearchCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
 		}
-
+return true;
 	}
 
 }
