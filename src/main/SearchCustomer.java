@@ -180,7 +180,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		jLabelAddress.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
 		jLabelAddress.setForeground(new java.awt.Color(255, 255, 255));
 		jLabelAddress.setText("Address");
-		
+
 		txtaddress.setColumns(20);
 		txtaddress.setRows(5);
 		jScrollPane1.setViewportView(txtaddress);

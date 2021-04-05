@@ -68,8 +68,14 @@ public class Ticket extends javax.swing.JInternalFrame {
 	public void setTxtfirstname(String firstName){this.txtfirstname.setText(firstName);}
 	public void setTxtlastname(String lastName){this.txtfirstname.setText(lastName);}
 	public void settxtprice(String price){this.txtprice.setText(price);}
-	public void setTxtseats(String seats){this.txtseats.setValue(seats);}
-	public void setTxttotal(String total){this.txtseats.setValue(total);}
+	public void setTxtseats(int seats){this.txtseats.setValue(seats);}
+	public void setTxttotal(int total){this.txtseats.setValue(total);}
+	public void setDate() {
+		txtdate = new Date();
+	}
+
+
+
 
 	/**
 	 * Creates new form Ticket
@@ -753,6 +759,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 		} catch (ClassNotFoundException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
+			return false;
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
