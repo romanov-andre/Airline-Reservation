@@ -62,6 +62,15 @@ public class Ticket extends javax.swing.JInternalFrame {
 	private Date txtdate;
 	// End of variables declaration//GEN-END:variables
 
+	public void setId(String id){this.txtcustid.setText(id);}
+	public void setTicketid(String ticketno){this.txtticketno.setText(ticketno);}
+	public void setFlightid(String flightid){this.flightno.setText(flightid);}
+	public void setTxtfirstname(String firstName){this.txtfirstname.setText(firstName);}
+	public void setTxtlastname(String lastName){this.txtfirstname.setText(lastName);}
+	public void settxtprice(String price){this.txtprice.setText(price);}
+	public void setTxtseats(String seats){this.txtseats.setValue(seats);}
+	public void setTxttotal(String total){this.txtseats.setValue(total);}
+
 	/**
 	 * Creates new form Ticket
 	 */
@@ -338,7 +347,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 				formatter.setCommitsOnValidEdit(true);
 				txtseatsStateChanged(evt);
 				System.out.println(txtseats.getValue());
-				
+
 			}
 		});
 
@@ -712,7 +721,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 		txttotal.setText(String.valueOf(tot));
 	}
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+	public boolean jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 
 		String ticketid = txtticketno.getText();
 		String flightid = flightno.getText();
@@ -747,7 +756,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
+			return false;
 		}
+		return true;
 	}
 
 	private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
