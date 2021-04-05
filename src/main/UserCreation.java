@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import java.sql.*;
 import java.util.logging.Level;
@@ -31,6 +32,25 @@ public class UserCreation extends javax.swing.JInternalFrame {
 	private JTextField txtusername;
 	// End of variables declaration//GEN-END:variables
 
+	public void setTxtuserid(String userid) {
+		this.txtuserid.setText(userid);
+	}
+
+	public void setTxtfirstname(String firstName) {
+		this.txtfirstname.setText(firstName);
+	}
+
+	public void setTxtlastname(String lastname) {
+		this.txtlastname.setText(lastname);
+	}
+
+	public void setTxtpassword(String password) {
+		this.txtpassword.setText(password);
+	}
+
+	public void setTxtusername(String username) {
+		this.txtusername.setText(username);
+	}
 	/**
 	 * Creates new form UserCreation
 	 */
@@ -229,7 +249,7 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		pack();
 	}
 
-	private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
+	public boolean jButtonAddActionPerformed(ActionEvent evt) {
 
 		String id = txtuserid.getText();
 		String firstname = txtfirstname.getText();
@@ -253,14 +273,16 @@ public class UserCreation extends javax.swing.JInternalFrame {
 			pst.executeUpdate();
 
 			JOptionPane.showMessageDialog(null, "User Created...");
+
 		} catch (ClassNotFoundException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
+			return false;
 		}
-
+		return true;
 	}
 
 	private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
