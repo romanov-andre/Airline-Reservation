@@ -2,6 +2,7 @@ package main;
 
 import com.toedter.calendar.JDateChooser;
 
+import java.text.ParseException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -365,47 +366,70 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	}
 
-	private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
-		String id = txtflightid.getText();
-		String flightname = txtflightname.getText();
+	public void setID(String id){ this.txtflightid.setText(id);}
 
-		String source = txtsource.getSelectedItem().toString().trim();
-		String depart = txtdepart.getSelectedItem().toString().trim();
+	public void setFlightName(String flightName){this.txtflightname.setText(flightName);}
 
-		DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-		String date = da.format(txtdate.getDate());
+	public void setSource(String source){this.txtsource.setSelectedItem(source);}
 
-		String departtime = txtdtime.getText();
-		String arrtime = txtarrtime.getText();
-		String flightcharge = txtflightcharge.getText();
+	public void setDate(String date) throws ParseException {txtdate.setDate(new SimpleDateFormat("dd MMM yyyy").parse(date));}
 
-		// Database code here:
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
-			pst = con.prepareStatement(
-					"insert into flight(id,flightname,source,depart,date,deptime,arrtime,flightcharge)values(?,?,?,?,?,?,?,?)");
+	public void setDepartTime(String departTime){this.txtdtime.setText(departTime);}
 
-			pst.setString(1, id);
-			pst.setString(2, flightname);
-			pst.setString(3, source);
-			pst.setString(4, depart);
-			pst.setString(5, date);
-			pst.setString(6, departtime);
-			pst.setString(7, arrtime);
-			pst.setString(8, flightcharge);
+	public void setArrTime(String arrTime){this.txtdtime.setText(arrTime);}
 
-			pst.executeUpdate();
+	public void setFlightCharge(String charge){this.txtflightcharge.setText("200");}
 
-			JOptionPane.showMessageDialog(null, "Flight created...");
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
-					ex);
-		} catch (SQLException ex) {
-			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
-					ex);
+	//public void
+
+	public boolean jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
+
+		if(!txtflightid.getText().isBlank() && !txtflightname.getText().isBlank() && txtsource.getSelectedItem() != null &&
+				txtsource.getSelectedItem() != null && txtdtime.getText().isBlank() && txtarrtime.getText().isBlank() &&
+				!txtflightcharge.getText().isBlank()) {
+			String id = txtflightid.getText();
+			String flightname = txtflightname.getText();
+
+			String source = txtsource.getSelectedItem().toString().trim();
+			String depart = txtdepart.getSelectedItem().toString().trim();
+
+			DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+			String date = da.format(txtdate.getDate());
+
+			String departtime = txtdtime.getText();
+			String arrtime = txtarrtime.getText();
+			String flightcharge = txtflightcharge.getText();
+
+			// Database code here:
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
+						"root", "1234");
+				pst = con.prepareStatement(
+						"insert into flight(id,flightname,source,depart,date,deptime,arrtime,flightcharge)values(?,?,?,?,?,?,?,?)");
+
+				pst.setString(1, id);
+				pst.setString(2, flightname);
+				pst.setString(3, source);
+				pst.setString(4, depart);
+				pst.setString(5, date);
+				pst.setString(6, departtime);
+				pst.setString(7, arrtime);
+				pst.setString(8, flightcharge);
+
+				pst.executeUpdate();
+				JOptionPane.showMessageDialog(null, "Flight created...");
+			} catch (ClassNotFoundException | SQLException ex) {
+				Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
+						ex);
+				return false;
+			}
 		}
+		else {
+			JOptionPane.showMessageDialog(null, "Field Left Empty...");
+			return false;
+		}
+		return true;
 
 	}
 
