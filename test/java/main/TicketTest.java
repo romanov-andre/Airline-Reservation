@@ -1,16 +1,18 @@
 package main;
 
-import java.io.IOException;
-import javax.swing.JPanel;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+import java.io.IOException;
 
 public class TicketTest {
 
   public Ticket ticketTest = new Ticket();
   private JPanel panel = new JPanel();
 
-  @Test
+  @BeforeEach
   void initTicket() throws IOException {
     ticketTest.setId("12");
     ticketTest.setTicketid("13");
@@ -19,26 +21,26 @@ public class TicketTest {
     ticketTest.setTxtfirstname("test");
     ticketTest.setTxtlastname("name");
     ticketTest.settxtprice("50");
-    ticketTest.setTxtseats("10");
-    ticketTest.setTxtseats("10");
-    ticketTest.setTxttotal("500");
+    ticketTest.setTxtseats(10);
+    ticketTest.setTxtseats(10);
+    ticketTest.setTxttotal(500);
+ticketTest.setDate();
   }
 
   @Test
   void verifyValues() throws IOException {
-    initTicket();
 
     Assertions.assertNotNull(ticketTest);
   }
 
   @Test
   void jButton1ActionPerformedTest(){
-    Assertions.assertFalse(ticketTest.jButton1ActionPerformed(null));
+    Assertions.assertTrue(ticketTest.jButton1ActionPerformed(null));
   }
 
   void verifyTxtSeatsStateChanged(){
     ticketTest.settxtprice("48");
-    ticketTest.setTxtseats("22");
+    ticketTest.setTxtseats(22);
     int total = 48 * 22;
 
     Assertions.assertEquals(total, 1056);
