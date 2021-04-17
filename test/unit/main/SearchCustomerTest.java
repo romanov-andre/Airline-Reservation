@@ -8,7 +8,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 
-public class SearchCustomerTest {
+public class SearchCustomerTest extends SearchCustomer {
+
 
 	//Reference variable to test the methods in Login
 	private SearchCustomer searchTester = new SearchCustomer();

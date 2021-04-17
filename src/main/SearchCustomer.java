@@ -74,6 +74,45 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
+	public Boolean getUserimage() {
+		if(userimage == null) {
+			return false;
+		}
+		return true;
+	}
+
+	public JTextArea getTxtaddress() {
+		return txtaddress;
+	}
+
+	public JTextField getTxtcontact() {
+		return txtcontact;
+	}
+
+	public JTextField getTxtcustid() {
+		return txtcustid;
+	}
+
+	public JTextField getTxtfirstname() {
+		return txtfirstname;
+	}
+
+	public JTextField getTxtlastname() {
+		return txtlastname;
+	}
+
+	public JTextField getTxtnic() {
+		return txtnic;
+	}
+
+	public JTextField getTxtpassport() {
+		return txtpassport;
+	}
+
+	public JDateChooser getTxtdob() {
+		return txtdob;
+	}
+
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
 	}

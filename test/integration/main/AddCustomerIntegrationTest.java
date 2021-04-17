@@ -1,10 +1,10 @@
 package main;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
-
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class AddCustomerIntegrationTest {
 

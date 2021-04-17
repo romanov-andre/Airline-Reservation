@@ -33,7 +33,10 @@ public class Login extends javax.swing.JFrame {
 	 */
 	public Login() {
 		initComponents();
+
 	}
+
+
 
 	//method for testing that returns the password field
 	public void setPassword(String pass) {
@@ -186,12 +189,14 @@ public class Login extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
+
 	public boolean jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 		String username = txtuser.getText();
 		String password = new String(txtpass.getPassword());
 
 		if (username.isEmpty() || password.isEmpty()) {
+			System.out.println("login attempts failed");
 			JOptionPane.showMessageDialog(this, "UserName or Password Blank");
 					return false;
 		} else {
@@ -199,8 +204,8 @@ public class Login extends javax.swing.JFrame {
 				Class.forName("com.mysql.jdbc.Driver");
 				con = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/airline", "root", "1234");
-				pst = con.prepareStatement(
-						"select * from user where username = ? and password = ?");
+
+				pst = con.prepareStatement("select * from user where username = ? and password = ?");
 				pst.setString(1, username);
 				pst.setString(2, password);
 
@@ -230,6 +235,7 @@ public class Login extends javax.swing.JFrame {
 
 			}
 		}
+		System.out.println("Executed Query");
     return true;
 	}
 
