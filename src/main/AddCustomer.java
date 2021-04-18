@@ -1,5 +1,6 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.toedter.calendar.JDateChooser;
 
 import javax.imageio.ImageIO;
@@ -55,6 +56,8 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	private JTextField txtcontact;
 	// End of variables declaration//GEN-END:variables
 
+	JFileChooser fileChooser;
+	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
 	String path = null;
@@ -90,6 +93,12 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	public void setTxtdob(Date dob) {
 		this.txtdob.setDate(dob);
+	}
+
+	public AddCustomer(MysqlDataSource ds, JFileChooser chooser) {
+		initComponents();
+		this.d = ds;
+		this.fileChooser = chooser;
 	}
 
 	/**
@@ -492,9 +501,15 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	public void autoID() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
+
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from customer");
 			rs.next();
@@ -509,9 +524,6 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -536,15 +548,19 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		try {
 
 			if(path == null) {
-				JFileChooser picchooser = new JFileChooser();
-				picchooser.showOpenDialog(null);
-				File pic = picchooser.getSelectedFile();
+
+				if(fileChooser == null) {
+					fileChooser = new JFileChooser();
+				}
+
+				fileChooser.showOpenDialog(null);
+				File pic = fileChooser.getSelectedFile();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(
 						"*.images", "png", "jpg");
-				picchooser.addChoosableFileFilter(filter);
+				fileChooser.addChoosableFileFilter(filter);
 				path = pic.getAbsolutePath();
 				BufferedImage img;
-				img = ImageIO.read(picchooser.getSelectedFile());
+				img = ImageIO.read(fileChooser.getSelectedFile());
 				ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
 						.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
 				txtphoto.setIcon(imageIcon);
@@ -577,9 +593,9 @@ return true;
 			String nic = txtnic.getText();
 			String passport = txtpassport.getText();
 			String address = txtaddress.getText();
-
-			DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-			String date = da.format(txtdob.getDate());
+			try {
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(txtdob.getDate());
 
 			String gender;
 			if (radioButtonMale.isSelected())
@@ -590,10 +606,16 @@ return true;
 			String contact = txtcontact.getText();
 
 			// Database code here:
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-						"root", "1234");
+
+				if(d == null) {
+					d = new MysqlDataSource();
+					d.setUser("root");
+					d.setPassword("1234");
+					d.setDatabaseName("airline");
+				}
+				con =  d.getConnection();
+
+
 				pst = con.prepareStatement(
 						"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
 
@@ -611,7 +633,7 @@ return true;
 
 				JOptionPane.showMessageDialog(null, "Registration Created...");
 
-			} catch (ClassNotFoundException | SQLException ex) {
+			} catch (SQLException ex) {
 				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 						null, ex);
 				return false;

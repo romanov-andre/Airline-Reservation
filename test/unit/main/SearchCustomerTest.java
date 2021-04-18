@@ -30,6 +30,10 @@ public class SearchCustomerTest extends SearchCustomer {
 		searchTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
+	//TODO: add exception handling test for anything thrown
+
+
+	//possible integration test
 	@Test
 	void fileChooserTest() {
 		Assertions.assertTrue(searchTester.jButtonBrowseActionPerformed(null));
@@ -40,6 +44,7 @@ public class SearchCustomerTest extends SearchCustomer {
 		searchTester.jButtonCancelActionPerformed(null);
 	}
 
+	//possible integration test
 	@Test
 	void browseImageTest() {
 		searchTester.path = "img/testphoto.jpg";
@@ -88,6 +93,8 @@ public class SearchCustomerTest extends SearchCustomer {
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
+
+	//possible integration test
 	@Test
 	void updateCustomerTest() {
 
@@ -96,12 +103,17 @@ public class SearchCustomerTest extends SearchCustomer {
 		Assertions.assertTrue(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
+
+	//possible integration test
 	@Test
 	void findInvalidCustomerTest() {
 		searchTester.setTxtcustid("CS000");
 		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
+		searchTester.setTxtcustid("C019");
+		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
 	}
 
+	//possible integration test
 	@Test
 	void findValidCustomerTest() {
 		searchTester.setTxtcustid("CS001");

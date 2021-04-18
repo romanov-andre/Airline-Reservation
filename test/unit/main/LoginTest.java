@@ -8,9 +8,11 @@ import javax.swing.*;
 
 class LoginTest {
 
-	//Reference variable to test the methods in Login
-	private Login loginTester = new Login();
-	private JPanel panel = new JPanel();
+		//Reference variable to test the methods in Login
+		 Login loginTester = new Login();
+		 JPanel panel = new JPanel();
+
+//TODO: exception handling for invalid login and "null" login
 
 
 	//A test to determine if correct values for username and password will function properly
@@ -22,6 +24,22 @@ class LoginTest {
 		loginTester.setPassword("alan1234");
 
 		Assertions.assertTrue(loginTester.jButtonLoginActionPerformed(null));
+
+	}
+
+	@Test
+	public void emptyLogin() {
+
+		loginTester.setUsername("alannorman00");
+		loginTester.setPassword("");
+
+		Assertions.assertFalse(loginTester.jButtonLoginActionPerformed(null));
+
+		loginTester.setUsername("");
+		loginTester.setPassword("alan1234");
+
+		Assertions.assertFalse(loginTester.jButtonLoginActionPerformed(null));
+
 
 	}
 

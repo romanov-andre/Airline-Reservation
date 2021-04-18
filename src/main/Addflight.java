@@ -2,12 +2,12 @@ package main;
 
 import com.toedter.calendar.JDateChooser;
 
-import java.text.ParseException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -378,14 +378,16 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	public void setArrTime(String arrTime){this.txtdtime.setText(arrTime);}
 
-	public void setFlightCharge(String charge){this.txtflightcharge.setText("200");}
+	public void setFlightCharge(String charge){this.txtflightcharge.setText(charge);}
+
+	public void setDepart(String depart) {this.txtdepart.setSelectedItem(depart);}
 
 	//public void
 
 	public boolean jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
 
 		if(!txtflightid.getText().isBlank() && !txtflightname.getText().isBlank() && txtsource.getSelectedItem() != null &&
-				txtsource.getSelectedItem() != null && txtdtime.getText().isBlank() && txtarrtime.getText().isBlank() &&
+				txtsource.getSelectedItem() != null && !txtdtime.getText().isBlank() && !txtarrtime.getText().isBlank() &&
 				!txtflightcharge.getText().isBlank()) {
 			String id = txtflightid.getText();
 			String flightname = txtflightname.getText();

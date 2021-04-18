@@ -16,6 +16,7 @@ public class AddFlightTest {
     addFlight.setID("1");
     addFlight.setFlightName("American Airlines");
     addFlight.setSource("USA");
+    addFlight.setDepart("Canada");
     addFlight.setDate("01 JAN 2001");
     addFlight.setDepartTime("12:00");
     addFlight.setArrTime("4:00");
@@ -23,10 +24,22 @@ public class AddFlightTest {
   }
 
   @Test
-  public void jButtonAddActionPerformedTest(){
+  public void validAddFlightTest(){
     boolean result = addFlight.jButtonAddActionPerformed(null);
     Assertions.assertTrue(result);
   }
+
+  @Test
+  public void emptyFieldAddFlightTest(){
+
+
+    addFlight.setID("");
+
+    boolean result = addFlight.jButtonAddActionPerformed(null);
+    Assertions.assertFalse(result);
+  }
+
+
 
 }
 
