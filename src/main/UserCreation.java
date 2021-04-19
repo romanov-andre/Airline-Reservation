@@ -256,7 +256,16 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		String lastname = txtlastname.getText();
 		String username = txtusername.getText();
 		String password = new String(txtpassword.getPassword());
+		System.out.println(id);
+		System.out.println("1"+ firstname);
+		System.out.println("2" + lastname);
+		System.out.println("3"+ username);
+		System.out.println("4"+ password);
+		if ((firstname.isEmpty()) ||(lastname.isEmpty()) ||(username.isEmpty()) ||(password.isEmpty())){
+			JOptionPane.showMessageDialog(this,"Feild cannot be left empty");
 
+			return false;
+		}
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
@@ -280,7 +289,6 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
-			return false;
 		}
 		return true;
 	}

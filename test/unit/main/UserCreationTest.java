@@ -18,14 +18,15 @@ public class UserCreationTest {
     userCreationTester.setTxtlastname("Name");
     userCreationTester.setTxtpassword("1111");
     userCreationTester.setTxtusername("testUser");
+
   }
 
 
   @Test
   void emptyFirstNameTest() throws IOException {
     //Empty first name
-    userCreationTester.setTxtfirstname("");
-    Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
+      userCreationTester.setTxtfirstname("");
+      Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
 
   }
   @Test
@@ -37,22 +38,31 @@ public class UserCreationTest {
   }
 
   @Test
-  void emptyUserIDTest() {
+  void emptyUserName() {
     //Empty nic value
     userCreationTester.setTxtuserid("");
     Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
   }
   @Test
   void emptyPasswordTest() {
-    //Empty passport id
-    userCreationTester.setTxtusername("");
+    userCreationTester.setTxtpassword("");
     Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
   }
 
   @Test
-  void emptyUsernameTest() {
-    //Empty passport id
+  void allEmptyField() {
+    userCreationTester.setTxtlastname("");
+    userCreationTester.setTxtfirstname("");
+    userCreationTester.setTxtuserid("");
     userCreationTester.setTxtpassword("");
     Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
+  }
+  @Test
+  void validUserCreate() {
+    userCreationTester.setTxtlastname("Jhon");
+    userCreationTester.setTxtfirstname("Roberto");
+    userCreationTester.setTxtusername("jrob");
+    userCreationTester.setTxtpassword("123");
+    Assertions.assertTrue(userCreationTester.jButtonAddActionPerformed(null));
   }
 }

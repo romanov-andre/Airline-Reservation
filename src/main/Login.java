@@ -1,14 +1,9 @@
 package main;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,20 +28,11 @@ public class Login extends javax.swing.JFrame {
 	private JTextField txtuser;
 	// End of variables declaration//GEN-END:variables
 
-MysqlDataSource d;
-	Connection con;
-	PreparedStatement pst;
-
 	/**
 	 * Creates new form Login
 	 */
 	public Login() {
 		initComponents();
-	}
-
-	public Login(MysqlDataSource ds) {
-		initComponents();
-		this.d = ds;
 	}
 
 	//method for testing that returns the password field
@@ -58,6 +44,9 @@ MysqlDataSource d;
 	public void setUsername(String user) {
 		txtuser.setText(user);
 	}
+
+	Connection con;
+	PreparedStatement pst;
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -197,28 +186,21 @@ MysqlDataSource d;
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
-
 	public boolean jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 		String username = txtuser.getText();
 		String password = new String(txtpass.getPassword());
 
 		if (username.isEmpty() || password.isEmpty()) {
-			System.out.println("login attempts failed");
 			JOptionPane.showMessageDialog(this, "UserName or Password Blank");
 					return false;
 		} else {
 			try {
-				if(d == null) {
-					d = new MysqlDataSource();
-					d.setUser("root");
-					d.setPassword("1234");
-					d.setDatabaseName("airline");
-				}
-				con =  d.getConnection();
-
-				pst = con.prepareStatement("select * from user where username = ? and password = ?");
-
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airline", "root", "1234");
+				pst = con.prepareStatement(
+						"select * from user where username = ? and password = ?");
 				pst.setString(1, username);
 				pst.setString(2, password);
 
@@ -238,14 +220,16 @@ MysqlDataSource d;
 					return false;
 				}
 
+			} catch (ClassNotFoundException ex) {
+				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Class Exception Found",
+						ex);
+
 			} catch (SQLException ex) {
-				System.out.println("error");
 				Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Connection to Database Failed",
 						ex);
 
 			}
 		}
-		System.out.println("Executed Query");
     return true;
 	}
 

@@ -14,17 +14,15 @@ public class TicketTest {
 
   @BeforeEach
   void initTicket() throws IOException {
-    ticketTest.setId("12");
-    ticketTest.setTicketid("13");
-    ticketTest.setFlightid("14");
-    ticketTest.setFlightid("14");
-    ticketTest.setTxtfirstname("test");
-    ticketTest.setTxtlastname("name");
+    ticketTest.setId("CS001");
+    ticketTest.setTicketid("14");
+    ticketTest.setFlightid("F0001");
+    ticketTest.setTxtfirstname("Jhon");
+    ticketTest.setTxtlastname("Alex");
     ticketTest.settxtprice("50");
     ticketTest.setTxtseats(10);
-    ticketTest.setTxtseats(10);
     ticketTest.setTxttotal(500);
-ticketTest.setDate();
+    ticketTest.setDate();
   }
 
   @Test
@@ -33,9 +31,42 @@ ticketTest.setDate();
     Assertions.assertNotNull(ticketTest);
   }
 
-  @Test
+ @Test
   void jButton1ActionPerformedTest(){
     Assertions.assertTrue(ticketTest.jButton1ActionPerformed(null));
+  }
+  @Test
+  void desitnationSourceSelection(){
+    ticketTest.setTxtdepart("Uk");
+    ticketTest.setTxtsource("India");
+    Assertions.assertTrue(ticketTest.jButton3ActionPerformed(null));
+  }
+  @Test
+  void flightNotFound(){
+    ticketTest.setTxtdepart("Uk");
+    ticketTest.setTxtsource("Usa");
+    Assertions.assertFalse(ticketTest.jButton3ActionPerformed(null));
+  }
+  @Test
+  void desitnationSourceSelectionFalse(){
+    ticketTest.setTxtdepart("Usa");
+    ticketTest.setTxtsource("Usa");
+    Assertions.assertFalse(ticketTest.jButton3ActionPerformed(null));
+  }
+  @Test
+  void wrongIdInput(){
+    ticketTest.setTxtcustid("S01");
+    Assertions.assertFalse(ticketTest.jButton4ActionPerformed(null));
+  }
+  @Test
+  void emptyIdInput(){
+    ticketTest.setTxtcustid("");
+    Assertions.assertFalse(ticketTest.jButton4ActionPerformed(null));
+  }
+  @Test
+  void correctIdInput(){
+    ticketTest.setTxtcustid("CS001");
+    Assertions.assertTrue(ticketTest.jButton4ActionPerformed(null));
   }
 
   void verifyTxtSeatsStateChanged(){

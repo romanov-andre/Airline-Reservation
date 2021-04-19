@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
@@ -60,22 +61,35 @@ public class Ticket extends javax.swing.JInternalFrame {
 	private JLabel txtticketno;
 	private JLabel txttotal;
 	private Date txtdate;
-	// End of variables declaration//GEN-END:variables
+
+	public void setTxtdepart(String txtdepart) {
+		this.txtdepart.setSelectedItem(txtdepart);
+	}
+
+	public void setTxtsource(String txtsource) {
+		this.txtsource.setSelectedItem(txtsource);
+	}
+// End of variables declaration//GEN-END:variables
+
 
 	public void setId(String id){this.txtcustid.setText(id);}
 	public void setTicketid(String ticketno){this.txtticketno.setText(ticketno);}
 	public void setFlightid(String flightid){this.flightno.setText(flightid);}
-	public void setTxtfirstname(String firstName){this.txtfirstname.setText(firstName);}
-	public void setTxtlastname(String lastName){this.txtfirstname.setText(lastName);}
-	public void settxtprice(String price){this.txtprice.setText(price);}
+	public void setTxtfirstname(String firstName){
+		this.txtfirstname.setText(firstName);}
+	public void setTxtlastname(String lastName){
+		this.txtfirstname.setText(lastName);}
+	public void settxtprice(String price){
+		this.txtprice.setText(price);}
 	public void setTxtseats(int seats){this.txtseats.setValue(seats);}
 	public void setTxttotal(int total){this.txtseats.setValue(total);}
 	public void setDate() {
 		txtdate = new Date();
 	}
 
-
-
+	public void setTxtcustid(String custId) {
+		this.txtcustid.setText(custId);
+	}
 
 	/**
 	 * Creates new form Ticket
@@ -589,11 +603,15 @@ public class Ticket extends javax.swing.JInternalFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+	public boolean jButton3ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
 		String source = txtsource.getSelectedItem().toString().trim();
 		String depart = txtdepart.getSelectedItem().toString().trim();
 
+		if(source.equals(depart)){
+			JOptionPane.showMessageDialog(this,"Source and Departure cannot be same");
+			return false;
+		}
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
@@ -601,9 +619,14 @@ public class Ticket extends javax.swing.JInternalFrame {
 			pst = con.prepareStatement(
 					"SELECT * from flight WHERE source = ? and depart = ?");
 
+
 			pst.setString(1, source);
 			pst.setString(2, depart);
 			ResultSet rs = pst.executeQuery();
+			if(!rs.next()){
+				JOptionPane.showMessageDialog(this,"No flights are available");
+				return false;
+			}
 
 			ResultSetMetaData rsm = rs.getMetaData();
 			int c;
@@ -628,6 +651,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 				Df.addRow(v2);
 
+
 			}
 
 		} catch (ClassNotFoundException ex) {
@@ -638,7 +662,12 @@ public class Ticket extends javax.swing.JInternalFrame {
 					ex);
 		}
 
+		return true;
 	}//GEN-LAST:event_jButton3ActionPerformed
+
+	public void print(DefaultTableModel df) {
+		print(df);
+	}
 
 	public void autoID() {
 		try {
@@ -669,8 +698,13 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 	}
 
-	private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+	boolean jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 		String id = txtcustid.getText();
+		if(id.isEmpty()){
+			JOptionPane.showMessageDialog(this, "Empty Id field. \n Please enter a validID");
+			return false;
+		}
+
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -682,6 +716,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 			if (rs.next() == false) {
 				JOptionPane.showMessageDialog(this, "Record not Found");
+				return false;
 			} else {
 				String fname = rs.getString("firstname");
 				String lname = rs.getString("lastname");
@@ -703,6 +738,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 					ex);
 		}
 
+		return true;
 	}//GEN-LAST:event_jButton4ActionPerformed
 
 	private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked

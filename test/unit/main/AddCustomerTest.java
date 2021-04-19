@@ -65,7 +65,7 @@ class AddCustomerTest {
 	}
 
 	@Test
-	void cancelCustomerTest() {
+	void cancelCustomerTest()	 {
 		customerTester.jButtonCancelActionPerformed(null);
 	}
 
