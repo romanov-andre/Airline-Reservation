@@ -10,12 +10,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -587,57 +592,78 @@ return true;
 
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
-			String id = txtid.getText();
-			String firstname = txtfirstname.getText();
-			String lastname = txtlastname.getText();
-			String nic = txtnic.getText();
-			String passport = txtpassport.getText();
-			String address = txtaddress.getText();
-			try {
-				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-				String date = da.format(txtdob.getDate());
-
-			String gender;
-			if (radioButtonMale.isSelected())
-				gender = "Male";
-			else
-				gender = "Female";
-
-			String contact = txtcontact.getText();
-
-			// Database code here:
-
-				if(d == null) {
-					d = new MysqlDataSource();
-					d.setUser("root");
-					d.setPassword("1234");
-					d.setDatabaseName("airline");
-				}
-				con =  d.getConnection();
 
 
-				pst = con.prepareStatement(
-						"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+			//TODO: separate the boolean flags so we know what field caused the error and add unit tests
+			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
+			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
+			boolean nicFlag = nicMatcher.matches();
 
-				pst.setString(1, id);
-				pst.setString(2, firstname);
-				pst.setString(3, lastname);
-				pst.setString(4, nic);
-				pst.setString(5, passport);
-				pst.setString(6, address);
-				pst.setString(7, date);
-				pst.setString(8, gender);
-				pst.setString(9, contact);
-				pst.setBytes(10, userimage);
-				pst.executeUpdate();
+			Pattern passportPattern = Pattern.compile("^[0-9]{6}$");
+			Matcher passportMatcher = passportPattern.matcher(txtpassport.getText());
+			boolean passportFlag = passportMatcher.matches();
 
-				JOptionPane.showMessageDialog(null, "Registration Created...");
-
-			} catch (SQLException ex) {
-				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-						null, ex);
+			if(!nicFlag) {
+				JOptionPane.showMessageDialog(null, "Invalid Nic..");
 				return false;
 			}
+
+			if(!passportFlag) {
+				JOptionPane.showMessageDialog(null, "Invalid passport id..");
+				return false;
+			}
+
+				String id = txtid.getText();
+				String firstname = txtfirstname.getText();
+				String lastname = txtlastname.getText();
+				String nic = txtnic.getText();
+				String passport = txtpassport.getText();
+				String address = txtaddress.getText();
+				try {
+					DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+					String date = da.format(txtdob.getDate());
+
+					String gender;
+					if (radioButtonMale.isSelected())
+						gender = "Male";
+					else
+						gender = "Female";
+
+					String contact = txtcontact.getText();
+
+					// Database code here:
+
+					if (d == null) {
+						d = new MysqlDataSource();
+						d.setUser("root");
+						d.setPassword("1234");
+						d.setDatabaseName("airline");
+					}
+					con = d.getConnection();
+
+
+					pst = con.prepareStatement(
+							"insert into customer(id,firstname,lastname,nic,passport,address,dob,gender,contact,photo)values(?,?,?,?,?,?,?,?,?,?)");
+
+					pst.setString(1, id);
+					pst.setString(2, firstname);
+					pst.setString(3, lastname);
+					pst.setString(4, nic);
+					pst.setString(5, passport);
+					pst.setString(6, address);
+					pst.setString(7, date);
+					pst.setString(8, gender);
+					pst.setString(9, contact);
+					pst.setBytes(10, userimage);
+					pst.executeUpdate();
+
+					JOptionPane.showMessageDialog(null, "Registration Created...");
+
+				} catch (SQLException ex) {
+					Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
+							null, ex);
+					return false;
+				}
 
 		} else {
 			JOptionPane.showMessageDialog(null, "Field Left Empty..");

@@ -21,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -82,14 +84,6 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 	String path = null;
 	byte[] userimage = null;
-
-	public JTextField getTxtfirstname() {
-		return txtfirstname;
-	}
-
-	public JTextField getTxtlastname() {
-		return txtlastname;
-	}
 
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
@@ -580,56 +574,78 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
-			String id = txtcustid.getText();
-			String firstname = txtfirstname.getText();
-			String lastname = txtlastname.getText();
-			String nic = txtnic.getText();
-			String passport = txtpassport.getText();
-			String address = txtaddress.getText();
+			//TODO: separate the boolean flags so we know what field caused the error and add unit tests
+			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
+			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
+			boolean nicFlag = nicMatcher.matches();
 
-			DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-			String date = da.format(txtdob.getDate());
-			String Gender;
+			Pattern passportPattern = Pattern.compile("^[0-9]{6}$");
+			Matcher passportMatcher = passportPattern.matcher(txtpassport.getText());
+			boolean passportFlag = passportMatcher.matches();
 
-			if (radioButtonMale.isSelected()) {
-				Gender = "Male";
-			} else {
-				Gender = "FeMale";
-			}
 
-			String contact = txtcontact.getText();
-
-			try {
-				if(d == null) {
-					d = new MysqlDataSource();
-					d.setUser("root");
-					d.setPassword("1234");
-					d.setDatabaseName("airline");
-				}
-				con =  d.getConnection();
-				pst = con.prepareStatement(
-						"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
-
-				pst.setString(1, firstname);
-				pst.setString(2, lastname);
-				pst.setString(3, nic);
-				pst.setString(4, passport);
-				pst.setString(5, address);
-				pst.setString(6, date);
-				pst.setString(7, Gender);
-				pst.setString(8, contact);
-				pst.setBytes(9, userimage);
-				pst.setString(10, id);
-				pst.executeUpdate();
-
-				JOptionPane.showMessageDialog(null,
-						"Registation Updated...");
-
-			} catch (SQLException ex) {
-				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-						null, ex);
+			if(!nicFlag) {
+				JOptionPane.showMessageDialog(null, "Invalid Nic..");
 				return false;
 			}
+
+			if(!passportFlag) {
+				JOptionPane.showMessageDialog(null, "Invalid passport id..");
+				return false;
+			}
+
+
+				String id = txtcustid.getText();
+				String firstname = txtfirstname.getText();
+				String lastname = txtlastname.getText();
+				String nic = txtnic.getText();
+				String passport = txtpassport.getText();
+				String address = txtaddress.getText();
+
+				DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+				String date = da.format(txtdob.getDate());
+				String Gender;
+
+				if (radioButtonMale.isSelected()) {
+					Gender = "Male";
+				} else {
+					Gender = "FeMale";
+				}
+
+				String contact = txtcontact.getText();
+
+				try {
+					if (d == null) {
+						d = new MysqlDataSource();
+						d.setUser("root");
+						d.setPassword("1234");
+						d.setDatabaseName("airline");
+					}
+					con = d.getConnection();
+					pst = con.prepareStatement(
+							"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
+
+					pst.setString(1, firstname);
+					pst.setString(2, lastname);
+					pst.setString(3, nic);
+					pst.setString(4, passport);
+					pst.setString(5, address);
+					pst.setString(6, date);
+					pst.setString(7, Gender);
+					pst.setString(8, contact);
+					pst.setBytes(9, userimage);
+					pst.setString(10, id);
+					pst.executeUpdate();
+
+					JOptionPane.showMessageDialog(null,
+							"Registation Updated...");
+
+				} catch (SQLException ex) {
+					Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
+							null, ex);
+					return false;
+				}
+
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"Field Left Empty...");

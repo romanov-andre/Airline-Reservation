@@ -19,18 +19,41 @@ public class SearchCustomerTest extends SearchCustomer {
 	void initUpdateValues() throws IOException {
 		searchTester.setTxtfirstname("TestFirstName");
 		searchTester.setTxtlastname("TestLastName");
-		searchTester.setTxtnic("11112");
+		searchTester.setTxtnic("111111111A");
 		searchTester.setTxtpassport("999999");
 		searchTester.setTxtaddress("TT");
 		String dd = "1998-07-04";
 		Date date = Date.valueOf(dd);
 		searchTester.setTxtdob(date);
-		searchTester.setRadioButtonMale(false);
+		searchTester.setRadioButtonMale(true);
 		searchTester.setTxtcontact("7116");
 		searchTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
 	//TODO: add exception handling test for anything thrown
+
+
+	@Test
+	public void invalidNicNumberTest() {
+		searchTester.setTxtnic("1111111111");
+
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		searchTester.setTxtnic("11111111A");
+
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+	}
+
+	@Test
+	public void invalidPassportNumberTest() {
+		searchTester.setTxtnic("11111");
+
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		searchTester.setTxtnic("1111111");
+
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+	}
 
 
 	//possible integration test

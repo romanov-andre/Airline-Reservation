@@ -1,5 +1,7 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
@@ -31,6 +33,13 @@ public class Ticketreport extends javax.swing.JInternalFrame {
 		LoadData();
 	}
 
+	public Ticketreport(MysqlDataSource ds) {
+		initComponents();
+		this.d = ds;
+	}
+
+
+	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
 
@@ -95,16 +104,23 @@ public class Ticketreport extends javax.swing.JInternalFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+	public boolean jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 		// TODO add your handling code here:
 		this.hide();
+		return true;
 	}//GEN-LAST:event_jButton1ActionPerformed
 
-	public void LoadData() {
+	public boolean LoadData() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+
+			con =  d.getConnection();
 			pst = con.prepareStatement("SELECT * from Ticket");
 			ResultSet rs = pst.executeQuery();
 
@@ -131,13 +147,13 @@ public class Ticketreport extends javax.swing.JInternalFrame {
 				Df.addRow(v2);
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
-					ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
 					ex);
+			return false;
 		}
+
+		return true;
 
 	}
 

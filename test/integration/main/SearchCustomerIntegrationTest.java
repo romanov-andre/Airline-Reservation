@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 
@@ -36,15 +37,28 @@ public class SearchCustomerIntegrationTest {
 	private AutoCloseable closeable;
 
 
-
 	@BeforeEach
 	public void setUp() throws Exception {
+
+
 
 		closeable = MockitoAnnotations.openMocks(this);
 
 		Assertions.assertNotNull(ds);
 
 		customerTester = new SearchCustomer(ds, mockChooser);
+
+		customerTester.setTxtfirstname("Alan");
+		customerTester.setTxtlastname("Norman");
+		customerTester.setTxtnic("34355343");
+		customerTester.setTxtpassport("76899");
+		customerTester.setTxtaddress("US");
+		String dd = "1997-08-02";
+		Date date = Date.valueOf(dd);
+		customerTester.setTxtdob(date);
+		customerTester.setRadioButtonMale(true);
+		customerTester.setTxtcontact("715");
+		customerTester.setUserImageWithPath("img/testphoto.jpg");
 
 		System.out.println("Before");
 
@@ -54,12 +68,6 @@ public class SearchCustomerIntegrationTest {
 	public void teardown() throws Exception {
 		System.out.println("Closing");
 		closeable.close();
-	}
-
-
-	@Test
-	public void invalidDateTest() {
-
 	}
 
 	@Test
@@ -84,6 +92,7 @@ public class SearchCustomerIntegrationTest {
 		Assertions.assertFalse(customerTester.jButtonBrowseActionPerformed(null));
 	}
 
+
 	@Test
 	public void mockFindCustomerParseExceptionTest() throws SQLException {
 
@@ -94,6 +103,24 @@ public class SearchCustomerIntegrationTest {
 			when(rs.getString("dob")).thenThrow(new ParseException("invalid date", 0));
 
 }
+
+	@Test
+	public void mockFindCustomerSqlExceptionTest() throws SQLException {
+
+		try {
+			when(ds.getConnection()).thenReturn(c);
+			when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
+
+			customerTester.jButtonFindActionPerformed(null);
+
+		} catch (SQLException e) {
+			Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
+
+
+		}
+
+	}
+
 
 
 	@Test
@@ -127,15 +154,45 @@ public class SearchCustomerIntegrationTest {
 	}
 
 	@Test
-	public void mockValidCustomerUpdateTest() {
+	public void mockValidCustomerUpdateTest() throws IOException, SQLException {
+
+
+
+		when(ds.getConnection()).thenReturn(c);
+		when(c.prepareStatement(any(String.class))).thenReturn(stmt);
+
+		customerTester.jButtonUpdateActionPerformed(null);
+
+		verify(stmt, times(1)).executeUpdate();
 
 	}
 
 	@Test
-	public void mockInvalidCustomerUpdateTest() {
+	public void mockInvalidCustomerUpdateTest() throws IOException, SQLException {
+		customerTester.setTxtfirstname("");
 
+		when(ds.getConnection()).thenReturn(c);
+		when(c.prepareStatement(any(String.class))).thenReturn(stmt);
+
+		customerTester.jButtonUpdateActionPerformed(null);
+
+		verify(stmt, times(0)).executeUpdate();
 	}
 
+	@Test
+	public void  mockCustomerUpdateExceptionTest() {
+
+		try {
+			when(ds.getConnection()).thenReturn(c);
+			when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
+
+			customerTester.jButtonUpdateActionPerformed(null);
+
+		} catch(SQLException e) {
+			Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
+		}
+
+	}
 
 
 }

@@ -32,7 +32,6 @@ public class AddFlightTest {
   @Test
   public void emptyFieldAddFlightTest(){
 
-
     addFlight.setID("");
 
     boolean result = addFlight.jButtonAddActionPerformed(null);

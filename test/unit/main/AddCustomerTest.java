@@ -30,6 +30,29 @@ class AddCustomerTest {
 	}
 
 	@Test
+	public void invalidNicNumberTest() {
+		customerTester.setTxtnic("1111111111");
+
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		customerTester.setTxtnic("11111111A");
+
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+	}
+
+	@Test
+	public void invalidPassportNumberTest() {
+		customerTester.setTxtnic("11111");
+
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		customerTester.setTxtnic("1111111");
+
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+	}
+
+
+	@Test
 	void invalidPhotoTest() {
 		customerTester.userimage = null;
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
