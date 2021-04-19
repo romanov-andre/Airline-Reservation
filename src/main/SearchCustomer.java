@@ -1,5 +1,6 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.toedter.calendar.JDateChooser;
 
 import javax.imageio.ImageIO;
@@ -68,11 +69,27 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		initComponents();
 	}
 
+	public SearchCustomer(MysqlDataSource ds, JFileChooser mockChooser) {
+		initComponents();
+		this.d = ds;
+		this.fileChooser = mockChooser;
+	}
+
+	JFileChooser fileChooser;
+	MysqlDataSource d;
 	Connection con;
 	PreparedStatement pst;
 
 	String path = null;
 	byte[] userimage = null;
+
+	public JTextField getTxtfirstname() {
+		return txtfirstname;
+	}
+
+	public JTextField getTxtlastname() {
+		return txtlastname;
+	}
 
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
@@ -522,15 +539,19 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		try {
 
 			if(path == null) {
-				JFileChooser picchooser = new JFileChooser();
-				picchooser.showOpenDialog(null);
-				File pic = picchooser.getSelectedFile();
+
+				if(fileChooser == null) {
+					fileChooser = new JFileChooser();
+				}
+
+				fileChooser.showOpenDialog(null);
+				File pic = fileChooser.getSelectedFile();
 				FileNameExtensionFilter filter = new FileNameExtensionFilter(
 						"*.images", "png", "jpg");
-				picchooser.addChoosableFileFilter(filter);
+				fileChooser.addChoosableFileFilter(filter);
 				path = pic.getAbsolutePath();
 				BufferedImage img;
-				img = ImageIO.read(picchooser.getSelectedFile());
+				img = ImageIO.read(fileChooser.getSelectedFile());
 				ImageIcon imageIcon = new ImageIcon(new ImageIcon(img).getImage()
 						.getScaledInstance(250, 250, Image.SCALE_DEFAULT));
 				txtphoto.setIcon(imageIcon);
@@ -553,6 +574,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		return true;
 	}
 
+	//needs to prompt user the proper format for CustomerID when entered wrong
 	public boolean jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {
 
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
@@ -578,9 +600,13 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 			String contact = txtcontact.getText();
 
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-						"root", "1234");
+				if(d == null) {
+					d = new MysqlDataSource();
+					d.setUser("root");
+					d.setPassword("1234");
+					d.setDatabaseName("airline");
+				}
+				con =  d.getConnection();
 				pst = con.prepareStatement(
 						"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
 
@@ -599,7 +625,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 				JOptionPane.showMessageDialog(null,
 						"Registation Updated...");
 
-			} catch (ClassNotFoundException | SQLException ex) {
+			} catch (SQLException ex) {
 				Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 						null, ex);
 				return false;
@@ -621,9 +647,13 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		String id = txtcustid.getText();
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			pst = con.prepareStatement("select * from customer where id = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -639,58 +669,61 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 				String address = rs.getString("address");
 				String dob = rs.getString("dob");
-				Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(dob);
+
+
+					Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(dob);
+
 				String gender = rs.getString("gender");
-
-				Blob blob = rs.getBlob("photo");
-				byte[] _imagebytes = blob.getBytes(1, (int) blob.length());
-				ImageIcon image = new ImageIcon(_imagebytes);
-				Image im = image.getImage();
-				ImageIcon newImage;
-
-				if(txtphoto.getWidth() == 0 || txtphoto.getHeight() == 0) {
-					Image myImg = im.getScaledInstance(250,
-							250, Image.SCALE_SMOOTH);
-					newImage = new ImageIcon(myImg);
-				} else {
-					Image myImg = im.getScaledInstance(txtphoto.getWidth(),
-							txtphoto.getHeight(), Image.SCALE_SMOOTH);
-					newImage = new ImageIcon(myImg);
-				}
-
-
-
-				if (gender.equals("Female")) {
-					radioButtonMale.setSelected(false);
-					radioButtonFemale.setSelected(true);
-
-				} else {
-					radioButtonMale.setSelected(true);
-					radioButtonFemale.setSelected(false);
-				}
 				String contact = rs.getString("contact");
 
-				txtfirstname.setText(fname.trim());
-				txtlastname.setText(lname.trim());
-				txtnic.setText(nic.trim());
-				txtpassport.setText(passport.trim());
-				txtaddress.setText(address.trim());
-				txtcontact.setText(contact.trim());
-				txtdob.setDate(date1);
-				txtphoto.setIcon(newImage);
+				Blob blob = rs.getBlob("photo");
+
+				if (blob != null) {
+					byte[] _imagebytes = blob.getBytes(1, (int) blob.length());
+					ImageIcon image = new ImageIcon(_imagebytes);
+					Image im = image.getImage();
+					ImageIcon newImage;
+
+					if (txtphoto.getWidth() == 0 || txtphoto.getHeight() == 0) {
+						Image myImg = im.getScaledInstance(250,
+								250, Image.SCALE_SMOOTH);
+						newImage = new ImageIcon(myImg);
+					} else {
+						Image myImg = im.getScaledInstance(txtphoto.getWidth(),
+								txtphoto.getHeight(), Image.SCALE_SMOOTH);
+						newImage = new ImageIcon(myImg);
+					}
+
+
+					if (gender.equals("Female")) {
+						radioButtonMale.setSelected(false);
+						radioButtonFemale.setSelected(true);
+
+					} else {
+						radioButtonMale.setSelected(true);
+						radioButtonFemale.setSelected(false);
+					}
+
+
+					txtfirstname.setText(fname.trim());
+					txtlastname.setText(lname.trim());
+					txtnic.setText(nic.trim());
+					txtpassport.setText(passport.trim());
+					txtaddress.setText(address.trim());
+					txtcontact.setText(contact.trim());
+					txtdob.setDate(date1);
+					txtphoto.setIcon(newImage);
+				}
+
+
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(SearchCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} catch (SQLException ex) {
-			Logger.getLogger(SearchCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
-		} catch (ParseException ex) {
+
+		} catch (SQLException | ParseException ex) {
 			Logger.getLogger(SearchCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
 		}
-return true;
+		return true;
 	}
 
 }

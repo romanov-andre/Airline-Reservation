@@ -8,7 +8,8 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 
-public class SearchCustomerTest {
+public class SearchCustomerTest extends SearchCustomer {
+
 
 	//Reference variable to test the methods in Login
 	private SearchCustomer searchTester = new SearchCustomer();
@@ -29,6 +30,10 @@ public class SearchCustomerTest {
 		searchTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
+	//TODO: add exception handling test for anything thrown
+
+
+	//possible integration test
 	@Test
 	void fileChooserTest() {
 		Assertions.assertTrue(searchTester.jButtonBrowseActionPerformed(null));
@@ -39,6 +44,7 @@ public class SearchCustomerTest {
 		searchTester.jButtonCancelActionPerformed(null);
 	}
 
+	//possible integration test
 	@Test
 	void browseImageTest() {
 		searchTester.path = "img/testphoto.jpg";
@@ -87,6 +93,8 @@ public class SearchCustomerTest {
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
+
+	//possible integration test
 	@Test
 	void updateCustomerTest() {
 
@@ -95,12 +103,17 @@ public class SearchCustomerTest {
 		Assertions.assertTrue(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
+
+	//possible integration test
 	@Test
 	void findInvalidCustomerTest() {
 		searchTester.setTxtcustid("CS000");
 		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
+		searchTester.setTxtcustid("C019");
+		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
 	}
 
+	//possible integration test
 	@Test
 	void findValidCustomerTest() {
 		searchTester.setTxtcustid("CS001");

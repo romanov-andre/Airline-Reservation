@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
-import java.text.ParseException;
 
 class AddCustomerTest {
 
@@ -36,12 +35,7 @@ class AddCustomerTest {
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
-	@Test
-	void invalidDateTest() {
-		customerTester.setTxtdob(null);
-		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
-	}
-
+	//possible integration test
 	@Test
 	void fileChooserTest() {
 		Assertions.assertTrue(customerTester.jButtonBrowseActionPerformed(null));
@@ -52,6 +46,7 @@ class AddCustomerTest {
 		customerTester.jButtonCancelActionPerformed(null);
 	}
 
+	//possible integration test
 	@Test
 	void browseImageTest() {
 		customerTester.path = "img/testphoto.jpg";
@@ -62,7 +57,7 @@ class AddCustomerTest {
 	}
 
 	@Test
-	void emptyFirstNameTest() throws IOException {
+	void emptyFirstNameTest() {
 		//Empty first name
 		customerTester.setTxtfirstname("");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
@@ -100,6 +95,7 @@ class AddCustomerTest {
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
+	//contact needs error handling and black box testing
 	@Test
 	void invalidContactTest() {
 		customerTester.setTxtcontact("abc");
@@ -108,9 +104,10 @@ class AddCustomerTest {
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
+
 	@Test
-	void validCustomerTest() throws ParseException, IOException {
-Assertions.assertTrue(customerTester.jButtonAddActionPerformed(null));
+	void validCustomerTest() {
+		Assertions.assertTrue(customerTester.jButtonAddActionPerformed(null));
 	}
 
 }

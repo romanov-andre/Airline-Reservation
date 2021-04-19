@@ -196,9 +196,9 @@ public class Login extends javax.swing.JFrame {
 					return false;
 		} else {
 			try {
-				Class.forName("com.mysql.cj.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-						"root", "Airline123456789");
+				Class.forName("com.mysql.jdbc.Driver");
+				con = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airline", "root", "1234");
 				pst = con.prepareStatement(
 						"select * from user where username = ? and password = ?");
 				pst.setString(1, username);

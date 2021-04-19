@@ -1,10 +1,11 @@
 package main;
 
-import java.io.IOException;
-import java.text.ParseException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.text.ParseException;
 
 public class AddFlightTest {
 
@@ -15,6 +16,7 @@ public class AddFlightTest {
     addFlight.setID("1");
     addFlight.setFlightName("American Airlines");
     addFlight.setSource("USA");
+    addFlight.setDepart("Canada");
     addFlight.setDate("01 JAN 2001");
     addFlight.setDepartTime("12:00");
     addFlight.setArrTime("4:00");
@@ -22,21 +24,22 @@ public class AddFlightTest {
   }
 
   @Test
-  public void jButtonAddActionPerformedTest(){
+  public void validAddFlightTest(){
     boolean result = addFlight.jButtonAddActionPerformed(null);
     Assertions.assertTrue(result);
   }
+
   @Test
-  public void ButtonAddActionPerformedTestEmpty() throws ParseException {
+  public void emptyFieldAddFlightTest(){
+
+
     addFlight.setID("");
-    addFlight.setFlightName("");
-    addFlight.setSource("");
-    addFlight.setDate("");
-    addFlight.setDepartTime("");
-    addFlight.setArrTime("");
-    addFlight.setFlightCharge("");
+
     boolean result = addFlight.jButtonAddActionPerformed(null);
-    Assertions.assertTrue(result);
+    Assertions.assertFalse(result);
   }
+
+
+
 }
 

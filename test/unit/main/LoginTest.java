@@ -10,8 +10,8 @@ import java.sql.SQLException;
 class LoginTest {
 
 	//Reference variable to test the methods in Login
-		private Login loginTester = new Login();
-		private JPanel panel = new JPanel();
+	private Login loginTester = new Login();
+	private JPanel panel = new JPanel();
 
 //Test for determining if empty username and password fields will return an error prompt
 //The inputs are empty strings and the expected result is a string stating the error prompt
