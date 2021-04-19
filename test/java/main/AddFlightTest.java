@@ -26,6 +26,17 @@ public class AddFlightTest {
     boolean result = addFlight.jButtonAddActionPerformed(null);
     Assertions.assertTrue(result);
   }
-
+  @Test
+  public void ButtonAddActionPerformedTestEmpty() throws ParseException {
+    addFlight.setID("");
+    addFlight.setFlightName("");
+    addFlight.setSource("");
+    addFlight.setDate("");
+    addFlight.setDepartTime("");
+    addFlight.setArrTime("");
+    addFlight.setFlightCharge("");
+    boolean result = addFlight.jButtonAddActionPerformed(null);
+    Assertions.assertTrue(result);
+  }
 }
 
