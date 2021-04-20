@@ -1,9 +1,10 @@
 package main;
 
-import java.io.IOException;
-import javax.swing.JPanel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+import java.io.IOException;
 
 public class UserCreationTest {
 
@@ -50,7 +51,7 @@ public class UserCreationTest {
   }
 
   @Test
-  void allEmptyField() {
+  public void allEmptyField() {
     userCreationTester.setTxtlastname("");
     userCreationTester.setTxtfirstname("");
     userCreationTester.setTxtuserid("");
