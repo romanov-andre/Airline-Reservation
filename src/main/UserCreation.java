@@ -1,10 +1,12 @@
 package main;
 
-import java.awt.event.ActionEvent;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -250,26 +252,26 @@ public class UserCreation extends javax.swing.JInternalFrame {
 	}
 
 	public boolean jButtonAddActionPerformed(ActionEvent evt) {
+		String pattern = "[a-zA-z0-9]{8,}";
+		Pattern compiledPattern = Pattern.compile(pattern);
 
 		String id = txtuserid.getText();
 		String firstname = txtfirstname.getText();
 		String lastname = txtlastname.getText();
 		String username = txtusername.getText();
 		String password = new String(txtpassword.getPassword());
-		System.out.println(id);
-		System.out.println("1"+ firstname);
-		System.out.println("2" + lastname);
-		System.out.println("3"+ username);
-		System.out.println("4"+ password);
-		if ((firstname.isEmpty()) ||(lastname.isEmpty()) ||(username.isEmpty()) ||(password.isEmpty())){
+		Matcher m = compiledPattern.matcher(password);
+		boolean passwordMatch = m.matches();
+
+		if ((firstname.isEmpty()) ||(lastname.isEmpty()) ||(username.isEmpty())|| (password.length() < 8 || !passwordMatch)){
 			JOptionPane.showMessageDialog(this,"Feild cannot be left empty");
 
 			return false;
 		}
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
+					"root", "Airline123456789");
 			pst = con.prepareStatement(
 					"insert into user(id,firstname,lastname,username,password)values(?,?,?,?,?)");
 
@@ -299,9 +301,9 @@ public class UserCreation extends javax.swing.JInternalFrame {
 
 	public void autoID() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
+					"root", "Airline123456789");
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from user");
 			rs.next();
