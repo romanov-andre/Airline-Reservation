@@ -1,5 +1,6 @@
-package main;
+package unit.main;
 
+import main.Login;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -48,8 +49,8 @@ class LoginTest {
 	@Test
 	void positiveLoginTest() throws Exception {
 
-		loginTester.setUsername("alannorman00");
-		loginTester.setPassword("alan1234");
+		loginTester.setUsername("john");
+		loginTester.setPassword("123");
 
 		Assertions.assertTrue(loginTester.jButtonLoginActionPerformed(null));
 
