@@ -42,9 +42,18 @@ public class Login extends javax.swing.JFrame {
 		this.d = ds;
 	}
 
+
 	//method for testing that returns the password field
 	public void setPassword(String pass) {
 		txtpass.setText(pass);
+	}
+
+	public JButton getLoginButton() {
+		return jButtonLogin;
+	}
+
+	public JButton getCancelButton() {
+		return jButtonCancel;
 	}
 
 	//method for testing that returns the username field

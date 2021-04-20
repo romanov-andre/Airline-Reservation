@@ -85,6 +85,30 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
+	public JRadioButton getRadioButtonMale() {
+		return radioButtonMale;
+	}
+
+	public JRadioButton getRadioButtonFemale() {
+		return radioButtonFemale;
+	}
+
+	public JButton getjButtonBrowse() {
+		return jButtonBrowse;
+	}
+
+	public JButton getjButtonUpdate() {
+		return jButtonUpdate;
+	}
+
+	public JButton getjButtonCancel() {
+		return jButtonCancel;
+	}
+
+	public JButton getjButtonFind() {
+		return jButtonFind;
+	}
+
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
 	}
@@ -574,7 +598,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
-			//TODO: separate the boolean flags so we know what field caused the error and add unit tests
+
 			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
 			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
 			boolean nicFlag = nicMatcher.matches();
@@ -582,6 +606,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 			Pattern passportPattern = Pattern.compile("^[0-9]{6}$");
 			Matcher passportMatcher = passportPattern.matcher(txtpassport.getText());
 			boolean passportFlag = passportMatcher.matches();
+
 
 
 			if(!nicFlag) {

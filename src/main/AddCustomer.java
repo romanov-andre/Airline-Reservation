@@ -68,6 +68,15 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
+
+	public JRadioButton getRadioButtonMale() {
+		return radioButtonMale;
+	}
+
+	public JRadioButton getRadioButtonFemale() {
+		return radioButtonFemale;
+	}
+
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
 	}
@@ -98,6 +107,18 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	public void setTxtdob(Date dob) {
 		this.txtdob.setDate(dob);
+	}
+
+	public JButton getjButtonBrowse() {
+		return jButtonBrowse;
+	}
+
+	public JButton getjButtonAdd() {
+		return jButtonAdd;
+	}
+
+	public JButton getjButtonCancel() {
+		return jButtonCancel;
 	}
 
 	public AddCustomer(MysqlDataSource ds, JFileChooser chooser) {
@@ -594,7 +615,6 @@ return true;
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
 
-			//TODO: separate the boolean flags so we know what field caused the error and add unit tests
 			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
 			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
 			boolean nicFlag = nicMatcher.matches();

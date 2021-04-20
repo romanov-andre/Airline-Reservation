@@ -50,8 +50,8 @@ public class SearchCustomerIntegrationTest {
 
 		customerTester.setTxtfirstname("Alan");
 		customerTester.setTxtlastname("Norman");
-		customerTester.setTxtnic("34355343");
-		customerTester.setTxtpassport("76899");
+		customerTester.setTxtnic("111111111B");
+		customerTester.setTxtpassport("768994");
 		customerTester.setTxtaddress("US");
 		String dd = "1997-08-02";
 		Date date = Date.valueOf(dd);

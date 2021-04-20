@@ -1,5 +1,8 @@
 package main;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 public class TicketReportTest {
 
 	private Ticketreport testReport = new Ticketreport();

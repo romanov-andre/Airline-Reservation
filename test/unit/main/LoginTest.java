@@ -1,6 +1,5 @@
-package unit.main;
+package main;
 
-import main.Login;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
