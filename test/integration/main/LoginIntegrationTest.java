@@ -40,7 +40,7 @@ public void setUp() throws Exception {
 
 	Assertions.assertNotNull(ds);
 
-	loginTester = new Login(ds);
+	//loginTester = new Login(ds);
 
 	System.out.println("Before");
 
