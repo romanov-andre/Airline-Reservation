@@ -1,16 +1,16 @@
 package main;
 
-import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
+import java.awt.event.ActionEvent;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /*
@@ -83,13 +83,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 		this.txtprice.setText(price);}
 	public void setTxtseats(int seats){this.txtseats.setValue(seats);}
 	public void setTxttotal(int total){this.txtseats.setValue(total);}
-	public void setDate() {
-		txtdate = new Date();
-	}
-
-	public void setTxtcustid(String custId) {
-		this.txtcustid.setText(custId);
-	}
+	public void setDate(String date) { this.txtdept.setText(date);}
+	public void setPassport(String passport){this.txtpassport.setText(passport);}
+	public void setFlightClass(String flightClass){this.txtclass.setSelectedItem(flightClass);}
 
 	/**
 	 * Creates new form Ticket
@@ -101,6 +97,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 	Connection con;
 	PreparedStatement pst;
+
+	public void setTxtSource(String source){this.txtsource.setSelectedItem(source);}
+	public void setTxtDepart(String depart){this.txtdepart.setSelectedItem(depart);}
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -613,9 +612,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 			return false;
 		}
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
+					"root", "Airline123456789");
 			pst = con.prepareStatement(
 					"SELECT * from flight WHERE source = ? and depart = ?");
 
@@ -672,10 +671,10 @@ public class Ticket extends javax.swing.JInternalFrame {
 	public void autoID() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
+					"root", "Airline123456789");
 			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery("select MAX(id) from Ticket");
+			ResultSet rs = s.executeQuery("select MAX(id) from ticket");
 			rs.next();
 			rs.getString("MAX(id)");
 			if (rs.getString("MAX(id)") == null) {
@@ -765,21 +764,37 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 	public boolean jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 
+		String pattern = "\\d\\d\\d\\d-\\d\\d-\\d\\d";
+		Pattern compiledPattern = Pattern.compile(pattern);
+
 		String ticketid = txtticketno.getText();
 		String flightid = flightno.getText();
 		String custid = txtcustid.getText();
 		String flightclass = txtclass.getSelectedItem().toString().trim();
 		String price = txtprice.getText();
 		String seats = txtseats.getValue().toString();
-		DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
-		String date = da.format(txtdate);
+		//DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+		String date = txtdept.getText();
+
+		Matcher m = compiledPattern.matcher(date);
+		boolean dateMatch = m.matches();
+
+		if (ticketid.isEmpty() || flightid.isEmpty() || custid.isEmpty() || price.isEmpty()
+				|| seats.isEmpty()|| date.isEmpty()){
+			JOptionPane.showMessageDialog(this,"Please ensure that no fields are empty");
+			return false;
+		}
+		else if (!dateMatch){
+			JOptionPane.showMessageDialog(this, "Please enter depart time in the format yyyy-mm-dd (like 2021-04-20)");
+			return false;
+		}
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
+					"root", "Airline123456789");
 			pst = con.prepareStatement(
-					"insert into Ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
+					"insert into ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
 
 			pst.setString(1, ticketid);
 			pst.setString(2, flightid);
