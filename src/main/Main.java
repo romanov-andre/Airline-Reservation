@@ -1,7 +1,6 @@
 package main;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
+import java.awt.event.ActionListener;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -154,14 +153,14 @@ public class Main extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+	public void jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 		AddCustomer cus = new AddCustomer();
 		jDesktopPane1.add(cus);
 		cus.setVisible(true);
 
 	}//GEN-LAST:event_jMenuItem1ActionPerformed
 
-	private void jMenuItemSearchCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+	public void jMenuItemSearchCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
 		SearchCustomer scus = new SearchCustomer();
 		jDesktopPane1.add(scus);
@@ -169,21 +168,21 @@ public class Main extends javax.swing.JFrame {
 
 	}//GEN-LAST:event_jMenuItem2ActionPerformed
 
-	private void jMenuItemAddflightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+	public void jMenuItemAddflightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 		Addflight f = new Addflight();
 		jDesktopPane1.add(f);
 		f.setVisible(true);
 
 	}//GEN-LAST:event_jMenuItem4ActionPerformed
 
-	private void jMenuItemBookTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+	public void jMenuItemBookTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 		Ticket t = new Ticket();
 		jDesktopPane1.add(t);
 		t.setVisible(true);
 
 	}//GEN-LAST:event_jMenuItem3ActionPerformed
 
-	private void jMenuItemTicketReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+	public void jMenuItemTicketReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
 
 		Ticketreport ti = new Ticketreport();
 		jDesktopPane1.add(ti);
@@ -191,7 +190,7 @@ public class Main extends javax.swing.JFrame {
 
 	}//GEN-LAST:event_jMenuItem6ActionPerformed
 
-	private void jMenuItemUserCreationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+	public void jMenuItemUserCreationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 
 		UserCreation u = new UserCreation();
 		jDesktopPane1.add(u);
@@ -206,7 +205,7 @@ public class Main extends javax.swing.JFrame {
 		/* Set the Nimbus look and feel */
 		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 		 */
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
