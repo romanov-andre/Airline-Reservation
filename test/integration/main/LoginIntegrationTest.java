@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +30,9 @@ public class LoginIntegrationTest {
 	@Mock
 	private ResultSet rs;
 
+	@Mock
+	private JOptionPane pane;
+
 	private Login loginTester;
 	private AutoCloseable closeable;
 
@@ -40,7 +44,7 @@ public void setUp() throws Exception {
 
 	Assertions.assertNotNull(ds);
 
-	//loginTester = new Login(ds);
+	loginTester = new Login(ds);
 
 	System.out.println("Before");
 

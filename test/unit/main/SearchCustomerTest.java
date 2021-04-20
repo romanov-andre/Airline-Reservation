@@ -34,27 +34,47 @@ public class SearchCustomerTest extends SearchCustomer {
 
 
 	@Test
-	public void invalidNicNumberTest() {
-		searchTester.setTxtnic("1111111111");
-
+	public void invalidPassportNumberTest() {
+		//invalid number by -1 digit
+		searchTester.setTxtpassport("11111");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 
-		searchTester.setTxtnic("11111111A");
-
+		//invalid number by +1 digit with letter
+		searchTester.setTxtpassport("1111111");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		//invalid number by -1 digit and letter
+		searchTester.setTxtpassport("111111A");
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		//invalid number by +1 digit and letter
+		searchTester.setTxtpassport("1111111A");
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
 	}
 
 	@Test
-	public void invalidPassportNumberTest() {
-		searchTester.setTxtnic("11111");
-
+	public void invalidNicNumberTest() {
+		//valid no letter
+		searchTester.setTxtnic("111111111");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 
-		searchTester.setTxtnic("1111111");
+		//invalid number by -1 digit with letter
+		searchTester.setTxtnic("1111111A");
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 
+		//invalid number by -1 digit and no letter
+		searchTester.setTxtnic("1111111");
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		//invalid number by +1 digit and letter
+		searchTester.setTxtnic("1111111111A");
+		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
+
+		//valid number with invalid letter combo
+		searchTester.setTxtnic("111111111AA");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
-
 
 	//possible integration test
 	@Test

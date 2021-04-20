@@ -372,11 +372,11 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	public void setSource(String source){this.txtsource.setSelectedItem(source);}
 
-	public void setDate(String date) throws ParseException {txtdate.setDate(new SimpleDateFormat("dd MMM yyyy").parse(date));}
+	public void setDate(String date) throws ParseException {txtdate.setDate(new SimpleDateFormat("yyyy-MM-dd").parse(date));}
 
 	public void setDepartTime(String departTime){this.txtdtime.setText(departTime);}
 
-	public void setArrTime(String arrTime){this.txtdtime.setText(arrTime);}
+	public void setArrTime(String arrTime){this.txtarrtime.setText(arrTime);}
 
 	public void setFlightCharge(String charge){this.txtflightcharge.setText(charge);}
 
@@ -386,8 +386,8 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	public boolean jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {
 
-		if(!txtflightid.getText().isBlank() && !txtflightname.getText().isBlank() && txtsource.getSelectedItem() != null &&
-				txtsource.getSelectedItem() != null && !txtdtime.getText().isBlank() && !txtarrtime.getText().isBlank() &&
+		if(!txtflightid.getText().isBlank() && !txtflightname.getText().isBlank() && txtsource.getSelectedItem() != null && txtdepart.getSelectedItem() != null &&
+				!txtdtime.getText().isBlank() && !txtarrtime.getText().isBlank() &&
 				!txtflightcharge.getText().isBlank()) {
 			String id = txtflightid.getText();
 			String flightname = txtflightname.getText();

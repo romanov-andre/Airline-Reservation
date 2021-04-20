@@ -18,8 +18,8 @@ class AddCustomerTest {
 	void initCustomer() throws IOException {
 		customerTester.setTxtfirstname("Alan");
 		customerTester.setTxtlastname("Norman");
-		customerTester.setTxtnic("34355343");
-		customerTester.setTxtpassport("76899");
+		customerTester.setTxtnic("343553433A");
+		customerTester.setTxtpassport("768993");
 		customerTester.setTxtaddress("US");
 		String dd = "1997-08-02";
 		Date date = Date.valueOf(dd);
@@ -30,24 +30,45 @@ class AddCustomerTest {
 	}
 
 	@Test
-	public void invalidNicNumberTest() {
-		customerTester.setTxtnic("1111111111");
-
+	public void invalidPassportNumberTest() {
+		//invalid number by -1 digit
+		customerTester.setTxtpassport("11111");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 
-		customerTester.setTxtnic("11111111A");
-
+		//invalid number by +1 digit with letter
+		customerTester.setTxtpassport("1111111");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		//invalid number by -1 digit and letter
+		customerTester.setTxtpassport("111111A");
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		//invalid number by +1 digit and letter
+		customerTester.setTxtpassport("1111111A");
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
 	}
 
 	@Test
-	public void invalidPassportNumberTest() {
-		customerTester.setTxtnic("11111");
-
+	public void invalidNicNumberTest() {
+		//valid no letter
+		customerTester.setTxtnic("111111111");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 
-		customerTester.setTxtnic("1111111");
+		//invalid number by -1 digit with letter
+		customerTester.setTxtnic("1111111A");
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 
+		//invalid number by -1 digit and no letter
+		customerTester.setTxtnic("1111111");
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		//invalid number by +1 digit and letter
+		customerTester.setTxtnic("1111111111A");
+		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+		//valid number with invalid letter combo
+		customerTester.setTxtnic("111111111AA");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 

@@ -17,7 +17,7 @@ public class AddFlightTest {
     addFlight.setFlightName("American Airlines");
     addFlight.setSource("USA");
     addFlight.setDepart("Canada");
-    addFlight.setDate("01 JAN 2001");
+    addFlight.setDate("1997-08-02");
     addFlight.setDepartTime("12:00");
     addFlight.setArrTime("4:00");
     addFlight.setFlightCharge("200");

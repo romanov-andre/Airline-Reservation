@@ -1,7 +1,6 @@
 package main;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
+import java.awt.event.ActionListener;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -154,14 +153,14 @@ public class Main extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	private void jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+	public void jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 		AddCustomer cus = new AddCustomer();
 		jDesktopPane1.add(cus);
 		cus.setVisible(true);
 
 	}//GEN-LAST:event_jMenuItem1ActionPerformed
 
-	private void jMenuItemSearchCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+	public void jMenuItemSearchCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
 		SearchCustomer scus = new SearchCustomer();
 		jDesktopPane1.add(scus);
