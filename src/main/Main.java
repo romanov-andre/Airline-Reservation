@@ -1,5 +1,6 @@
 package main;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -153,49 +154,55 @@ public class Main extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
-	public void jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+	public boolean jMenuItemAddCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 		AddCustomer cus = new AddCustomer();
 		jDesktopPane1.add(cus);
 		cus.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem1ActionPerformed
 
-	public void jMenuItemSearchCusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+	public boolean jMenuItemSearchCusActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 
 		SearchCustomer scus = new SearchCustomer();
 		jDesktopPane1.add(scus);
 		scus.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem2ActionPerformed
 
-	public void jMenuItemAddflightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+	public boolean jMenuItemAddflightActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 		Addflight f = new Addflight();
 		jDesktopPane1.add(f);
 		f.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem4ActionPerformed
 
-	public void jMenuItemBookTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+	public boolean jMenuItemBookTicketActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
 		Ticket t = new Ticket();
 		jDesktopPane1.add(t);
 		t.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem3ActionPerformed
 
-	public void jMenuItemTicketReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+	public boolean jMenuItemTicketReportActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
 
 		Ticketreport ti = new Ticketreport();
 		jDesktopPane1.add(ti);
 		ti.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem6ActionPerformed
 
-	public void jMenuItemUserCreationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+	public boolean jMenuItemUserCreationActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
 
 		UserCreation u = new UserCreation();
 		jDesktopPane1.add(u);
 		u.setVisible(true);
 
+		return true;
 	}//GEN-LAST:event_jMenuItem5ActionPerformed
 
 	/**
