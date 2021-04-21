@@ -1,73 +1,80 @@
 package main;
 
-import org.junit.jupiter.api.Assertions;
+import org.assertj.swing.edt.GuiActionRunner;
+import org.assertj.swing.fixture.FrameFixture;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class AddCustomerGuiTest {
 
 
-	AddCustomer customerTester = new AddCustomer();
+	private FrameFixture window;
 
 	@BeforeEach
 	public void setUp() throws Exception {
+		Main frame = GuiActionRunner.execute(Main::new);
 
-		customerTester.setTxtfirstname("Alan");
-		customerTester.setTxtlastname("Norman");
-		customerTester.setTxtnic("111111111B");
-		customerTester.setTxtpassport("768994");
-		customerTester.setTxtaddress("US");
-		String dd = "1997-08-02";
-		Date date = Date.valueOf(dd);
-		customerTester.setTxtdob(date);
-		customerTester.setRadioButtonMale(true);
-		customerTester.setTxtcontact("715");
-		customerTester.setUserImageWithPath("img/testphoto.jpg");
+		window = new FrameFixture(frame);
 
-		System.out.println("Before");
+		window.show();
 
+	}
+
+	@AfterEach
+	public void tearDown() {
+		window.cleanUp();
 	}
 
 	@Test
 	public void validAddCustomerButtonClickedTest() throws SQLException {
+		window.menuItem("customerPanel").click();
+		window.menuItem("addCustomer").click();
+		window.textBox("firstname").enterText("Alan");
+		window.textBox("lastname").enterText("Norman");
+		window.textBox("nic").enterText("111111111B");
+		window.textBox("passport").enterText("999999");
+		window.textBox("address").enterText("Fl");
+		window.panel("date").textBox().setText("Apr 21, 1997");
+		window.radioButton("male").click();
+		window.textBox("contact").enterText("715");
+		window.button("add").click();
 
-		customerTester.getjButtonAdd().doClick();
-		//Assertions.assertDoesNotThrow(() -> 	loginTester.getLoginButton().doClick());
+	}
+
+	@Test
+	public void invalidAddCustomerButtonClickedTest() throws SQLException {
+		window.menuItem("customerPanel").click();
+		window.menuItem("addCustomer").click();
+		window.textBox("firstname").enterText("");
+		window.textBox("lastname").enterText("Norman");
+		window.textBox("nic").enterText("111111111B");
+		window.textBox("passport").enterText("999999");
+		window.textBox("address").enterText("Fl");
+		window.panel("date").textBox().setText("Apr 21, 1997");
+		window.radioButton("male").click();
+		window.textBox("contact").enterText("715");
+		window.button("add").click();
+		window.optionPane().okButton();
 
 	}
 
 	@Test
 	public void validCancelButtonClickedTest() throws SQLException {
-
-		customerTester.getjButtonCancel().doClick();
-		//Assertions.assertDoesNotThrow(() -> 	loginTester.getLoginButton().doClick());
-
-	}
-
-	@Test
-	public void browseCancelButtonClickedTest() throws SQLException {
-
-		Assertions.assertThrows(NullPointerException.class,() -> 	customerTester.getjButtonBrowse().doClick());
-
-	}
-
-
-	@Test
-	public void validFemaleButtonClickedTest() throws SQLException {
-
-		customerTester.getRadioButtonFemale().doClick();
-		//Assertions.assertDoesNotThrow(() -> 	loginTester.getLoginButton().doClick());
+		window.menuItem("customerPanel").click();
+		window.menuItem("addCustomer").click();
+		window.button("cancel").click();
 
 	}
 
 	@Test
-	public void validMaleButtonClickedTest() throws SQLException {
-
-		customerTester.getRadioButtonMale().doClick();
-		//Assertions.assertDoesNotThrow(() -> 	loginTester.getLoginButton().doClick());
-
+	public void browseButtonClickedTest() throws SQLException {
+		window.menuItem("customerPanel").click();
+		window.menuItem("addCustomer").click();
+		window.button("browse").click();
 	}
+
+
 }

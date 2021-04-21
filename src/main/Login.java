@@ -81,6 +81,11 @@ public class Login extends javax.swing.JFrame {
 		txtuser = new JTextField();
 		txtpass = new JPasswordField();
 
+		txtuser.setName("txtuser");
+		txtpass.setName("txtpass");
+		jButtonLogin.setName("jButtonLogin");
+		jButtonCancel.setName("jButtonCancel");
+
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
 		jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null,

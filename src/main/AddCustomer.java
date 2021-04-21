@@ -171,6 +171,19 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		jButtonAdd = new JButton();
 		jButtonCancel = new JButton();
 
+txtfirstname.setName("firstname");
+txtlastname.setName("lastname");
+txtnic.setName("nic");
+txtpassport.setName("passport");
+txtaddress.setName("address");
+txtdob.setName("date");
+radioButtonMale.setName("male");
+txtcontact.setName("contact");
+jButtonAdd.setName("add");
+jButtonCancel.setName("cancel");
+jButtonBrowse.setName("browse");
+
+
 		jPanel1.setBackground(new java.awt.Color(51, 0, 255));
 
 		jLabelFirstName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
