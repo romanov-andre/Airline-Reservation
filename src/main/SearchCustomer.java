@@ -194,6 +194,21 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		txtcustid = new javax.swing.JTextField();
 		jButtonFind = new javax.swing.JButton();
 
+		txtcustid.setName("custId");
+		txtfirstname.setName("firstname");
+		txtlastname.setName("lastname");
+		txtnic.setName("nic");
+		txtpassport.setName("passport");
+		txtaddress.setName("address");
+		txtdob.setName("date");
+		radioButtonMale.setName("male");
+		txtcontact.setName("contact");
+		jButtonCancel.setName("cancel");
+		jButtonBrowse.setName("browse");
+		jButtonFind.setName("find");
+		jButtonUpdate.setName("update");
+
+
 		jPanel1.setBackground(new java.awt.Color(51, 0, 255));
 
 		jLabelFirstName.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
