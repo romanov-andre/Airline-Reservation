@@ -9,6 +9,7 @@ class MainTest {
     private JPanel panel = new JPanel();
 
 
+    //Tests determine an action performed for main, by testing each specific menu action
     @Test
     void jMenuItemAddCusActionPerformed(){
         main.jMenuItemAddCusActionPerformed(null);
@@ -16,12 +17,10 @@ class MainTest {
     @Test
     void jMenuItemSearchCusActionPerformed(){
         main.jMenuItemSearchCusActionPerformed(null);
-
     }
     @Test
     void jMenuItemAddflightActionPerformed(){
         main.jMenuItemAddflightActionPerformed(null);
-
     }
     @Test
     void jMenuItemBookTicketActionPerformed(){
