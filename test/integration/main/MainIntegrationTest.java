@@ -33,6 +33,7 @@ class MainIntegrationTest {
         closeable.close();
     }
 
+    //methods 1-6 tests valid inputs with assertion true, with relation to the main, with boolean methods returning true
     @Test
     void testMainValid() throws Exception{
 
@@ -76,6 +77,7 @@ class MainIntegrationTest {
         Assertions.assertTrue(main.jMenuItemTicketReportActionPerformed(null));
     }
 
+    //Handles exceptions, also tests Invalids tests by catching asserted false button presses
    @Test
     public void testMainExceptionHandlerTest() {
 
