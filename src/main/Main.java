@@ -54,6 +54,10 @@ public class Main extends javax.swing.JFrame {
 		jMenuUser = new javax.swing.JMenu();
 		jMenuItemUserCreation = new javax.swing.JMenuItem();
 
+		jMenuCustomer.setName("customerPanel");
+		jMenuItemAddCustomer.setName("addCustomer");
+		jMenuItemSearchCustomer.setName("searchCustomer");
+
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new java.awt.Dimension(1366, 768));
 
