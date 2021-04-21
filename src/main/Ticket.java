@@ -63,81 +63,6 @@ public class Ticket extends javax.swing.JInternalFrame {
 	private JLabel txttotal;
 	private Date txtdate;
 
-	public JTextField getFlightname() {
-		return flightname;
-	}
-
-	public JTextField getFlightno() {
-		return flightno;
-	}
-
-	public JButton getjButtonBook() {
-		return jButtonBook;
-	}
-
-	public JButton getjButtonCancel() {
-		return jButtonCancel;
-	}
-
-	public JButton getjButtonSearch() {
-		return jButtonSearch;
-	}
-
-	public JButton getjButtonSearch2() {
-		return jButtonSearch2;
-	}
-
-	public JLabel getjLabelSource() {
-		return jLabelSource;
-	}
-
-	public JLabel getjLabelFlightno() {
-		return jLabelFlightno;
-	}
-
-	public JLabel getjLabelFlightName() {
-		return jLabelFlightName;
-	}
-
-	public JLabel getjLabelDepartTime() {
-		return jLabelDepartTime;
-	}
-
-	public JLabel getjLabelClass() {
-		return jLabelClass;
-	}
-
-	public JLabel getjLabelPrice() {
-		return jLabelPrice;
-	}
-
-	public JLabel getjLabelSeats() {
-		return jLabelSeats;
-	}
-
-	public JLabel getjLabelDepart() {
-		return jLabelDepart;
-	}
-
-	public JLabel getjLabel3() {
-		return jLabel3;
-	}
-
-	public JLabel getjLabelCusID() {
-		return jLabelCusID;
-	}
-
-	public JLabel getjLabelFirstName() {
-		return jLabelFirstName;
-	}
-
-	public JLabel getjLabelLastName() {
-		return jLabelLastName;
-	}
-
-	public JLabel getjLabelPassportno() {
-		return jLabelPassportno;
-	}
 
 	public JPanel getjPanel1() {
 		return jPanel1;
@@ -145,34 +70,6 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 	public JPanel getjPanel2() {
 		return jPanel2;
-	}
-
-	public JPanel getjPanel3() {
-		return jPanel3;
-	}
-
-	public JScrollPane getjScrollPane1() {
-		return jScrollPane1;
-	}
-
-	public JTable getjTable1() {
-		return jTable1;
-	}
-
-	public JComboBox<String> getTxtclass() {
-		return txtclass;
-	}
-
-	public JTextField getTxtcustid() {
-		return txtcustid;
-	}
-
-	public JComboBox<String> getTxtdepart() {
-		return txtdepart;
-	}
-
-	public JTextField getTxtdept() {
-		return txtdept;
 	}
 
 	public JTextField getTxtfirstname() {
@@ -195,21 +92,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return txtseats;
 	}
 
-	public JComboBox<String> getTxtsource() {
-		return txtsource;
-	}
 
-	public JLabel getTxtticketno() {
-		return txtticketno;
-	}
 
-	public JLabel getTxttotal() {
-		return txttotal;
-	}
 
-	public Date getTxtdate() {
-		return txtdate;
-	}
+
+
 
 	public void setTxtdepart(String txtdepart) {
 		this.txtdepart.setSelectedItem(txtdepart);
@@ -798,10 +685,6 @@ public class Ticket extends javax.swing.JInternalFrame {
 				JOptionPane.showMessageDialog(this,"Flight didnt found");
 				return false;
 			}
-			else{
-				JOptionPane.showMessageDialog(this,"Flight found");
-			}
-
 			ResultSetMetaData rsm = rs.getMetaData();
             c = rsm.getColumnCount();
 
@@ -834,11 +717,6 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		return true;
 	}//GEN-LAST:event_jButton3ActionPerformed
-
-
-	public void print(DefaultTableModel df) {
-		print(df);
-	}
 
 	public void autoID() {
 		try {

@@ -74,7 +74,6 @@ public class TicketIntegrationTest {
         ticketTest.setTxtSource("Usa");
         ticketTest.setTxtDepart("Usa");
         boolean checkResult = ticketTest.jButton3ActionPerformed(null);
-
         assertFalse(checkResult);
     }
 
@@ -88,10 +87,19 @@ public class TicketIntegrationTest {
         when(rsmd.getColumnCount()).thenReturn(1);
         when(rs.next()).thenReturn(true);
         when(rs.next()).thenReturn(true).thenReturn(false);
-
         ticketTest.jButton3ActionPerformed(null);
         verify(stmt, times(1)).executeQuery();
+    }
+    @Test
+    public void falseTicketSearch() throws SQLException, ClassNotFoundException{
+        when(ds.getConnection()).thenReturn(c);
+        when(c.prepareStatement(any(String.class))).thenReturn(stmt);
+        when(stmt.executeQuery()).thenReturn(rs);
+        when(rs.next()).thenReturn(false);
 
+        ticketTest.jButton3ActionPerformed(null);
+
+        verify(rs, times(0)).getString(any(String.class));
     }
 
     @Test
@@ -155,21 +163,40 @@ public class TicketIntegrationTest {
 
     }
     @Test
-    public void mockCustomerSearchException() throws SQLException {
+    public void mockFLightSqlExceptionTest() throws SQLException {
 
         try {
             when(ds.getConnection()).thenReturn(c);
             when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
-
-            ticketTest.jButton4ActionPerformed(null);
-
+            ticketTest.jButton3ActionPerformed(null);
         } catch (SQLException e) {
             Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
-
-
         }
-
     }
+    @Test
+    public void mockSearchCustomerSqlExceptionTest() throws SQLException {
+        try {
+            when(ds.getConnection()).thenReturn(c);
+            when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
+            ticketTest.jButton4ActionPerformed(null);
+        } catch (SQLException e) {
+            Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
+        }
+    }
+    @Test
+    public void mockTicketSqlExceptionTest() throws SQLException {
+        try {
+            when(ds.getConnection()).thenReturn(c);
+            when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
+            ticketTest.jButton1ActionPerformed(null);
+        } catch (SQLException e) {
+            Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
+        }
+    }
+
+
+
+
     @Test
     public void mockAutoIdExceptionTest()  {
 

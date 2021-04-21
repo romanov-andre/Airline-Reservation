@@ -1,5 +1,7 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
@@ -60,9 +62,15 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		initComponents();
 		autoID();
 	}
-
+	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
+	ResultSetMetaData rsm;
+	public UserCreation(MysqlDataSource ds) {
+		initComponents();
+		this.d = ds;
+	}
+
 
 	/**
 	 * This method is called from within the constructor to initialize the form.
@@ -261,17 +269,26 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		String username = txtusername.getText();
 		String password = new String(txtpassword.getPassword());
 		Matcher m = compiledPattern.matcher(password);
+		System.out.println(id);
+		System.out.println(lastname);
+		System.out.println(firstname);
+		System.out.println(username);
+		System.out.println(password);
 		boolean passwordMatch = m.matches();
 
 		if ((firstname.isEmpty()) ||(lastname.isEmpty()) ||(username.isEmpty())|| (password.length() < 8 || !passwordMatch)){
-			JOptionPane.showMessageDialog(this,"Feild cannot be left empty");
+			JOptionPane.showMessageDialog(this,"Field cannot be left empty");
 
 			return false;
 		}
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-					"root", "Airline123456789");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			pst = con.prepareStatement(
 					"insert into user(id,firstname,lastname,username,password)values(?,?,?,?,?)");
 
@@ -280,14 +297,10 @@ public class UserCreation extends javax.swing.JInternalFrame {
 			pst.setString(3, lastname);
 			pst.setString(4, username);
 			pst.setString(5, password);
-
 			pst.executeUpdate();
 
 			JOptionPane.showMessageDialog(null, "User Created...");
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
-					ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
@@ -301,9 +314,13 @@ public class UserCreation extends javax.swing.JInternalFrame {
 
 	public void autoID() {
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-					"root", "Airline123456789");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from user");
 			rs.next();
@@ -318,9 +335,6 @@ public class UserCreation extends javax.swing.JInternalFrame {
 
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
