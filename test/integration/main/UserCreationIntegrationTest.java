@@ -30,29 +30,7 @@ public class UserCreationIntegrationTest {
         assertTrue(userCreationTester.jButtonAddActionPerformed(null));
     }
 
-//    @Test
-//    public void mockUserCreationPass() throws Exception {
-//        UserCreation userCreationTester = new UserCreation();
-//
-//        Connection con = mock(Connection.class);
-//        PreparedStatement preparedStatement = mock(PreparedStatement.class);
-//        mockStatic(DriverManager.class);
-//
-//        userCreationTester.setTxtfirstname("Test");
-//        userCreationTester.setTxtlastname("Name");
-//        userCreationTester.setTxtpassword("1111aaaa");
-//        userCreationTester.setTxtusername("testUser");
-//
-//        when(con.prepareStatement(
-//                "insert into user(id,firstname,lastname,username,password)values(?,?,?,?,?)")).thenReturn(preparedStatement);
-//        expect(DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-//                "root", "Airline123456789")).andReturn(con);
-//        expect(DriverManager.getConnection(null)).andReturn(null);
-//
-//        replay(DriverManager.class);
-//
-//        verify(preparedStatement.executeUpdate());
-//    }
+
 
     @Test
     public void driverTestUserCreationPass(){
@@ -83,12 +61,10 @@ public class UserCreationIntegrationTest {
     @Test
     public void driverTestUserCreationEmptyFields(){
         UserCreation userCreationTester = new UserCreation();
-
         userCreationTester.setTxtfirstname("");
         userCreationTester.setTxtlastname("");
         userCreationTester.setTxtpassword("");
         userCreationTester.setTxtusername("");
-
         //create a new user
         assertFalse(userCreationTester.jButtonAddActionPerformed(null));
     }

@@ -18,16 +18,16 @@ public class TicketTest {
         ticketTest.setTicketid("14");
         ticketTest.setFlightid("F0001");
         ticketTest.setTxtfirstname("Jhon");
+        ticketTest.setPassport("test");
         ticketTest.setTxtlastname("Alex");
         ticketTest.settxtprice("50");
         ticketTest.setTxtseats(10);
         ticketTest.setTxttotal(500);
-        ticketTest.setDate("2020-09-09");
+        ticketTest.setDate("2020-09-19");
     }
 
     @Test
     void verifyValues() throws IOException {
-
         Assertions.assertNotNull(ticketTest);
     }
 
@@ -36,7 +36,7 @@ public class TicketTest {
         Assertions.assertTrue(ticketTest.jButton1ActionPerformed(null));
     }
     @Test
-    void desitnationSourceSelection(){
+    void destinationSourceSelection(){
         ticketTest.setTxtdepart("Uk");
         ticketTest.setTxtsource("India");
         Assertions.assertTrue(ticketTest.jButton3ActionPerformed(null));

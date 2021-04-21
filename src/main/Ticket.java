@@ -1,5 +1,7 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
@@ -11,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -62,6 +63,154 @@ public class Ticket extends javax.swing.JInternalFrame {
 	private JLabel txttotal;
 	private Date txtdate;
 
+	public JTextField getFlightname() {
+		return flightname;
+	}
+
+	public JTextField getFlightno() {
+		return flightno;
+	}
+
+	public JButton getjButtonBook() {
+		return jButtonBook;
+	}
+
+	public JButton getjButtonCancel() {
+		return jButtonCancel;
+	}
+
+	public JButton getjButtonSearch() {
+		return jButtonSearch;
+	}
+
+	public JButton getjButtonSearch2() {
+		return jButtonSearch2;
+	}
+
+	public JLabel getjLabelSource() {
+		return jLabelSource;
+	}
+
+	public JLabel getjLabelFlightno() {
+		return jLabelFlightno;
+	}
+
+	public JLabel getjLabelFlightName() {
+		return jLabelFlightName;
+	}
+
+	public JLabel getjLabelDepartTime() {
+		return jLabelDepartTime;
+	}
+
+	public JLabel getjLabelClass() {
+		return jLabelClass;
+	}
+
+	public JLabel getjLabelPrice() {
+		return jLabelPrice;
+	}
+
+	public JLabel getjLabelSeats() {
+		return jLabelSeats;
+	}
+
+	public JLabel getjLabelDepart() {
+		return jLabelDepart;
+	}
+
+	public JLabel getjLabel3() {
+		return jLabel3;
+	}
+
+	public JLabel getjLabelCusID() {
+		return jLabelCusID;
+	}
+
+	public JLabel getjLabelFirstName() {
+		return jLabelFirstName;
+	}
+
+	public JLabel getjLabelLastName() {
+		return jLabelLastName;
+	}
+
+	public JLabel getjLabelPassportno() {
+		return jLabelPassportno;
+	}
+
+	public JPanel getjPanel1() {
+		return jPanel1;
+	}
+
+	public JPanel getjPanel2() {
+		return jPanel2;
+	}
+
+	public JPanel getjPanel3() {
+		return jPanel3;
+	}
+
+	public JScrollPane getjScrollPane1() {
+		return jScrollPane1;
+	}
+
+	public JTable getjTable1() {
+		return jTable1;
+	}
+
+	public JComboBox<String> getTxtclass() {
+		return txtclass;
+	}
+
+	public JTextField getTxtcustid() {
+		return txtcustid;
+	}
+
+	public JComboBox<String> getTxtdepart() {
+		return txtdepart;
+	}
+
+	public JTextField getTxtdept() {
+		return txtdept;
+	}
+
+	public JTextField getTxtfirstname() {
+		return txtfirstname;
+	}
+
+	public JTextField getTxtlastname() {
+		return txtlastname;
+	}
+
+	public JTextField getTxtpassport() {
+		return txtpassport;
+	}
+
+	public JTextField getTxtprice() {
+		return txtprice;
+	}
+
+	public JSpinner getTxtseats() {
+		return txtseats;
+	}
+
+	public JComboBox<String> getTxtsource() {
+		return txtsource;
+	}
+
+	public JLabel getTxtticketno() {
+		return txtticketno;
+	}
+
+	public JLabel getTxttotal() {
+		return txttotal;
+	}
+
+	public Date getTxtdate() {
+		return txtdate;
+	}
+
 	public void setTxtdepart(String txtdepart) {
 		this.txtdepart.setSelectedItem(txtdepart);
 	}
@@ -71,21 +220,28 @@ public class Ticket extends javax.swing.JInternalFrame {
 	}
 // End of variables declaration//GEN-END:variables
 
-
-	public void setId(String id){this.txtcustid.setText(id);}
-	public void setTicketid(String ticketno){this.txtticketno.setText(ticketno);}
-	public void setFlightid(String flightid){this.flightno.setText(flightid);}
+	public void setId(String id) {
+		this.txtcustid.setText(id);}
+	public void setTicketid(String ticketno) {
+		this.txtticketno.setText(ticketno);}
+	public void setFlightid(String flightid) {
+		this.flightno.setText(flightid);}
 	public void setTxtfirstname(String firstName){
 		this.txtfirstname.setText(firstName);}
 	public void setTxtlastname(String lastName){
 		this.txtfirstname.setText(lastName);}
 	public void settxtprice(String price){
 		this.txtprice.setText(price);}
-	public void setTxtseats(int seats){this.txtseats.setValue(seats);}
-	public void setTxttotal(int total){this.txtseats.setValue(total);}
-	public void setDate(String date) { this.txtdept.setText(date);}
-	public void setPassport(String passport){this.txtpassport.setText(passport);}
-	public void setFlightClass(String flightClass){this.txtclass.setSelectedItem(flightClass);}
+	public void setTxtseats(int seats){
+		this.txtseats.setValue(seats);}
+	public void setTxttotal(int total){
+		this.txtseats.setValue(total);}
+	public void setDate(String date) {
+		this.txtdept.setText(date);}
+	public void setPassport(String passport){
+		this.txtpassport.setText(passport);}
+	public void setFlightClass(String flightClass){
+		this.txtclass.setSelectedItem(flightClass);}
 
 	/**
 	 * Creates new form Ticket
@@ -94,9 +250,22 @@ public class Ticket extends javax.swing.JInternalFrame {
 		initComponents();
 		autoID();
 	}
-
+	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
+	ResultSetMetaData rsm;
+	int c;
+
+	public void setRsm(ResultSetMetaData rsm) {
+		this.rsm = rsm;
+	}
+
+	public Ticket(MysqlDataSource ds) {
+		initComponents();
+		this.d = ds;
+	}
+
+
 
 	public void setTxtSource(String source){this.txtsource.setSelectedItem(source);}
 	public void setTxtDepart(String depart){this.txtdepart.setSelectedItem(depart);}
@@ -606,30 +775,36 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		String source = txtsource.getSelectedItem().toString().trim();
 		String depart = txtdepart.getSelectedItem().toString().trim();
-
 		if(source.equals(depart)){
-			JOptionPane.showMessageDialog(this,"Source and Departure cannot be same");
+			JOptionPane.showMessageDialog(this,"Source and Depart cant be same");
 			return false;
 		}
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-					"root", "Airline123456789");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
+			Statement s = con.createStatement();
 			pst = con.prepareStatement(
 					"SELECT * from flight WHERE source = ? and depart = ?");
-
 
 			pst.setString(1, source);
 			pst.setString(2, depart);
 			ResultSet rs = pst.executeQuery();
 			if(!rs.next()){
-				JOptionPane.showMessageDialog(this,"No flights are available");
+				JOptionPane.showMessageDialog(this,"Flight didnt found");
 				return false;
+			}
+			else{
+				JOptionPane.showMessageDialog(this,"Flight found");
 			}
 
 			ResultSetMetaData rsm = rs.getMetaData();
-			int c;
-			c = rsm.getColumnCount();
+            c = rsm.getColumnCount();
+
 
 			DefaultTableModel Df = (DefaultTableModel) jTable1.getModel();
 			Df.setRowCount(0);
@@ -650,12 +825,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 				Df.addRow(v2);
 
-
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
-					ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
 					ex);
@@ -664,15 +835,20 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return true;
 	}//GEN-LAST:event_jButton3ActionPerformed
 
+
 	public void print(DefaultTableModel df) {
 		print(df);
 	}
 
 	public void autoID() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-					"root", "Airline123456789");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from ticket");
 			rs.next();
@@ -687,28 +863,33 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
 		} catch (SQLException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
+			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE,
 					null, ex);
 		}
 
 	}
 
+
+
 	boolean jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 		String id = txtcustid.getText();
+		System.out.println(id);
 		if(id.isEmpty()){
 			JOptionPane.showMessageDialog(this, "Empty Id field. \n Please enter a validID");
 			return false;
 		}
-
-
+		else{
+			System.out.println(" ");
+		}
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			pst = con.prepareStatement("select * from customer where id = ?");
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
@@ -719,19 +900,12 @@ public class Ticket extends javax.swing.JInternalFrame {
 			} else {
 				String fname = rs.getString("firstname");
 				String lname = rs.getString("lastname");
-
 				String passport = rs.getString("passport");
-
 				txtfirstname.setText(fname.trim());
 				txtlastname.setText(lname.trim());
-
 				txtpassport.setText(passport.trim());
-
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
-					ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
 					ex);
@@ -790,9 +964,13 @@ public class Ticket extends javax.swing.JInternalFrame {
 		}
 
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://138-128-247-248.cloud-xip.io/Airline?serverTimezone = UTC",
-					"root", "Airline123456789");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			pst = con.prepareStatement(
 					"insert into ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
 
@@ -807,10 +985,6 @@ public class Ticket extends javax.swing.JInternalFrame {
 			pst.executeUpdate();
 
 			JOptionPane.showMessageDialog(null, "Ticket Booked...");
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
-					ex);
-			return false;
 		} catch (SQLException ex) {
 			Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 					ex);
