@@ -92,11 +92,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return txtseats;
 	}
 
-
-
-
-
-
+	public JTable getjTable1() {
+		return jTable1;
+	}
 
 	public void setTxtdepart(String txtdepart) {
 		this.txtdepart.setSelectedItem(txtdepart);
@@ -137,6 +135,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 		initComponents();
 		autoID();
 	}
+	String statementString;
+	Statement statement;
+	ResultSet rs;
 	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
@@ -146,6 +147,21 @@ public class Ticket extends javax.swing.JInternalFrame {
 	public void setRsm(ResultSetMetaData rsm) {
 		this.rsm = rsm;
 	}
+
+	public void setPst(String query) throws SQLException {
+		d = new MysqlDataSource();
+		d.setUser("root");
+		d.setPassword("1234");
+		d.setDatabaseName("airline");
+		con =  d.getConnection();
+		pst = con.prepareStatement(query);
+	}
+
+	public void setStatementString(String query) {
+		statementString = query;
+	}
+
+
 
 	public Ticket(MysqlDataSource ds) {
 		initComponents();
@@ -201,6 +217,24 @@ public class Ticket extends javax.swing.JInternalFrame {
 		jButtonBook = new JButton();
 		jButtonCancel = new JButton();
 		txttotal = new JLabel();
+
+		jButtonSearch.setName("search");
+		jButtonBook.setName("book");
+		jButtonCancel.setName("cancel");
+		jButtonSearch2.setName("search2");
+
+		txtdept.setName("departtime");
+		txtsource.setName("source");
+		txtdepart.setName("depart");
+		flightno.setName("flightnum");
+		flightname.setName("flightname");
+
+		txtclass.setName("class");
+		txtprice.setName("price");
+		txtseats.setName("seats");
+
+
+		txtcustid.setName("custid");
 
 		jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
 				"Select Country",
@@ -662,8 +696,8 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 		String source = txtsource.getSelectedItem().toString().trim();
 		String depart = txtdepart.getSelectedItem().toString().trim();
-		if(source.equals(depart)){
-			JOptionPane.showMessageDialog(this,"Source and Depart cant be same");
+		if(source.equals(depart) || source.isBlank() || depart.isBlank()){
+			JOptionPane.showMessageDialog(this,"Source and Depart cant be same or empty");
 			return false;
 		}
 		try {
@@ -674,15 +708,17 @@ public class Ticket extends javax.swing.JInternalFrame {
 				d.setDatabaseName("airline");
 			}
 			con =  d.getConnection();
-			Statement s = con.createStatement();
-			pst = con.prepareStatement(
-					"SELECT * from flight WHERE source = ? and depart = ?");
+
+			if(pst==null ) {
+				pst = con.prepareStatement(
+						"SELECT * from flight WHERE source = ? and depart = ?");
+			}
 
 			pst.setString(1, source);
 			pst.setString(2, depart);
 			ResultSet rs = pst.executeQuery();
 			if(!rs.next()){
-				JOptionPane.showMessageDialog(this,"Flight didnt found");
+				JOptionPane.showMessageDialog(this,"Flight wasn't found");
 				return false;
 			}
 			ResultSetMetaData rsm = rs.getMetaData();
@@ -727,8 +763,12 @@ public class Ticket extends javax.swing.JInternalFrame {
 				d.setDatabaseName("airline");
 			}
 			con =  d.getConnection();
-			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery("select MAX(id) from ticket");
+			if(statementString == null) {
+				statement = con.createStatement();
+				rs = statement.executeQuery("select MAX(id) from customer");
+			} else {
+				rs = statement.executeQuery(statementString);
+			}
 			rs.next();
 			rs.getString("MAX(id)");
 			if (rs.getString("MAX(id)") == null) {
@@ -768,7 +808,10 @@ public class Ticket extends javax.swing.JInternalFrame {
 				d.setDatabaseName("airline");
 			}
 			con =  d.getConnection();
-			pst = con.prepareStatement("select * from customer where id = ?");
+			if(pst==null ) {
+				pst = con.prepareStatement(
+						"select * from customer where id = ?");
+			}
 			pst.setString(1, id);
 			ResultSet rs = pst.executeQuery();
 
@@ -792,26 +835,40 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return true;
 	}//GEN-LAST:event_jButton4ActionPerformed
 
-	private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+	public int jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
 		DefaultTableModel Df = (DefaultTableModel) jTable1.getModel();
 
-		int selectIndex = jTable1.getSelectedRow();
+		int selectIndex;
 
+		if(jTable1.getSelectedRow() == -1) {
+
+			selectIndex = 0;
+
+		} else {
+			selectIndex = jTable1.getSelectedRow();
+
+		}
 		flightno.setText(Df.getValueAt(selectIndex, 0).toString());
 		flightname.setText(Df.getValueAt(selectIndex, 1).toString());
 		txtdept.setText(Df.getValueAt(selectIndex, 5).toString());
 		txtprice.setText(Df.getValueAt(selectIndex, 7).toString());
+		System.out.println(jTable1.getRowCount());
+		return jTable1.getRowCount();
+
+
+
 
 	}//GEN-LAST:event_jTable1MouseClicked
 
-	private void txtseatsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtseatsStateChanged
+	public int txtseatsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtseatsStateChanged
 		System.out.println(txtseats.getValue().toString());
 		int price = Integer.parseInt(txtprice.getText());
 		int qty = Integer.parseInt(txtseats.getValue().toString());
 
 		int tot = price * qty;
 		txttotal.setText(String.valueOf(tot));
+		return tot;
 	}
 
 	public boolean jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
@@ -849,8 +906,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 				d.setDatabaseName("airline");
 			}
 			con =  d.getConnection();
-			pst = con.prepareStatement(
-					"insert into ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
+
+			if(pst==null ) {
+				pst = con.prepareStatement(
+						"insert into ticket(id,flightid,custid,class,price,seats,date)values(?,?,?,?,?,?,?)");
+			}
 
 			pst.setString(1, ticketid);
 			pst.setString(2, flightid);

@@ -1,5 +1,6 @@
 package main;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -52,6 +53,13 @@ public class Addflight extends javax.swing.JInternalFrame {
 		autoID();
 	}
 
+	public Addflight(MysqlDataSource d) {
+		initComponents();
+		autoID();
+		this.d = d;
+	}
+
+	MysqlDataSource d;
 	Connection con;
 	PreparedStatement pst;
 
@@ -82,6 +90,17 @@ public class Addflight extends javax.swing.JInternalFrame {
 		jButtonCancel = new JButton();
 		txtsource = new JComboBox<>();
 		txtdepart = new JComboBox<>();
+
+		txtflightname.setName("flight");
+		txtsource.setName("source");
+		txtdepart.setName("depart");
+		txtdate.setName("date");
+		txtdtime.setName("departTime");
+		txtarrtime.setName("arrival");
+		txtflightcharge.setName("charge");
+
+		jButtonCancel.setName("cancel");
+		jButtonAdd.setName("add");
 
 		jPanel1.setBackground(new Color(51, 51, 255));
 
@@ -339,9 +358,13 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	public void autoID() {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-					"root", "1234");
+			if(d == null) {
+				d = new MysqlDataSource();
+				d.setUser("root");
+				d.setPassword("1234");
+				d.setDatabaseName("airline");
+			}
+			con =  d.getConnection();
 			Statement s = con.createStatement();
 			ResultSet rs = s.executeQuery("select MAX(id) from flight");
 			rs.next();
@@ -356,9 +379,6 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 			}
 
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
-					null, ex);
 		} catch (SQLException ex) {
 			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
@@ -404,9 +424,15 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 			// Database code here:
 			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/airline",
-						"root", "1234");
+
+				if(d == null) {
+					d = new MysqlDataSource();
+					d.setUser("root");
+					d.setPassword("1234");
+					d.setDatabaseName("airline");
+				}
+				con =  d.getConnection();
+
 				pst = con.prepareStatement(
 						"insert into flight(id,flightname,source,depart,date,deptime,arrtime,flightcharge)values(?,?,?,?,?,?,?,?)");
 
@@ -421,7 +447,7 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 				pst.executeUpdate();
 				JOptionPane.showMessageDialog(null, "Flight created...");
-			} catch (ClassNotFoundException | SQLException ex) {
+			} catch (SQLException ex) {
 				Logger.getLogger(Addflight.class.getName()).log(Level.SEVERE, null,
 						ex);
 				return false;
@@ -435,8 +461,9 @@ public class Addflight extends javax.swing.JInternalFrame {
 
 	}
 
-	private void jButtonCancelActionPerformed(ActionEvent evt) {
+	public boolean jButtonCancelActionPerformed(ActionEvent evt) {
 		this.hide();
+		return true;
 	}
 
 }

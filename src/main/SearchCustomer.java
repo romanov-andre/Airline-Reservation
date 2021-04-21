@@ -113,6 +113,10 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		this.radioButtonMale.setSelected(selected);
 	}
 
+	public void setRadioButtonFemale(boolean selected) {
+		this.radioButtonFemale.setSelected(selected);
+	}
+
 	public void setTxtcustid(String custId) {
 		this.txtcustid.setText(custId);
 	}
@@ -143,6 +147,15 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 	public void setTxtdob(Date dob) {
 		this.txtdob.setDate(dob);
+	}
+
+	public void setPst(String query) throws SQLException {
+		d = new MysqlDataSource();
+		d.setUser("root");
+		d.setPassword("1234");
+		d.setDatabaseName("airline");
+		con =  d.getConnection();
+		pst = con.prepareStatement(query);
 	}
 
 	public void setUserImageWithPath(String path) throws IOException {
@@ -662,8 +675,11 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 						d.setDatabaseName("airline");
 					}
 					con = d.getConnection();
-					pst = con.prepareStatement(
-							"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
+
+					if(pst==null ) {
+						pst = con.prepareStatement(
+								"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
+					}
 
 					pst.setString(1, firstname);
 					pst.setString(2, lastname);

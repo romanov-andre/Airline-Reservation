@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UserCreationTest {
 
@@ -12,16 +13,24 @@ public class UserCreationTest {
   private JPanel panel = new JPanel();
 
 
+
   @Test
   void initUser() throws IOException {
     userCreationTester.setTxtuserid("1234");
     userCreationTester.setTxtfirstname("Test");
     userCreationTester.setTxtlastname("Name");
-    userCreationTester.setTxtpassword("1111");
+    userCreationTester.setTxtpassword("111111111");
     userCreationTester.setTxtusername("testUser");
-
   }
 
+  @Test
+  public void autoIDExceptionTest() {
+
+    userCreationTester.setStatementString("Select * ");
+
+    Assertions.assertThrows(SQLException.class, () -> userCreationTester.autoID());
+
+  }
 
   @Test
   void emptyFirstNameTest() throws IOException {
@@ -60,10 +69,12 @@ public class UserCreationTest {
   }
   @Test
   void validUserCreate() {
+
+
     userCreationTester.setTxtlastname("Jhon");
     userCreationTester.setTxtfirstname("Roberto");
     userCreationTester.setTxtusername("jrob");
-    userCreationTester.setTxtpassword("123");
+    userCreationTester.setTxtpassword("123123123");
     Assertions.assertTrue(userCreationTester.jButtonAddActionPerformed(null));
   }
 }

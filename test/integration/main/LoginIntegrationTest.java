@@ -35,6 +35,7 @@ public class LoginIntegrationTest {
 
 	private Login loginTester;
 	private AutoCloseable closeable;
+	private Login loginExample = new Login();
 
 
 @BeforeEach
@@ -54,6 +55,21 @@ public void setUp() throws Exception {
 	public void teardown() throws Exception {
 		System.out.println("Closing");
 		closeable.close();
+	}
+
+	@Test
+	public void loginMainTest() {
+		Assertions.assertDoesNotThrow(() -> loginExample.main(null));
+	}
+
+	@Test
+	void positiveLoginTest() throws Exception {
+
+		loginExample.setUsername("alannorman00");
+		loginExample.setPassword("alan1234");
+
+		Assertions.assertTrue(loginExample.jButtonLoginActionPerformed(null));
+
 	}
 
 
@@ -85,6 +101,22 @@ public void setUp() throws Exception {
 
 		loginTester.setUsername("alannorman00");
 		loginTester.setPassword("alan123");
+
+		Assertions.assertFalse(loginTester.jButtonLoginActionPerformed(null));
+
+
+	}
+
+	@Test
+	void testEmptyLoginWithMock() throws Exception {
+
+		when(ds.getConnection()).thenReturn(c);
+		when(c.prepareStatement(any(String.class))).thenReturn(stmt);
+		when(stmt.executeQuery()).thenReturn(rs);
+		when(rs.next()).thenReturn(false);
+
+		loginTester.setUsername("alannorman00");
+		loginTester.setPassword("");
 
 		Assertions.assertFalse(loginTester.jButtonLoginActionPerformed(null));
 

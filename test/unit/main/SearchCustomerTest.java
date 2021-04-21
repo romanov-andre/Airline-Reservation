@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 
 public class SearchCustomerTest extends SearchCustomer {
 
@@ -139,10 +140,12 @@ public class SearchCustomerTest extends SearchCustomer {
 
 	//possible integration test
 	@Test
-	void updateCustomerTest() {
+	void updateCustomerTest() throws SQLException {
 
-		searchTester.setTxtcustid("CS001");
-		searchTester.jButtonFindActionPerformed(null);
+
+		searchTester.setRadioButtonFemale(true);
+		searchTester.setRadioButtonMale(false);
+
 		Assertions.assertTrue(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
@@ -161,6 +164,18 @@ public class SearchCustomerTest extends SearchCustomer {
 	void findValidCustomerTest() {
 		searchTester.setTxtcustid("CS001");
 		Assertions.assertTrue(searchTester.jButtonFindActionPerformed(null));
+
+		searchTester.setTxtcustid("CS129");
+		Assertions.assertTrue(searchTester.jButtonFindActionPerformed(null));
+	}
+
+	@Test
+	public void updateExceptionTest() throws SQLException {
+
+		searchTester.setTxtcustid("CS001");
+		searchTester.setPst("Select");
+
+		Assertions.assertThrows(SQLException.class, () -> searchTester.jButtonUpdateActionPerformed(null));
 	}
 
 }

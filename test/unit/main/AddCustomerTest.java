@@ -7,15 +7,16 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 
-class AddCustomerTest {
+public class AddCustomerTest {
 
 	//Reference variable to test the methods in Login
 	private AddCustomer customerTester = new AddCustomer();
 	private JPanel panel = new JPanel();
 
 	@BeforeEach
-	void initCustomer() throws IOException {
+	public void initCustomer() throws IOException {
 		customerTester.setTxtfirstname("Alan");
 		customerTester.setTxtlastname("Norman");
 		customerTester.setTxtnic("343553433A");
@@ -28,6 +29,18 @@ class AddCustomerTest {
 		customerTester.setTxtcontact("715");
 		customerTester.setUserImageWithPath("img/testphoto.jpg");
 	}
+
+	@Test
+	public void autoIDExceptionTest() {
+
+
+	customerTester.setStatementString("Select * ");
+
+	Assertions.assertThrows(SQLException.class, () -> customerTester.autoID());
+
+
+	}
+
 
 	@Test
 	public void invalidPassportNumberTest() {
@@ -151,6 +164,11 @@ class AddCustomerTest {
 
 	@Test
 	void validCustomerTest() {
+		Assertions.assertTrue(customerTester.jButtonAddActionPerformed(null));
+
+		customerTester.setRadioButtonFemale(true);
+		customerTester.setRadioButtonMale(false);
+
 		Assertions.assertTrue(customerTester.jButtonAddActionPerformed(null));
 	}
 

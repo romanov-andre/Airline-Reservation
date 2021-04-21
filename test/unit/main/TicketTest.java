@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class TicketTest {
 
@@ -32,8 +33,76 @@ public class TicketTest {
     }
 
     @Test
+    public void autoIDExceptionTest() {
+
+        ticketTest.setStatementString("Select * ");
+
+        Assertions.assertThrows(SQLException.class, () -> ticketTest.autoID());
+
+    }
+
+    @Test
+    public void jButton3ExceptionTest() throws SQLException {
+
+        ticketTest.setPst("Select");
+
+        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton3ActionPerformed(null));
+
+
+    }
+
+    @Test
+    public void jButton4ExceptionTest() throws SQLException {
+
+        ticketTest.setPst("Select");
+
+        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton4ActionPerformed(null));
+
+
+    }
+
+    @Test
+    public void jButton1ExceptionTest() throws SQLException {
+
+        ticketTest.setPst("Select");
+
+        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton1ActionPerformed(null));
+
+
+    }
+
+
+    @Test
+    public void getTableValuesTest() {
+
+        int expected = 19;
+
+        ticketTest.jButton3ActionPerformed(null);
+
+        Assertions.assertEquals(expected, ticketTest.jTable1MouseClicked(null));
+
+        ticketTest.getjTable1().setRowSelectionInterval(0, 0);
+
+        Assertions.assertEquals(expected, ticketTest.jTable1MouseClicked(null));
+
+
+
+    }
+
+    @Test
     void jButton1ActionPerformedTest(){
         Assertions.assertTrue(ticketTest.jButton1ActionPerformed(null));
+    }
+
+    @Test
+    void invalidJButton1ActionPerformedTest(){
+
+        ticketTest.setId("");
+        Assertions.assertFalse(ticketTest.jButton1ActionPerformed(null));
+
+        ticketTest.setId("CS001");
+        ticketTest.setDate("12-90-09");
+        Assertions.assertFalse(ticketTest.jButton1ActionPerformed(null));
     }
     @Test
     void destinationSourceSelection(){
@@ -48,7 +117,7 @@ public class TicketTest {
         Assertions.assertFalse(ticketTest.jButton3ActionPerformed(null));
     }
     @Test
-    void desitnationSourceSelectionFalse(){
+    void destinationSourceSelectionFalse(){
         ticketTest.setTxtdepart("Usa");
         ticketTest.setTxtsource("Usa");
         Assertions.assertFalse(ticketTest.jButton3ActionPerformed(null));
@@ -69,11 +138,12 @@ public class TicketTest {
         Assertions.assertTrue(ticketTest.jButton4ActionPerformed(null));
     }
 
+    @Test
     void verifyTxtSeatsStateChanged(){
         ticketTest.settxtprice("48");
         ticketTest.setTxtseats(22);
         int total = 48 * 22;
 
-        Assertions.assertEquals(total, 1056);
+        Assertions.assertEquals(total, ticketTest.txtseatsStateChanged(null) );
     }
 }

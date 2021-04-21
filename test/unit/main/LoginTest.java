@@ -13,6 +13,26 @@ class LoginTest {
 	private Login loginTester = new Login();
 	private JPanel panel = new JPanel();
 
+
+	@Test
+	public void clickLoginTest() {
+		Assertions.assertDoesNotThrow(() -> loginTester.getjButtonLogin().doClick());
+	}
+
+	@Test
+	public void clickCancelTest() {
+
+		Assertions.assertDoesNotThrow(() -> loginTester.getjButtonCancel().doClick());
+
+	}
+
+	@Test
+	public void loginMainTest() {
+
+		String[] test = {"yo"};
+		Assertions.assertDoesNotThrow(() -> loginTester.main(test));
+	}
+
 //Test for determining if empty username and password fields will return an error prompt
 //The inputs are empty strings and the expected result is a string stating the error prompt
 	@Test
@@ -31,15 +51,13 @@ class LoginTest {
 	}
 
 	@Test
-	void exceptionHandlerTest() {
+	void exceptionHandlerTest() throws SQLException {
 
 		loginTester.setUsername("alannorman00");
 		loginTester.setPassword("alan1234");
+		loginTester.setPst("Select");
 
-		Exception exception = Assertions.assertThrows(SQLException.class, () -> loginTester.jButtonLoginActionPerformed(null));
-		Assertions.assertEquals("Connection to Database Failed", exception.getMessage());
-
-
+		Assertions.assertThrows(SQLException.class, () -> loginTester.jButtonLoginActionPerformed(null));
 
 	}
 

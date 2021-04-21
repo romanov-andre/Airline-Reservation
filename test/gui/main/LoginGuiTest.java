@@ -38,6 +38,17 @@ window.button("jButtonLogin").click();
 	}
 
 	@Test
+	public void invalidLoginButtonClickedTest() throws SQLException {
+		window.textBox("txtuser").enterText("alannorman00");
+		window.textBox("txtpass").enterText("");
+		window.button("jButtonLogin").click();
+		window.optionPane().okButton();
+
+	}
+
+
+
+	@Test
 	public void validCancelButtonClickedTest() throws SQLException {
 		window.textBox("txtuser").enterText("alannorman00");
 		window.textBox("txtpass").enterText("alan1234");

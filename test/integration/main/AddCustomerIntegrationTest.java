@@ -10,6 +10,7 @@ import org.mockito.MockitoAnnotations;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -73,6 +74,17 @@ public class AddCustomerIntegrationTest {
   @Test
   public void invalidDateTest() {
 
+
+
+  }
+
+  @Test
+  public void autoIDExceptionTest() {
+
+    AddCustomer newTest = new AddCustomer();
+    newTest.setStatementString("Select * ");
+
+    Assertions.assertThrows(SQLException.class, () -> newTest.autoID());
 
 
   }
@@ -185,6 +197,50 @@ verify(mockChooser, times(2)).getSelectedFile();
     Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 
 
+  }
+
+  @Test
+  public void mockAddInvalidNicOrPassportCustomerTest() throws SQLException {
+    when(ds.getConnection()).thenReturn(c);
+    when(c.prepareStatement(any(String.class))).thenReturn(stmt);
+    when(stmt.executeUpdate()).thenReturn(1);
+
+    customerTester.setTxtnic("111");
+
+    Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+    customerTester.setTxtnic("111111111B");
+
+    customerTester.setTxtpassport("111");
+
+    Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
+
+
+  }
+
+  @Test
+  void validCustomerTest() throws IOException {
+
+    AddCustomer newTest = new AddCustomer();
+
+    newTest.setTxtfirstname("Alan");
+    newTest.setTxtlastname("Norman");
+    newTest.setTxtnic("111111111B");
+    newTest.setTxtpassport("768991");
+    newTest.setTxtaddress("US");
+    String dd = "1997-08-02";
+    Date date = Date.valueOf(dd);
+    newTest.setTxtdob(date);
+    newTest.setRadioButtonMale(true);
+    newTest.setTxtcontact("715");
+    newTest.setUserImageWithPath("img/testphoto.jpg");
+
+    Assertions.assertTrue(newTest.jButtonAddActionPerformed(null));
+
+    newTest.setRadioButtonFemale(true);
+    newTest.setRadioButtonMale(false);
+
+    Assertions.assertTrue(newTest.jButtonAddActionPerformed(null));
   }
 
 }

@@ -55,6 +55,10 @@ public class UserCreation extends javax.swing.JInternalFrame {
 	public void setTxtusername(String username) {
 		this.txtusername.setText(username);
 	}
+
+	public void setStatementString(String query) {
+		statementString = query;
+	}
 	/**
 	 * Creates new form UserCreation
 	 */
@@ -62,6 +66,10 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		initComponents();
 		autoID();
 	}
+
+	String statementString;
+	ResultSet rs;
+	Statement statement;
 	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
@@ -93,6 +101,15 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		jButtonAdd = new JButton();
 		jButtonCancel = new JButton();
 		txtpassword = new JPasswordField();
+
+		jButtonCancel.setName("cancel");
+		jButtonAdd.setName("add");
+
+		txtuserid.setName("userid");
+		txtfirstname.setName("first");
+		txtlastname.setName("last");
+		txtusername.setName("username");
+		txtpassword.setName("password");
 
 		jPanel1.setBorder(
 				javax.swing.BorderFactory.createTitledBorder("User Creation"));
@@ -321,8 +338,12 @@ public class UserCreation extends javax.swing.JInternalFrame {
 				d.setDatabaseName("airline");
 			}
 			con =  d.getConnection();
-			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery("select MAX(id) from user");
+			if(statementString == null) {
+				statement = con.createStatement();
+				rs = statement.executeQuery("select MAX(id) from customer");
+			} else {
+				rs = statement.executeQuery(statementString);
+			}
 			rs.next();
 			rs.getString("MAX(id)");
 			if (rs.getString("MAX(id)") == null) {

@@ -61,6 +61,9 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	private JTextField txtcontact;
 	// End of variables declaration//GEN-END:variables
 
+	String statementString;
+	ResultSet rs;
+	Statement statement;
 	JFileChooser fileChooser;
 	MysqlDataSource d = null;
 	Connection con;
@@ -79,6 +82,10 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
+	}
+
+	public void setRadioButtonFemale(boolean selected) {
+		this.radioButtonFemale.setSelected(selected);
 	}
 
 	public void setTxtfirstname(String firstName) {
@@ -119,6 +126,19 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 
 	public JButton getjButtonCancel() {
 		return jButtonCancel;
+	}
+
+	public void setPst(String query) throws SQLException {
+		d = new MysqlDataSource();
+		d.setUser("root");
+		d.setPassword("1234");
+		d.setDatabaseName("airline");
+		con =  d.getConnection();
+		pst = con.prepareStatement(query);
+	}
+
+	public void setStatementString(String query) {
+	statementString = query;
 	}
 
 	public AddCustomer(MysqlDataSource ds, JFileChooser chooser) {
@@ -549,8 +569,13 @@ jButtonBrowse.setName("browse");
 			}
 			con =  d.getConnection();
 
-			Statement s = con.createStatement();
-			ResultSet rs = s.executeQuery("select MAX(id) from customer");
+
+			if(statementString == null) {
+				statement = con.createStatement();
+				rs = statement.executeQuery("select MAX(id) from customer");
+			} else {
+				rs = statement.executeQuery(statementString);
+			}
 			rs.next();
 			rs.getString("MAX(id)");
 			if (rs.getString("MAX(id)") == null) {

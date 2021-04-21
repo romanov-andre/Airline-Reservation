@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
-
 public class SearchCustomerGuiTest {
 
 	private FrameFixture window;
@@ -28,7 +26,7 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void invalidFindCustomerButtonClickedTest() throws SQLException {
+	public void invalidFindCustomerButtonClickedTest()  {
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();
 		window.textBox("custId").enterText("CS01");
@@ -38,16 +36,15 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void validFindCustomerButtonClickedTest() throws SQLException {
+	public void validFindCustomerButtonClickedTest() {
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();
 		window.textBox("custId").enterText("CS001");
 		window.button("find").click();
-		window.optionPane().okButton();
 
 	}
 	@Test
-	public void validUpdateCustomerButtonClickedTest() throws SQLException {
+	public void validUpdateCustomerButtonClickedTest()  {
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();
 		window.textBox("firstname").enterText("Alan");
@@ -63,7 +60,7 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void invalidUpdateCustomerButtonClickedTest() throws SQLException {
+	public void invalidUpdateCustomerButtonClickedTest() {
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();
 		window.textBox("firstname").enterText("");
@@ -80,7 +77,7 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void validCancelCustomerButtonClickedTest() throws SQLException {
+	public void validCancelCustomerButtonClickedTest()  {
 
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();
@@ -90,7 +87,7 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void browseButtonClickedTest() throws SQLException {
+	public void browseButtonClickedTest() {
 
 		window.menuItem("customerPanel").click();
 		window.menuItem("searchCustomer").click();

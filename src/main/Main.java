@@ -57,6 +57,13 @@ public class Main extends javax.swing.JFrame {
 		jMenuCustomer.setName("customerPanel");
 		jMenuItemAddCustomer.setName("addCustomer");
 		jMenuItemSearchCustomer.setName("searchCustomer");
+		jMenuTickets.setName("ticketPanel");
+		jMenuItemTicketReport.setName("ticketReport");
+		jMenuUser.setName("user");
+		jMenuItemUserCreation.setName("userCreation");
+		jMenuFlight.setName("flightTab");
+		jMenuItemAddFlight.setName("flight");
+		jMenuItemBookTicket.setName("bookTicket");
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new java.awt.Dimension(1366, 768));
