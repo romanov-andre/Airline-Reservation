@@ -16,6 +16,10 @@ import java.sql.SQLException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * Class to test the integration of Addlfight
+ * Created By: Alan Norman
+ */
 public class AddFlightIntegrationTest {
 
 	@Mock
@@ -36,6 +40,10 @@ public class AddFlightIntegrationTest {
 	private Addflight sampleFlight;
 
 
+	/**
+	 * @throws Exception
+	 * Sets up mocks and a valid flight for testing
+	 */
 	@BeforeEach
 	public void setUp() throws Exception {
 
@@ -69,12 +77,20 @@ sampleFlight = new Addflight();
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Used to close the mocks after each test
+	 */
 	@AfterEach
 	public void teardown() throws Exception {
 		System.out.println("Closing");
 		closeable.close();
 	}
 
+	/**
+	 * @throws Exception
+	 * Adding a flight successfully
+	 */
 	@Test
 	void positiveAddFlightTest() throws Exception {
 
@@ -82,6 +98,10 @@ sampleFlight = new Addflight();
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Mock adding a valid flight
+	 */
 	@Test
 	void testValidFlightWithMock() throws Exception {
 
@@ -97,6 +117,10 @@ sampleFlight = new Addflight();
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Mock adding an invalid flight
+	 */
 	@Test
 	void testInvalidFlightWithMock() throws Exception {
 
@@ -113,6 +137,10 @@ sampleFlight = new Addflight();
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Mock exceptions when adding a flight
+	 */
 	@Test
 	void testFlightExceptionWithMock() throws Exception {
 
@@ -134,6 +162,9 @@ sampleFlight = new Addflight();
 
 	}
 
+	/**
+	 * Pressing the cancel flight button
+	 */
 	@Test
 	public void testCancelButton() {
 		sampleFlight.jButtonCancelActionPerformed(null);

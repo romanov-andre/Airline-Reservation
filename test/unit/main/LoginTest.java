@@ -7,6 +7,10 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 
+/**
+ * Test class for the Login source class
+ * Created by: Alan Norman
+ */
 class LoginTest {
 
 	//Reference variable to test the methods in Login
@@ -14,11 +18,18 @@ class LoginTest {
 	private JPanel panel = new JPanel();
 
 
+	/**
+	 * Method test the login button is clicked
+	 */
 	@Test
 	public void clickLoginTest() {
 		Assertions.assertDoesNotThrow(() -> loginTester.getjButtonLogin().doClick());
 	}
 
+
+	/**
+	 * Method to test that the cancel button was clicked
+	 */
 	@Test
 	public void clickCancelTest() {
 
@@ -26,6 +37,9 @@ class LoginTest {
 
 	}
 
+	/**
+	 * Method to test that login can be ran using main
+	 */
 	@Test
 	public void loginMainTest() {
 
@@ -35,14 +49,22 @@ class LoginTest {
 
 //Test for determining if empty username and password fields will return an error prompt
 //The inputs are empty strings and the expected result is a string stating the error prompt
-	@Test
-	void EmptyLoginTest() throws Exception {
 
+
+	/**
+	 * Test for determining if empty username and password fields will return an error prompt
+	 * The inputs are empty strings and the expected result is a string stating the error prompt
+	 */
+	@Test
+	public void EmptyLoginTest() {
+
+		//empty login
 		loginTester.setUsername("");
 		loginTester.setPassword("alan1234");
 
 		Assertions.assertFalse(loginTester.jButtonLoginActionPerformed(null));
 
+		//empty login
 		loginTester.setUsername("alannorman00");
 		loginTester.setPassword("");
 
@@ -50,8 +72,12 @@ class LoginTest {
 
 	}
 
+	/**
+	 * @throws SQLException thrown when pst is set to Select
+	 * Handles the exception branch of Logging in
+	 */
 	@Test
-	void exceptionHandlerTest() throws SQLException {
+	public void exceptionHandlerTest() throws SQLException {
 
 		loginTester.setUsername("alannorman00");
 		loginTester.setPassword("alan1234");
@@ -61,10 +87,13 @@ class LoginTest {
 
 	}
 
-	//A test to determine if correct values for username and password will function properly
-	//The inputs are strings equivalent to a user that exists in the current Database
+	/**
+	 * Method to assert the login works properly
+	 * A test to determine if correct values for username and password will function properly
+	 * The inputs are strings equivalent to a user that exists in the current Database
+	 */
 	@Test
-	void positiveLoginTest() throws Exception {
+	public void positiveLoginTest() {
 
 		loginTester.setUsername("john");
 		loginTester.setPassword("123");
@@ -73,10 +102,13 @@ class LoginTest {
 
 	}
 
-	//This tests invalid usernames or passwords that aren't null or empty
-	//The inputs are a correct password but an incorrect username
+	/**
+	 * Method to determine if an invalid login combination provides an error
+	 * This tests invalid usernames or passwords that aren't null or empty
+	 * The inputs are a correct password but an incorrect username
+	 */
 	@Test
-	void invalidLoginTest() throws Exception {
+	public void invalidLoginTest() {
 
 loginTester.setUsername("alannorman00");
 loginTester.setPassword("alan123");

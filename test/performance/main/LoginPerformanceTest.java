@@ -5,20 +5,28 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 
+/**
+ * Class for testing the performance of Login
+ * Created By: Alan Norman
+ */
 public class LoginPerformanceTest {
 
 	private JPanel panel = new JPanel();
 	Login loginTester= new Login();
 
 
-//Will open multiple threads
+	/**
+	 * Will open multiple threads
+	 */
 	@Test
 	public void multipleLoginWindowsTest() {
 		Assertions.assertDoesNotThrow(() -> loginTester.main(null));
 	}
 
 
-	//Will set up one user thread that tries to login 100 times with correct details
+	/**
+	 * Will set up one user thread that tries to login 100 times with correct details
+	 */
 	@Test
 	public void multipleSingleUserValidLoginAttemptsTest() {
 
@@ -28,11 +36,11 @@ public class LoginPerformanceTest {
 
 		Assertions.assertDoesNotThrow(() -> loginTester.jButtonLoginActionPerformed(null));
 
-
-
 	}
 
-	//Will set up one user thread that tries to login 100 times with incorrect details
+	/**
+	 * Will set up one user thread that tries to login 100 times with incorrect details
+	 */
 	@Test
 	public void multipleSingleUserInvalidLoginAttemptsTest() {
 
@@ -46,7 +54,9 @@ public class LoginPerformanceTest {
 
 	}
 
-	//will setup 100 user threads and have them try to login all at once
+	/**
+	 * Will setup 100 user threads and have them try to login all at once
+	 */
 	@Test
 	public void multipleUsersValidLoginAttemptTest() {
 		//correct login combo
@@ -57,7 +67,9 @@ public class LoginPerformanceTest {
 
 	}
 
-	//will setup 100 user threads and have them try to login all at once
+	/**
+	 * Will setup 100 user threads and have them try to login all at once
+	 */
 	@Test
 	public void multipleUsersInvalidLoginAttemptTest() {
 		//correct login combo

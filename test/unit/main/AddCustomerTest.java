@@ -9,12 +9,20 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
+/**
+ * Test class to verify methods in AddCustomer
+ * Created By: Alan Norman
+ */
 public class AddCustomerTest {
 
 	//Reference variable to test the methods in Login
 	private AddCustomer customerTester = new AddCustomer();
 	private JPanel panel = new JPanel();
 
+	/**
+	 * @throws IOException
+	 * Used to init a customer before testing
+	 */
 	@BeforeEach
 	public void initCustomer() throws IOException {
 		customerTester.setTxtfirstname("Alan");
@@ -30,18 +38,22 @@ public class AddCustomerTest {
 		customerTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
+	/**
+	 * Method to verify a SQLexception is thrown in AutoID
+	 */
 	@Test
 	public void autoIDExceptionTest() {
-
 
 	customerTester.setStatementString("Select * ");
 
 	Assertions.assertThrows(SQLException.class, () -> customerTester.autoID());
 
-
 	}
 
 
+	/**
+	 * Method to verify an invalid passport id wont work
+	 */
 	@Test
 	public void invalidPassportNumberTest() {
 		//invalid number by -1 digit
@@ -62,6 +74,9 @@ public class AddCustomerTest {
 
 	}
 
+	/**
+	 * Method to verify a invalid nic number wont work
+	 */
 	@Test
 	public void invalidNicNumberTest() {
 		//valid no letter
@@ -86,24 +101,36 @@ public class AddCustomerTest {
 	}
 
 
+	/**
+	 * Method to verify an invalid photo will throw an error
+	 */
 	@Test
 	void invalidPhotoTest() {
 		customerTester.userimage = null;
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
-	//possible integration test
+
+	/**
+	 * Method to verify a file can be chosen
+	 */
 	@Test
 	void fileChooserTest() {
 		Assertions.assertTrue(customerTester.jButtonBrowseActionPerformed(null));
 	}
 
+	/**
+	 * Method to verify cancelling a customer
+	 */
 	@Test
 	void cancelCustomerTest()	 {
 		customerTester.jButtonCancelActionPerformed(null);
 	}
 
-	//possible integration test
+
+	/**
+	 * Method to verify browsing an image works with a valid image path and returns an error with an invalid image path
+	 */
 	@Test
 	void browseImageTest() {
 		customerTester.path = "img/testphoto.jpg";
@@ -113,12 +140,19 @@ public class AddCustomerTest {
 		Assertions.assertFalse(customerTester.jButtonBrowseActionPerformed(null));
 	}
 
+	/**
+	 * Method to verify an empty first name causes an error
+	 */
 	@Test
 	void emptyFirstNameTest() {
 		//Empty first name
 		customerTester.setTxtfirstname("");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty last name causes an error
+	 */
 	@Test
 	void emptyLastNameTest() {
 		//Empty last name
@@ -127,18 +161,29 @@ public class AddCustomerTest {
 
 	}
 
+	/**
+	 * Method to verify an empty nic causes an error
+	 */
 	@Test
 			void emptyNicTest() {
 		//Empty nic value
 		customerTester.setTxtnic("");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty passport id causes an error
+	 */
 	@Test
 	void emptyPassportTest() {
 		//Empty passport id
 		customerTester.setTxtpassport("");
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty address causes an error
+	 */
 	@Test
 	void emptyAddressTest() {
 		//Empty address
@@ -146,13 +191,19 @@ public class AddCustomerTest {
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
+
+	/**
+	 * Method to verify an empty gender causes an error
+	 */
 	@Test
 	void emptyGenderTest() {
 		customerTester.setRadioButtonMale(false);
 		Assertions.assertFalse(customerTester.jButtonAddActionPerformed(null));
 	}
 
-	//contact needs error handling and black box testing
+	/**
+	 * Method to verify contact matchers the desired pattern
+	 */
 	@Test
 	void invalidContactTest() {
 		customerTester.setTxtcontact("abc");
@@ -162,6 +213,9 @@ public class AddCustomerTest {
 	}
 
 
+	/**
+	 * Method to test adding a valid customer both male and female
+	 */
 	@Test
 	void validCustomerTest() {
 		Assertions.assertTrue(customerTester.jButtonAddActionPerformed(null));

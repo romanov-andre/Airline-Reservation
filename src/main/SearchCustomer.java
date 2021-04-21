@@ -30,6 +30,10 @@ import java.util.regex.Pattern;
  * and open the template in the editor.
  */
 
+/**
+ * This class is used to search for a customer in the database
+ * Edited By: Alan Norman
+ */
 public class SearchCustomer extends javax.swing.JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -71,12 +75,18 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		initComponents();
 	}
 
+	/**
+	 * @param ds mock datasource
+	 * @param mockChooser mock file chooser
+	 * Constructor for using mocks
+	 */
 	public SearchCustomer(MysqlDataSource ds, JFileChooser mockChooser) {
 		initComponents();
 		this.d = ds;
 		this.fileChooser = mockChooser;
 	}
 
+	//Global Variables
 	JFileChooser fileChooser;
 	MysqlDataSource d;
 	Connection con;
@@ -85,30 +95,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
-	public JRadioButton getRadioButtonMale() {
-		return radioButtonMale;
-	}
-
-	public JRadioButton getRadioButtonFemale() {
-		return radioButtonFemale;
-	}
-
-	public JButton getjButtonBrowse() {
-		return jButtonBrowse;
-	}
-
-	public JButton getjButtonUpdate() {
-		return jButtonUpdate;
-	}
-
-	public JButton getjButtonCancel() {
-		return jButtonCancel;
-	}
-
-	public JButton getjButtonFind() {
-		return jButtonFind;
-	}
-
+//setters
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
 	}
@@ -580,12 +567,18 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * Method called when the user clicks the browse button to open the file chooser
+	 */
 	public boolean jButtonBrowseActionPerformed(ActionEvent evt) {
 
 		try {
 
 			if(path == null) {
 
+				//Determines if mock file chooser is present
 				if(fileChooser == null) {
 					fileChooser = new JFileChooser();
 				}
@@ -617,31 +610,39 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 					null, ex);
 			return false;
 		}
+
+		//return true if valid file selected
 		return true;
 	}
 
-	//needs to prompt user the proper format for CustomerID when entered wrong
+
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * Method used when a user decides to update a customers information
+	 */
 	public boolean jButtonUpdateActionPerformed(java.awt.event.ActionEvent evt) {
 
+		//test if any values are blank
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
 
+			//regex for nic and passport
 			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
 			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
 			boolean nicFlag = nicMatcher.matches();
-
 			Pattern passportPattern = Pattern.compile("^[0-9]{6}$");
 			Matcher passportMatcher = passportPattern.matcher(txtpassport.getText());
 			boolean passportFlag = passportMatcher.matches();
 
-
-
+			//if nic is invalid
 			if(!nicFlag) {
 				JOptionPane.showMessageDialog(null, "Invalid Nic..");
 				return false;
 			}
 
+			//if passport is invalid
 			if(!passportFlag) {
 				JOptionPane.showMessageDialog(null, "Invalid passport id..");
 				return false;
@@ -668,6 +669,8 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 				String contact = txtcontact.getText();
 
 				try {
+
+					//set up new source if mock isn't provided
 					if (d == null) {
 						d = new MysqlDataSource();
 						d.setUser("root");
@@ -676,6 +679,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 					}
 					con = d.getConnection();
 
+					//determine if pst has already been set
 					if(pst==null ) {
 						pst = con.prepareStatement(
 								"update customer set firstname = ?,lastname = ?,nic = ?,passport = ?,address= ?,dob = ?,gender = ?,contact = ?,photo = ? where id = ?");
@@ -711,14 +715,24 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 
 	}
 
+	/**
+	 * @param evt button press
+	 * Detect if user hits cancel button
+	 */
 	void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
 		this.hide();
 	}
 
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * Method called when a user wants to find a customer by id
+	 */
 	public boolean jButtonFindActionPerformed(java.awt.event.ActionEvent evt) {
 		String id = txtcustid.getText();
 
 		try {
+			//set up new source if mock isn't provided
 			if(d == null) {
 				d = new MysqlDataSource();
 				d.setUser("root");

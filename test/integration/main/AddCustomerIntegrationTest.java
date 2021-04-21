@@ -16,6 +16,10 @@ import java.sql.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+/**
+ * Class for testing the integration of AddCustomer
+ * Created By: Alan Norman
+ */
 public class AddCustomerIntegrationTest {
 
   @Mock
@@ -39,13 +43,19 @@ public class AddCustomerIntegrationTest {
   private AddCustomer customerTester;
   private AutoCloseable closeable;
 
+  /**
+   * @throws Exception
+   * Sets up a valid customer for testing
+   */
   @BeforeEach
   public void setUp() throws Exception {
 
+    //init mocks
     closeable = MockitoAnnotations.openMocks(this);
 
     Assertions.assertNotNull(ds);
 
+    //add the mock source to AddCustomer
     customerTester = new AddCustomer(ds, mockChooser);
 
     customerTester.setTxtfirstname("Alan");
@@ -64,6 +74,10 @@ public class AddCustomerIntegrationTest {
 
   }
 
+  /**
+   * @throws Exception
+   * Used to close the mocks after each test
+   */
   @AfterEach
   public void teardown() throws Exception {
     System.out.println("Closing");
@@ -71,13 +85,9 @@ public class AddCustomerIntegrationTest {
   }
 
 
-  @Test
-  public void invalidDateTest() {
-
-
-
-  }
-
+  /**
+   * Verifies exceptions on AutoID
+   */
   @Test
   public void autoIDExceptionTest() {
 
@@ -89,6 +99,9 @@ public class AddCustomerIntegrationTest {
 
   }
 
+  /**
+   * Used to mock a valid file being selected
+   */
   @Test
   public void mockBrowseValidFileChooserTest() {
 
@@ -103,6 +116,9 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * Used to mock a invalid file selection
+   */
   @Test
   public void mockBrowseInvalidFileChooserTest() {
 
@@ -115,6 +131,9 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * Mock the exceptions thrown by AutoId
+   */
   @Test
   public void mockAutoIdExceptionTest()  {
 
@@ -133,6 +152,10 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * @throws SQLException
+   * Mock the Id being null when executing on the database
+   */
   @Test
   public void mockAutoIdNullMaxIdTest() throws SQLException {
     when(ds.getConnection()).thenReturn(c);
@@ -146,6 +169,10 @@ verify(mockChooser, times(2)).getSelectedFile();
   }
 
 
+  /**
+   * @throws SQLException
+   * mock the autoId method to throw an exception
+   */
   @Test
   public void mockAutoIdTest() throws SQLException {
 
@@ -160,6 +187,9 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * Mock the exceptions when adding a customer
+   */
   @Test
   public void mockAddCustomerExceptionTest() {
 
@@ -175,6 +205,10 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * @throws SQLException
+   * Mock adding a valid customer
+   */
   @Test
   public void mockAddValidCustomerTest() throws SQLException {
     when(ds.getConnection()).thenReturn(c);
@@ -186,6 +220,10 @@ verify(mockChooser, times(2)).getSelectedFile();
     verify(stmt, times(1)).executeUpdate();
   }
 
+  /**
+   * @throws SQLException
+   * Mock adding an invalid customer
+   */
   @Test
   public void mockAddInvalidCustomerTest() throws SQLException {
     when(ds.getConnection()).thenReturn(c);
@@ -199,6 +237,10 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * @throws SQLException
+   * Mock adding an invalid nic or passport
+   */
   @Test
   public void mockAddInvalidNicOrPassportCustomerTest() throws SQLException {
     when(ds.getConnection()).thenReturn(c);
@@ -218,8 +260,12 @@ verify(mockChooser, times(2)).getSelectedFile();
 
   }
 
+  /**
+   * @throws IOException
+   * Valid customer test
+   */
   @Test
-  void validCustomerTest() throws IOException {
+  public void validCustomerTest() throws IOException {
 
     AddCustomer newTest = new AddCustomer();
 

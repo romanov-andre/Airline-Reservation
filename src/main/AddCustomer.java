@@ -28,6 +28,10 @@ import java.util.regex.Pattern;
  * and open the template in the editor.
  */
 
+/**
+ * Class used when adding a customer to the database
+ * Edited By: Alan Norman
+ */
 public class AddCustomer extends javax.swing.JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -61,6 +65,8 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	private JTextField txtcontact;
 	// End of variables declaration//GEN-END:variables
 
+
+	//Global Variables
 	String statementString;
 	ResultSet rs;
 	Statement statement;
@@ -71,15 +77,7 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	String path = null;
 	byte[] userimage = null;
 
-
-	public JRadioButton getRadioButtonMale() {
-		return radioButtonMale;
-	}
-
-	public JRadioButton getRadioButtonFemale() {
-		return radioButtonFemale;
-	}
-
+	//setters
 	public void setRadioButtonMale(boolean selected) {
 		this.radioButtonMale.setSelected(selected);
 	}
@@ -116,31 +114,15 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 		this.txtdob.setDate(dob);
 	}
 
-	public JButton getjButtonBrowse() {
-		return jButtonBrowse;
-	}
-
-	public JButton getjButtonAdd() {
-		return jButtonAdd;
-	}
-
-	public JButton getjButtonCancel() {
-		return jButtonCancel;
-	}
-
-	public void setPst(String query) throws SQLException {
-		d = new MysqlDataSource();
-		d.setUser("root");
-		d.setPassword("1234");
-		d.setDatabaseName("airline");
-		con =  d.getConnection();
-		pst = con.prepareStatement(query);
-	}
-
 	public void setStatementString(String query) {
 	statementString = query;
 	}
 
+	/**
+	 * @param ds mock source
+	 * @param chooser mock file chooser
+	 * Constructor for creating an object with mocks
+	 */
 	public AddCustomer(MysqlDataSource ds, JFileChooser chooser) {
 		initComponents();
 		this.d = ds;
@@ -558,9 +540,13 @@ jButtonBrowse.setName("browse");
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * Method used to increment the Id number for customers
+	 */
 	public void autoID() {
 		try {
 
+			//Checks if mock datasource has been passed
 			if(d == null) {
 				d = new MysqlDataSource();
 				d.setUser("root");
@@ -569,7 +555,7 @@ jButtonBrowse.setName("browse");
 			}
 			con =  d.getConnection();
 
-
+			//If statement string is set already the do skip this
 			if(statementString == null) {
 				statement = con.createStatement();
 				rs = statement.executeQuery("select MAX(id) from customer");
@@ -595,6 +581,11 @@ jButtonBrowse.setName("browse");
 
 	}
 
+	/**
+	 * @param path file path
+	 * @throws IOException
+	 * Allows us to dynamically set the path used instead of using the file chooser
+	 */
 	public void setUserImageWithPath(String path) throws IOException {
 		File image = new File(path);
 		FileInputStream fis = new FileInputStream(image);
@@ -607,12 +598,18 @@ jButtonBrowse.setName("browse");
 		fis.close();
 	}
 
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * Method called when a user hits the browse file button
+	 */
 	public boolean jButtonBrowseActionPerformed(ActionEvent evt) {
 
 		try {
 
 			if(path == null) {
 
+				//Detects if mock file chooser has been passed
 				if(fileChooser == null) {
 					fileChooser = new JFileChooser();
 				}
@@ -644,28 +641,35 @@ jButtonBrowse.setName("browse");
 					null, ex);
 			return false;
 		}
+		//return true if file is valid
 return true;
 	}
 
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * Method that lets a user add a customer to the database
+	 */
 	public boolean jButtonAddActionPerformed(ActionEvent evt) {
 
 		if(!txtfirstname.getText().isBlank() && !txtlastname.getText().isBlank() && !txtnic.getText().isBlank() &&
 				!txtpassport.getText().isBlank() && !txtaddress.getText().isBlank() && (radioButtonMale.isSelected() || radioButtonFemale.isSelected())) {
 
-
+      //regex for nic and passport
 			Pattern nicPattern = Pattern.compile("^[0-9]{9}+[A-Z]$");
 			Matcher nicMatcher = nicPattern.matcher(txtnic.getText());
 			boolean nicFlag = nicMatcher.matches();
-
 			Pattern passportPattern = Pattern.compile("^[0-9]{6}$");
 			Matcher passportMatcher = passportPattern.matcher(txtpassport.getText());
 			boolean passportFlag = passportMatcher.matches();
 
+			//If nic is invalid then fail
 			if(!nicFlag) {
 				JOptionPane.showMessageDialog(null, "Invalid Nic..");
 				return false;
 			}
 
+			//If passport is invalid then fail
 			if(!passportFlag) {
 				JOptionPane.showMessageDialog(null, "Invalid passport id..");
 				return false;
@@ -689,8 +693,7 @@ return true;
 
 					String contact = txtcontact.getText();
 
-					// Database code here:
-
+					//Checks if mock datasource is present
 					if (d == null) {
 						d = new MysqlDataSource();
 						d.setUser("root");
@@ -730,6 +733,10 @@ return true;
 		return true;
 	}
 
+	/**
+	 * @param evt button press
+	 * Detects if user clicks the cancel button
+	 */
 	public void jButtonCancelActionPerformed(ActionEvent evt) {
 		this.hide();
 	}

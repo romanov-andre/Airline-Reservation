@@ -16,6 +16,10 @@ import java.sql.SQLException;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Class for testing the integration of Login
+ * Created By: Alan Norman
+ */
 public class LoginIntegrationTest {
 
 	@Mock
@@ -38,6 +42,10 @@ public class LoginIntegrationTest {
 	private Login loginExample = new Login();
 
 
+	/**
+	 * @throws Exception
+	 * Used to set up mocks and initialize the login
+	 */
 @BeforeEach
 public void setUp() throws Exception {
 
@@ -51,17 +59,28 @@ public void setUp() throws Exception {
 
 }
 
+	/**
+	 * @throws Exception
+	 * Used to close the mocks after each test
+	 */
 	@AfterEach
 	public void teardown() throws Exception {
 		System.out.println("Closing");
 		closeable.close();
 	}
 
+	/**
+	 * Running Logins main function to assert it works without exception
+	 */
 	@Test
 	public void loginMainTest() {
 		Assertions.assertDoesNotThrow(() -> loginExample.main(null));
 	}
 
+	/**
+	 * @throws Exception
+	 * Testing a positive login works
+	 */
 	@Test
 	void positiveLoginTest() throws Exception {
 
@@ -73,6 +92,10 @@ public void setUp() throws Exception {
 	}
 
 
+	/**
+	 * @throws Exception
+	 * Mock a valid login
+	 */
 	@Test
 	void testValidLoginWithMock() throws Exception {
 
@@ -91,6 +114,10 @@ public void setUp() throws Exception {
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Mock an invalid login
+	 */
 	@Test
 	void testInvalidLoginWithMock() throws Exception {
 
@@ -107,6 +134,10 @@ public void setUp() throws Exception {
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Mock logging in with empty fields
+	 */
 	@Test
 	void testEmptyLoginWithMock() throws Exception {
 
@@ -123,7 +154,9 @@ public void setUp() throws Exception {
 
 	}
 
-	//Handle exceptions from mock database connection
+	/**
+	 * Handle exceptions from mock database connection
+	 */
 	@Test
 	void exceptionHandlerTest() {
 

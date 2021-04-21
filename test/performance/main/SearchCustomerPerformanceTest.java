@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 
+/**
+ * Class to test the methods from SearchCustomer
+ * Created By: Alan Norman
+ */
 public class SearchCustomerPerformanceTest {
 
 	private JPanel panel = new JPanel();
@@ -15,6 +19,10 @@ public class SearchCustomerPerformanceTest {
 	Main testMain = new Main();
 
 
+	/**
+	 * @throws IOException
+	 * Sets up valid customer for testing
+	 */
 	@BeforeEach
 	public void initCustomer() throws IOException {
 		customerTester.setTxtfirstname("Alan");
@@ -30,13 +38,17 @@ public class SearchCustomerPerformanceTest {
 		customerTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
+	/**
+	 * Will run multiples threads of search customer window
+	 */
 	@Test
 	public void multipleSearchCustomerWindowsTest() {
 		Assertions.assertDoesNotThrow(() -> testMain.jMenuItemSearchCusActionPerformed(null));
-
 	}
 
-	//Will use jmeter to set up one user thread that tries to add a valid customer 100 times
+	/**
+	 * Will set up one user thread that tries to add a valid customer 100 times
+	 */
 	@Test
 	public void multipleSingleUserFindCustomerValidAttemptTest() {
 
@@ -45,7 +57,9 @@ public class SearchCustomerPerformanceTest {
 
 	}
 
-	//Will use jmeter to set up one user thread that tries to add a valid customer 100 times with incorrect details
+	/**
+	 * Will set up one user thread that tries to add a valid customer 100 times with incorrect details
+	 */
 	@Test
 	public void multipleSingleUserFindCustomerInvalidAttemptTest() {
 
@@ -55,7 +69,9 @@ public class SearchCustomerPerformanceTest {
 
 	}
 
-	//will use jmeter to setup 100 user threads and have them try to add a valid customer all at once
+	/**
+	 * will setup 100 user threads and have them try to add a valid customer all at once
+	 */
 	@Test
 	public void multipleUsersValidFindCustomerAttemptTest() {
 
@@ -63,7 +79,9 @@ public class SearchCustomerPerformanceTest {
 
 	}
 
-	//will use jmeter to setup 100 user threads and have them try to add an invalid customer all at once
+	/**
+	 * will setup 100 user threads and have them try to add an invalid customer all at once
+	 */
 	@Test
 	public void multipleUsersInvalidFindCustomerAttemptTest() {
 
@@ -72,6 +90,9 @@ public class SearchCustomerPerformanceTest {
 
 	}
 
+	/**
+	 * Will use one thread to update multiple times
+	 */
 	@Test
 	public void multipleSingleUserValidUpdateAttemptTest() {
 
@@ -79,6 +100,9 @@ Assertions.assertDoesNotThrow(() -> customerTester.jButtonUpdateActionPerformed(
 
 	}
 
+	/**
+	 * Will use one thread to provide multiple invalid updates
+	 */
 	@Test
 	public void multipleSingleUserInvalidUpdateAttemptTest() {
 		customerTester.setTxtaddress("");
@@ -87,6 +111,9 @@ Assertions.assertDoesNotThrow(() -> customerTester.jButtonUpdateActionPerformed(
 
 	}
 
+	/**
+	 * Will use multiple threads to update at the same time
+	 */
 	@Test
 	public void multipleUsersValidUpdateAttemptTest() {
 
@@ -95,12 +122,14 @@ Assertions.assertDoesNotThrow(() -> customerTester.jButtonUpdateActionPerformed(
 
 	}
 
+	/**
+	 * Will use multiple threads to update with invalid information
+	 */
 	@Test
 	public void multipleUsersInvalidUpdateAttemptTest() {
 		customerTester.setTxtaddress("");
 		Assertions.assertDoesNotThrow(() -> customerTester.jButtonUpdateActionPerformed(null));
 	}
-
 
 
 }

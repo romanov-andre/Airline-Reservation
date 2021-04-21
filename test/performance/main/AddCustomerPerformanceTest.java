@@ -8,6 +8,10 @@ import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 
+/**
+ * Class for testing Addcustomer performance
+ * Created By: Alan Norman
+ */
 public class AddCustomerPerformanceTest {
 
 
@@ -16,6 +20,9 @@ public class AddCustomerPerformanceTest {
 	Main testMain = new Main();
 
 
+	/**
+	 * @throws IOException
+	 */
 	@BeforeEach
 	public void initCustomer() throws IOException {
 		customerTester.setTxtfirstname("Alan");
@@ -31,14 +38,20 @@ public class AddCustomerPerformanceTest {
 		customerTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
-	//Will use Jmeter to open multiple threads
+	/**
+	 * Will open multiple threads
+	 */
+	//
 	@Test
 	public void multipleAddCustomerWindowsTest() {
 		Assertions.assertDoesNotThrow(() -> testMain.jMenuItemAddCusActionPerformed(null));
 	}
 
 
-//Will use jmeter to set up one user thread that tries to add a valid customer 100 times
+	/**
+	 * Will to set up one user thread that tries to add a valid customer 100 times
+	 */
+//
 	@Test
 	public void multipleSingleUserAddCustomerValidAttemptTest() {
 
@@ -47,7 +60,10 @@ public class AddCustomerPerformanceTest {
 
 	}
 
-	//Will use jmeter to set up one user thread that tries to add a valid customer 100 times with incorrect details
+	/**
+	 * Will to set up one user thread that tries to add a valid customer 100 times with incorrect details
+	 */
+	//
 	@Test
 	public void multipleSingleUserAddCustomerInvalidAttemptTest() {
 
@@ -57,7 +73,10 @@ public class AddCustomerPerformanceTest {
 
 	}
 
-	//will use jmeter to setup 100 user threads and have them try to add a valid customer all at once
+	/**
+	 * Will to setup 100 user threads and have them try to add a valid customer all at once
+	 */
+
 	@Test
 	public void multipleUsersValidAddCustomerAttemptTest() {
 
@@ -65,7 +84,9 @@ public class AddCustomerPerformanceTest {
 
 	}
 
-	//will use jmeter to setup 100 user threads and have them try to add an invalid customer all at once
+	/**
+	 * Will setup 100 user threads and have them try to add an invalid customer all at once
+	 */
 	@Test
 	public void multipleUsersInvalidAddCustomerAttemptTest() {
 

@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
+/**
+ * Test class to verify methods in SearchCustomer
+ * Created By: Alan Norman
+ */
 public class SearchCustomerTest extends SearchCustomer {
 
 
@@ -16,6 +20,10 @@ public class SearchCustomerTest extends SearchCustomer {
 	private SearchCustomer searchTester = new SearchCustomer();
 	private JPanel panel = new JPanel();
 
+	/**
+	 * @throws IOException
+	 * Used to init a customer before testing
+	 */
 	@BeforeEach
 	void initUpdateValues() throws IOException {
 		searchTester.setTxtfirstname("TestFirstName");
@@ -31,9 +39,9 @@ public class SearchCustomerTest extends SearchCustomer {
 		searchTester.setUserImageWithPath("img/testphoto.jpg");
 	}
 
-	//TODO: add exception handling test for anything thrown
-
-
+	/**
+	 * Method to verify an invalid passport id wont work
+	 */
 	@Test
 	public void invalidPassportNumberTest() {
 		//invalid number by -1 digit
@@ -54,6 +62,9 @@ public class SearchCustomerTest extends SearchCustomer {
 
 	}
 
+	/**
+	 * Method to verify a invalid nic number wont work
+	 */
 	@Test
 	public void invalidNicNumberTest() {
 		//valid no letter
@@ -77,20 +88,27 @@ public class SearchCustomerTest extends SearchCustomer {
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
-	//possible integration test
+	/**
+	 * Method to verify a file can be chosen
+	 */
 	@Test
-	void fileChooserTest() {
+	public void fileChooserTest() {
 		Assertions.assertTrue(searchTester.jButtonBrowseActionPerformed(null));
 	}
 
+	/**
+	 * Method to verify cancelling a customer
+	 */
 	@Test
-	void cancelCustomerTest() {
+	public void cancelCustomerTest() {
 		searchTester.jButtonCancelActionPerformed(null);
 	}
 
-	//possible integration test
+	/**
+	 * Method to verify browsing an image works with a valid image path and returns an error with an invalid image path
+	 */
 	@Test
-	void browseImageTest() {
+	public void browseImageTest() {
 		searchTester.path = "img/testphoto.jpg";
 		Assertions.assertTrue(searchTester.jButtonBrowseActionPerformed(null));
 
@@ -98,50 +116,72 @@ public class SearchCustomerTest extends SearchCustomer {
 		Assertions.assertFalse(searchTester.jButtonBrowseActionPerformed(null));
 	}
 
+	/**
+	 * Method to verify an empty first name causes an error
+	 */
 	@Test
-	void emptyFirstNameTest() throws IOException {
+	public void emptyFirstNameTest()  {
 		//Empty first name
 		searchTester.setTxtfirstname("");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty last name causes an error
+	 */
 	@Test
-	void emptyLastNameTest() {
+	public void emptyLastNameTest() {
 		//Empty last name
 		searchTester.setTxtlastname("");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 
 	}
 
+	/**
+	 *  Method to verify an empty nic causes an error
+	 */
 	@Test
-	void emptyNicTest() {
+	public void emptyNicTest() {
 		//Empty nic value
 		searchTester.setTxtnic("");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty passport id causes an error
+	 */
 	@Test
-	void emptyPassportTest() {
+	public void emptyPassportTest() {
 		//Empty passport id
 		searchTester.setTxtpassport("");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
+
+	/**
+	 * Method to verify an empty address causes an error
+	 */
 	@Test
-	void emptyAddressTest() {
+	public void emptyAddressTest() {
 		//Empty address
 		searchTester.setTxtaddress("");
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
+	/**
+	 * Method to verify an empty gender causes an error
+	 */
 	@Test
-	void emptyGenderTest() {
+	public void emptyGenderTest() {
 		searchTester.setRadioButtonMale(false);
 		Assertions.assertFalse(searchTester.jButtonUpdateActionPerformed(null));
 	}
 
 
-	//possible integration test
+	/**
+	 * Method used to verify that a customer updated successfully
+	 */
 	@Test
-	void updateCustomerTest() throws SQLException {
-
+	public void updateCustomerTest() {
 
 		searchTester.setRadioButtonFemale(true);
 		searchTester.setRadioButtonMale(false);
@@ -150,18 +190,23 @@ public class SearchCustomerTest extends SearchCustomer {
 	}
 
 
-	//possible integration test
+	/**
+	 * Method used to verify that a finding a customer was not successful
+	 */
 	@Test
-	void findInvalidCustomerTest() {
+	public void findInvalidCustomerTest() {
 		searchTester.setTxtcustid("CS000");
 		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
 		searchTester.setTxtcustid("C019");
 		Assertions.assertFalse(searchTester.jButtonFindActionPerformed(null));
 	}
 
-	//possible integration test
+
+	/**
+	 * Method used to verify that a finding a customer was successful
+	 */
 	@Test
-	void findValidCustomerTest() {
+	public void findValidCustomerTest() {
 		searchTester.setTxtcustid("CS001");
 		Assertions.assertTrue(searchTester.jButtonFindActionPerformed(null));
 
@@ -169,6 +214,10 @@ public class SearchCustomerTest extends SearchCustomer {
 		Assertions.assertTrue(searchTester.jButtonFindActionPerformed(null));
 	}
 
+	/**
+	 * @throws SQLException
+	 * Method to cover the SqlException when executing an update
+	 */
 	@Test
 	public void updateExceptionTest() throws SQLException {
 

@@ -16,6 +16,10 @@ import java.util.logging.Logger;
  */
 
 
+/**
+ * Class for handling logins and displaying the login window
+ * Edited By: Alan Norman
+ */
 public class Login extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -37,6 +41,11 @@ public class Login extends javax.swing.JFrame {
 		initComponents();
 	}
 
+
+	/**
+	 * @param ds
+	 * New login form with mock data source
+	 */
 	public Login(MysqlDataSource ds) {
 		initComponents();
 		this.d = ds;
@@ -50,6 +59,7 @@ public class Login extends javax.swing.JFrame {
 		return jButtonCancel;
 	}
 
+	//method for dynamically setting pst query string
 	public void setPst(String query) throws SQLException {
 		d = new MysqlDataSource();
 		d.setUser("root");
@@ -69,6 +79,7 @@ public class Login extends javax.swing.JFrame {
 		txtuser.setText(user);
 	}
 
+	//Global variables
 	MysqlDataSource d;
 	Connection con;
 	PreparedStatement pst;
@@ -216,17 +227,26 @@ public class Login extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 	}// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * @param evt button press
+	 * @return boolean
+	 * On the login button push this method gets the login credentials and determines whether login is possible
+	 */
 	public boolean jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 		String username = txtuser.getText();
 		String password = new String(txtpass.getPassword());
 
+		//detects if user entered empty fields
 		if (username.isEmpty() || password.isEmpty()) {
 			System.out.println("login attempts failed");
 			JOptionPane.showMessageDialog(this, "UserName or Password Blank");
 			return false;
 		} else {
 			try {
+
+				//used to determine if mock datasource has been passed
+				//d == null if no mock is present
 				if(d == null) {
 					d = new MysqlDataSource();
 					d.setUser("root");
@@ -235,6 +255,7 @@ public class Login extends javax.swing.JFrame {
 				}
 				con =  d.getConnection();
 
+//used to detect if pst has already been set
 if(pst==null ) {
 	pst = con.prepareStatement("select * from user where username = ? and password = ?");
 }
@@ -264,6 +285,8 @@ if(pst==null ) {
 
 			}
 		}
+
+		//return true if login is successful
 		System.out.println("Executed Query");
 		return true;
 	}

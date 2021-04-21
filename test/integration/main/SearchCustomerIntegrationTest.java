@@ -10,12 +10,15 @@ import org.mockito.MockitoAnnotations;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 import java.sql.*;
 import java.text.ParseException;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * Class for testing the integration of SearchCustomer
+ * Created By: Alan Norman
+ */
 public class SearchCustomerIntegrationTest {
 
 	@Mock
@@ -37,15 +40,19 @@ public class SearchCustomerIntegrationTest {
 	private AutoCloseable closeable;
 
 
+	/**
+	 * @throws Exception
+	 * Sets up mocks and creates a valid customer for testing
+	 */
 	@BeforeEach
 	public void setUp() throws Exception {
 
-
-
+		//init mocks
 		closeable = MockitoAnnotations.openMocks(this);
 
 		Assertions.assertNotNull(ds);
 
+		//pass mock source to search customer
 		customerTester = new SearchCustomer(ds, mockChooser);
 
 		customerTester.setTxtfirstname("Alan");
@@ -64,12 +71,19 @@ public class SearchCustomerIntegrationTest {
 
 	}
 
+	/**
+	 * @throws Exception
+	 * Closes the mocks after each test
+	 */
 	@AfterEach
 	public void teardown() throws Exception {
 		System.out.println("Closing");
 		closeable.close();
 	}
 
+	/**
+	 * Mock a valid user of file browse
+	 */
 	@Test
 	public void mockBrowseValidFileChooserTest() {
 		File newFile = new File("img/testphoto.jpg");
@@ -82,6 +96,9 @@ public class SearchCustomerIntegrationTest {
 		verify(mockChooser, times(2)).getSelectedFile();
 	}
 
+	/**
+	 * Mock an invalid use of file browse
+	 */
 	@Test
 	public void mockBrowseInvalidFileChooserTest() {
 		File newFile = new File("img/testphot.jpg");
@@ -93,6 +110,10 @@ public class SearchCustomerIntegrationTest {
 	}
 
 
+	/**
+	 * @throws SQLException
+	 * Mock the parseException when finding a customer with invalid date
+	 */
 	@Test
 	public void mockFindCustomerParseExceptionTest() throws SQLException {
 
@@ -104,8 +125,12 @@ public class SearchCustomerIntegrationTest {
 
 }
 
+	/**
+	 *
+	 * Mock the exceptions when finding a customer
+	 */
 	@Test
-	public void mockFindCustomerSqlExceptionTest() throws SQLException {
+	public void mockFindCustomerSqlExceptionTest() {
 
 		try {
 			when(ds.getConnection()).thenReturn(c);
@@ -122,7 +147,10 @@ public class SearchCustomerIntegrationTest {
 	}
 
 
-
+	/**
+	 * @throws SQLException
+	 * Mock finding a valid customer
+	 */
 	@Test
 	public void mockValidFindCustomerTest() throws SQLException {
 
@@ -139,6 +167,10 @@ public class SearchCustomerIntegrationTest {
 
 	}
 
+	/**
+	 * @throws SQLException
+	 * Mock and invalid customer update
+	 */
 	@Test
 	public void mockInvalidFindCustomerTest() throws SQLException {
 
@@ -153,10 +185,13 @@ public class SearchCustomerIntegrationTest {
 
 	}
 
+	/**
+	 *
+	 * @throws SQLException
+	 * Mock a valid customer update
+	 */
 	@Test
-	public void mockValidCustomerUpdateTest() throws IOException, SQLException {
-
-
+	public void mockValidCustomerUpdateTest() throws SQLException {
 
 		when(ds.getConnection()).thenReturn(c);
 		when(c.prepareStatement(any(String.class))).thenReturn(stmt);
@@ -167,8 +202,13 @@ public class SearchCustomerIntegrationTest {
 
 	}
 
+	/**
+	 *
+	 * @throws SQLException
+	 * Mock updating customer with invalid credentials
+	 */
 	@Test
-	public void mockInvalidCustomerUpdateTest() throws IOException, SQLException {
+	public void mockInvalidCustomerUpdateTest() throws SQLException {
 		customerTester.setTxtfirstname("");
 
 		when(ds.getConnection()).thenReturn(c);
@@ -179,6 +219,9 @@ public class SearchCustomerIntegrationTest {
 		verify(stmt, times(0)).executeUpdate();
 	}
 
+	/**
+	 * Mock the exceptions when updating a customer
+	 */
 	@Test
 	public void  mockCustomerUpdateExceptionTest() {
 
