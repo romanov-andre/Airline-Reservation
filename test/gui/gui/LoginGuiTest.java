@@ -1,5 +1,6 @@
-package main;
+package gui;
 
+import main.Login;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.AfterEach;

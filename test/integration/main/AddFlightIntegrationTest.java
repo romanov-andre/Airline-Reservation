@@ -8,10 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,6 +24,9 @@ public class AddFlightIntegrationTest {
 
 	@Mock
 	private Connection c;
+
+	@Mock
+	private Statement statement;
 
 	@Mock
 	private PreparedStatement stmt;
@@ -118,6 +118,27 @@ sampleFlight = new Addflight();
 	}
 
 	/**
+	 * Mock the exceptions thrown by AutoId
+	 */
+	@Test
+	public void mockAutoIdExceptionTest()  {
+
+		try {
+			when(ds.getConnection()).thenReturn(c);
+			when(c.createStatement()).thenReturn(statement);
+			when(statement.executeQuery(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
+			when(rs.next()).thenReturn(false);
+
+			flightTester.autoID();
+
+		} catch (SQLException e) {
+			Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
+		}
+
+
+	}
+
+	/**
 	 * @throws Exception
 	 * Mock adding an invalid flight
 	 */
@@ -160,6 +181,22 @@ sampleFlight = new Addflight();
 		verify(stmt, times(0)).executeUpdate();
 
 
+	}
+
+	/**
+	 * @throws SQLException
+	 * Mock the Id being null when executing on the database
+	 */
+	@Test
+	public void mockAutoIdNullMaxIdTest() throws SQLException {
+		when(ds.getConnection()).thenReturn(c);
+		when(c.createStatement()).thenReturn(statement);
+		when(statement.executeQuery(any(String.class))).thenReturn(rs);
+		when(rs.next()).thenReturn(true);
+
+		flightTester.autoID();
+
+		verify(rs, times(2)).getString(any(String.class));
 	}
 
 	/**

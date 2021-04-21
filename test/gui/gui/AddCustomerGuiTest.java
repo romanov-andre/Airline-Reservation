@@ -1,12 +1,16 @@
-package main;
+package gui;
 
+import main.Main;
 import org.assertj.swing.edt.GuiActionRunner;
 import org.assertj.swing.fixture.FrameFixture;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SearchCustomerGuiTest {
+import java.sql.SQLException;
+
+public class AddCustomerGuiTest {
+
 
 	private FrameFixture window;
 
@@ -26,27 +30,9 @@ public class SearchCustomerGuiTest {
 	}
 
 	@Test
-	public void invalidFindCustomerButtonClickedTest()  {
+	public void validAddCustomerButtonClickedTest() throws SQLException {
 		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
-		window.textBox("custId").enterText("CS01");
-		window.button("find").click();
-
-
-	}
-
-	@Test
-	public void validFindCustomerButtonClickedTest() {
-		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
-		window.textBox("custId").enterText("CS001");
-		window.button("find").click();
-
-	}
-	@Test
-	public void validUpdateCustomerButtonClickedTest()  {
-		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
+		window.menuItem("addCustomer").click();
 		window.textBox("firstname").enterText("Alan");
 		window.textBox("lastname").enterText("Norman");
 		window.textBox("nic").enterText("111111111B");
@@ -55,14 +41,14 @@ public class SearchCustomerGuiTest {
 		window.panel("date").textBox().setText("Apr 21, 1997");
 		window.radioButton("male").click();
 		window.textBox("contact").enterText("715");
-		window.button("update").click();
+		window.button("add").click();
 
 	}
 
 	@Test
-	public void invalidUpdateCustomerButtonClickedTest() {
+	public void invalidAddCustomerButtonClickedTest() throws SQLException {
 		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
+		window.menuItem("addCustomer").click();
 		window.textBox("firstname").enterText("");
 		window.textBox("lastname").enterText("Norman");
 		window.textBox("nic").enterText("111111111B");
@@ -71,28 +57,24 @@ public class SearchCustomerGuiTest {
 		window.panel("date").textBox().setText("Apr 21, 1997");
 		window.radioButton("male").click();
 		window.textBox("contact").enterText("715");
-		window.button("update").click();
+		window.button("add").click();
 		window.optionPane().okButton();
 
 	}
 
 	@Test
-	public void validCancelCustomerButtonClickedTest()  {
-
+	public void validCancelButtonClickedTest() throws SQLException {
 		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
+		window.menuItem("addCustomer").click();
 		window.button("cancel").click();
-
 
 	}
 
 	@Test
-	public void browseButtonClickedTest() {
-
+	public void browseButtonClickedTest() throws SQLException {
 		window.menuItem("customerPanel").click();
-		window.menuItem("searchCustomer").click();
+		window.menuItem("addCustomer").click();
 		window.button("browse").click();
-
 	}
 
 
