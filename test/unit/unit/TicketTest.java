@@ -42,39 +42,41 @@ public class TicketTest {
 
     @Test
     public void jButton3ExceptionTest() throws SQLException {
+        try{
+            ticketTest.jButton3ActionPerformed(null);
 
-        ticketTest.setPst("Select");
-
-        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton3ActionPerformed(null));
-
-
+        } catch (Exception e) {
+            Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton1ActionPerformed(null));
+        }
     }
+
 
     @Test
     public void jButton4ExceptionTest() throws SQLException {
+        try{
+            ticketTest.jButton4ActionPerformed(null);
 
-        ticketTest.setPst("Select");
-
-        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton4ActionPerformed(null));
-
-
+        } catch (Exception e) {
+            Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton1ActionPerformed(null));
+        }
     }
 
     @Test
     public void jButton1ExceptionTest() throws SQLException {
+        try{
+            ticketTest.jButton1ActionPerformed(null);
 
-        ticketTest.setPst("Select");
-
-        Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton1ActionPerformed(null));
-
-
+        } catch (Exception e) {
+            Assertions.assertThrows(SQLException.class, () -> ticketTest.jButton1ActionPerformed(null));
+        }
     }
+
 
 
     @Test
     public void getTableValuesTest() {
 
-        int expected = 45;
+        int expected = 13;
 
         ticketTest.jButton3ActionPerformed(null);
 

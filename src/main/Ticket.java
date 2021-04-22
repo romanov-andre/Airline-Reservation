@@ -7,6 +7,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatter;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -747,7 +749,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 			}
 
 		} catch (SQLException ex) {
-			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE, null,
+			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE, null,
 					ex);
 		}
 
@@ -778,14 +780,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 						rs.getString("MAX(id)").length()));
 				id++;
 				txtticketno.setText("TO" + String.format("%03d", id));
-
 			}
-
 		} catch (SQLException ex) {
-			Logger.getLogger(Ticket.class.getName()).log(Level.SEVERE,
+			Logger.getLogger(AddCustomer.class.getName()).log(Level.SEVERE,
 					null, ex);
 		}
-
 	}
 
 
@@ -882,7 +881,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 		String flightclass = txtclass.getSelectedItem().toString().trim();
 		String price = txtprice.getText();
 		String seats = txtseats.getValue().toString();
-		//DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
+		DateFormat da = new SimpleDateFormat("yyyy-MM-dd");
 		String date = txtdept.getText();
 
 		Matcher m = compiledPattern.matcher(date);
