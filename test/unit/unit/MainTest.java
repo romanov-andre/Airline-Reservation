@@ -1,5 +1,6 @@
-package main;
+package unit;
 
+import main.Main;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;

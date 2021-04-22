@@ -1,5 +1,6 @@
-package main;
+package unit;
 
+import main.Addflight;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

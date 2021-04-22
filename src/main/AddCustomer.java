@@ -74,8 +74,8 @@ public class AddCustomer extends javax.swing.JInternalFrame {
 	MysqlDataSource d = null;
 	Connection con;
 	PreparedStatement pst;
-	String path = null;
-	byte[] userimage = null;
+	public String path = null;
+	public byte[] userimage = null;
 
 	//setters
 	public void setRadioButtonMale(boolean selected) {

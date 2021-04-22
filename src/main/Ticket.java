@@ -790,7 +790,7 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 
 
-	boolean jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+	public boolean jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 		String id = txtcustid.getText();
 		System.out.println(id);
 		if(id.isEmpty()){

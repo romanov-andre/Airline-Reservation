@@ -92,7 +92,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	Connection con;
 	PreparedStatement pst;
 
-	String path = null;
+	public String path = null;
 	byte[] userimage = null;
 
 //setters
@@ -719,7 +719,7 @@ public class SearchCustomer extends javax.swing.JInternalFrame {
 	 * @param evt button press
 	 * Detect if user hits cancel button
 	 */
-	void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
+	public void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
 		this.hide();
 	}
 

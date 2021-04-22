@@ -1,5 +1,6 @@
-package main;
+package performance;
 
+import main.Login;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

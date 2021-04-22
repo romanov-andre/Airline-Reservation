@@ -1,5 +1,7 @@
-package main;
+package performance;
 
+import main.Main;
+import main.Ticket;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

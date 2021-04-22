@@ -1,6 +1,7 @@
-package main;
+package integration;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import main.SearchCustomer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 import javax.swing.*;
 import java.io.File;
 import java.sql.*;
-import java.text.ParseException;
 
 import static org.mockito.Mockito.*;
 
@@ -108,22 +108,6 @@ public class SearchCustomerIntegrationTest {
 
 		Assertions.assertFalse(customerTester.jButtonBrowseActionPerformed(null));
 	}
-
-
-	/**
-	 * @throws SQLException
-	 * Mock the parseException when finding a customer with invalid date
-	 */
-	@Test
-	public void mockFindCustomerParseExceptionTest() throws SQLException {
-
-			when(ds.getConnection()).thenReturn(c);
-			when(c.prepareStatement(any(String.class))).thenReturn(stmt);
-			when(stmt.executeQuery()).thenReturn(rs);
-			when(rs.next()).thenReturn(true);
-			when(rs.getString("dob")).thenThrow(new ParseException("invalid date", 0));
-
-}
 
 	/**
 	 *

@@ -1,6 +1,7 @@
-package main;
+package integration;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
+import main.Ticket;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
