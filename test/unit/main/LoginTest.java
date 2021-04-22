@@ -81,9 +81,8 @@ class LoginTest {
 
 		loginTester.setUsername("alannorman00");
 		loginTester.setPassword("alan1234");
-		loginTester.setPst("Select");
 
-		Assertions.assertThrows(SQLException.class, () -> loginTester.jButtonLoginActionPerformed(null));
+		Assertions.assertDoesNotThrow(() -> loginTester.jButtonLoginActionPerformed(null));
 
 	}
 

@@ -9,11 +9,20 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 
+/**
+ * Test Class for gui functions of add customer
+ * Created By: Alan Norman
+ */
 public class AddCustomerGuiTest {
 
 
 	private FrameFixture window;
 
+	/**
+	 * @throws Exception
+	 * Creates a frame of Main class using AssertJ Swing
+	 * then creates a window for access to gui features
+	 */
 	@BeforeEach
 	public void setUp() throws Exception {
 		Main frame = GuiActionRunner.execute(Main::new);

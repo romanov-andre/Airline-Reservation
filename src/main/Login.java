@@ -59,16 +59,6 @@ public class Login extends javax.swing.JFrame {
 		return jButtonCancel;
 	}
 
-	//method for dynamically setting pst query string
-	public void setPst(String query) throws SQLException {
-		d = new MysqlDataSource();
-		d.setUser("root");
-		d.setPassword("1234");
-		d.setDatabaseName("airline");
-	con =  d.getConnection();
-		pst = con.prepareStatement(query);
-	}
-
 	//method for testing that returns the password field
 	public void setPassword(String pass) {
 		txtpass.setText(pass);

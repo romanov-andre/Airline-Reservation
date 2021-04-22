@@ -7,6 +7,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+/**
+ * Test Class for gui functions of UserCreation
+ * Created By: Alan Norman
+ */
 public class UserCreationGuiTest {
 
 	private FrameFixture window;

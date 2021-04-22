@@ -7,6 +7,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
+/**
+ * Test Class for gui functions of search customer
+ * Created By: Alan Norman
+ */
 public class SearchCustomerGuiTest {
 
 	private FrameFixture window;

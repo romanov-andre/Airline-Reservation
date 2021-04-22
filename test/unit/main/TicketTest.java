@@ -35,9 +35,7 @@ public class TicketTest {
     @Test
     public void autoIDExceptionTest() {
 
-        ticketTest.setStatementString("Select * ");
-
-        Assertions.assertThrows(SQLException.class, () -> ticketTest.autoID());
+        Assertions.assertDoesNotThrow(() -> ticketTest.autoID());
 
     }
 
@@ -75,7 +73,7 @@ public class TicketTest {
     @Test
     public void getTableValuesTest() {
 
-        int expected = 19;
+        int expected = 45;
 
         ticketTest.jButton3ActionPerformed(null);
 

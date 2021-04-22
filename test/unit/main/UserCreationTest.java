@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.sql.SQLException;
 
 public class UserCreationTest {
 
@@ -15,7 +13,7 @@ public class UserCreationTest {
 
 
   @Test
-  void initUser() throws IOException {
+  void initUser() {
     userCreationTester.setTxtuserid("1234");
     userCreationTester.setTxtfirstname("Test");
     userCreationTester.setTxtlastname("Name");
@@ -26,14 +24,17 @@ public class UserCreationTest {
   @Test
   public void autoIDExceptionTest() {
 
-    userCreationTester.setStatementString("Select * ");
-
-    Assertions.assertThrows(SQLException.class, () -> userCreationTester.autoID());
-
+   userCreationTester.autoID();
+Assertions.assertDoesNotThrow(() -> userCreationTester.autoID());
   }
 
   @Test
-  void emptyFirstNameTest() throws IOException {
+  public void addUserExceptionTest() {
+    Assertions.assertDoesNotThrow(() -> userCreationTester.jButtonAddActionPerformed(null));
+  }
+
+  @Test
+  void emptyFirstNameTest() {
     //Empty first name
       userCreationTester.setTxtfirstname("");
       Assertions.assertFalse(userCreationTester.jButtonAddActionPerformed(null));
@@ -70,11 +71,11 @@ public class UserCreationTest {
   @Test
   void validUserCreate() {
 
-
     userCreationTester.setTxtlastname("Jhon");
     userCreationTester.setTxtfirstname("Roberto");
     userCreationTester.setTxtusername("jrob");
     userCreationTester.setTxtpassword("123123123");
     Assertions.assertTrue(userCreationTester.jButtonAddActionPerformed(null));
+    Assertions.assertDoesNotThrow(() -> userCreationTester.jButtonAddActionPerformed(null));
   }
 }

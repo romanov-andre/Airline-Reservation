@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.util.concurrent.Callable;
 
+
+/**
+ * Test Class for gui functions of Login
+ * Created By: Alan Norman
+ */
 public class LoginGuiTest {
 
 private FrameFixture window;
