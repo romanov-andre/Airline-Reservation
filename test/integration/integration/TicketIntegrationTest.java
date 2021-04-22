@@ -13,6 +13,11 @@ import java.sql.*;
 
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
+
+/**
+ * This class is for integration test of Ticket Class
+ * Created By Mushfique Shafi
+ */
 public class TicketIntegrationTest {
 
     @Mock
@@ -33,11 +38,12 @@ public class TicketIntegrationTest {
     private ResultSetMetaData rsmd;
 
 
-
-
     private Ticket ticketTest;
     private AutoCloseable closeable;
 
+    /**
+     * @throws Exception Sets up a valid ticket info required for testing
+     */
     @BeforeEach
     public void setUp() throws Exception {
 
@@ -61,6 +67,9 @@ public class TicketIntegrationTest {
 
     }
 
+    /**
+     * @throws Exception Used to close the mocks after each test
+     */
     @AfterEach
     public void teardown() throws Exception {
         System.out.println("Closing");
@@ -68,19 +77,25 @@ public class TicketIntegrationTest {
     }
 
 
-
-
+    /**
+     * Driver test for ticket Search Negative
+     */
     @Test
-    public void testSearchTicketButtonNegative(){
+    public void driverTestSearchTicketButtonNegative() {
         ticketTest.setTxtSource("Usa");
         ticketTest.setTxtDepart("Usa");
         boolean checkResult = ticketTest.jButton3ActionPerformed(null);
         assertFalse(checkResult);
     }
 
-
+    /**
+     * Mock search ticket method for positive testing to search ticket
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void testSearchTicketButton() throws SQLException, ClassNotFoundException {
+    public void mockSearchTicketButton() throws SQLException, ClassNotFoundException {
         when(ds.getConnection()).thenReturn(c);
         when(c.prepareStatement(any(String.class))).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rs);
@@ -91,8 +106,15 @@ public class TicketIntegrationTest {
         ticketTest.jButton3ActionPerformed(null);
         verify(stmt, times(1)).executeQuery();
     }
+
+    /**
+     * Mock ticket search method for negative testing
+     *
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     @Test
-    public void falseTicketSearch() throws SQLException, ClassNotFoundException{
+    public void mockFalseTicketSearch() throws SQLException, ClassNotFoundException {
         when(ds.getConnection()).thenReturn(c);
         when(c.prepareStatement(any(String.class))).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rs);
@@ -103,6 +125,11 @@ public class TicketIntegrationTest {
         verify(rs, times(0)).getString(any(String.class));
     }
 
+    /**
+     * Mock test for valid Ticket book
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockValidTicketTest() throws SQLException {
         when(ds.getConnection()).thenReturn(c);
@@ -111,6 +138,12 @@ public class TicketIntegrationTest {
         ticketTest.jButton1ActionPerformed(null);
         verify(stmt, times(1)).executeUpdate();
     }
+
+    /**
+     * Mock Test for invalid ticket book
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockInvalidTicketTest() throws SQLException {
         when(ds.getConnection()).thenReturn(c);
@@ -122,8 +155,14 @@ public class TicketIntegrationTest {
         Assertions.assertFalse(ticketTest.jButton1ActionPerformed(null));
     }
 
+    /**
+     * Mock test negative for customer search
+     *
+     * @throws SQLException
+     */
+
     @Test
-    public void mockInvalidCustomer() throws SQLException {
+    public void mockInvalidCustomerSearch() throws SQLException {
         when(ds.getConnection()).thenReturn(c);
         when(c.prepareStatement(any(String.class))).thenReturn(stmt);
         when(stmt.executeUpdate()).thenReturn(1);
@@ -132,6 +171,12 @@ public class TicketIntegrationTest {
 
         Assertions.assertFalse(ticketTest.jButton4ActionPerformed(null));
     }
+
+    /**
+     * Mock Valid Customer Search
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockValidCustomerSearch() throws SQLException {
         when(ds.getConnection()).thenReturn(c);
@@ -148,14 +193,21 @@ public class TicketIntegrationTest {
 
     }
 
+
+    /**
+     * Exception test for book ticket method
+     *
+     * @throws SQLException
+     */
     @Test
-    public void mockTicketExceptionTest()  {
+    public void mockTicketExceptionTest() {
 
         try {
             when(ds.getConnection()).thenReturn(c);
             when(c.createStatement()).thenReturn(mockStatement);
             when(mockStatement.executeQuery(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
             when(rs.next()).thenReturn(false);
+            ticketTest.jButton1ActionPerformed(null);
 
         } catch (SQLException e) {
             Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
@@ -163,9 +215,15 @@ public class TicketIntegrationTest {
 
 
     }
+
+
+    /**
+     * Exception test for search ticket method
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockFLightSqlExceptionTest() throws SQLException {
-
         try {
             when(ds.getConnection()).thenReturn(c);
             when(c.prepareStatement(any(String.class))).thenThrow(new SQLException("Failed to connect to db"));
@@ -174,6 +232,12 @@ public class TicketIntegrationTest {
             Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
         }
     }
+
+    /**
+     * Exception method for Search Customer method
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockSearchCustomerSqlExceptionTest() throws SQLException {
         try {
@@ -184,6 +248,12 @@ public class TicketIntegrationTest {
             Assertions.assertEquals(e.getMessage(), "Failed to connect to db");
         }
     }
+
+    /**
+     * Mock exception test method Ticket book
+     *
+     * @throws SQLException
+     */
     @Test
     public void mockTicketSqlExceptionTest() throws SQLException {
         try {
@@ -196,10 +266,8 @@ public class TicketIntegrationTest {
     }
 
 
-
-
     @Test
-    public void mockAutoIdExceptionTest()  {
+    public void mockAutoIdExceptionTest() {
 
         try {
             when(ds.getConnection()).thenReturn(c);
@@ -215,6 +283,7 @@ public class TicketIntegrationTest {
 
 
     }
+
     @Test
     public void mockAutoIdNullMaxIdTest() throws SQLException {
         when(ds.getConnection()).thenReturn(c);
@@ -226,6 +295,7 @@ public class TicketIntegrationTest {
 
         verify(rs, times(2)).getString(any(String.class));
     }
+
     @Test
     public void mockAutoIdTest() throws SQLException {
 

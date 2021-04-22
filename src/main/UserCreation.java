@@ -276,6 +276,11 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		pack();
 	}
 
+	/**
+	 * Add customer method by inputting all the correct info
+	 * @param evt Add customer to the databse
+	 * @return True
+	 */
 	public boolean jButtonAddActionPerformed(ActionEvent evt) {
 		String pattern = "[a-zA-z0-9]{8,}";
 		Pattern compiledPattern = Pattern.compile(pattern);
@@ -325,6 +330,10 @@ public class UserCreation extends javax.swing.JInternalFrame {
 		return true;
 	}
 
+	/**
+	 * Button to cancel user creation
+	 * @param evt Cancel and go back the main screen
+	 */
 	private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {
 		this.hide();
 	}

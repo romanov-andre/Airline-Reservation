@@ -756,6 +756,9 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return true;
 	}//GEN-LAST:event_jButton3ActionPerformed
 
+	/**
+	 * Method for creating Auto Id to generate Ticket ID as the next available ticket number
+	 */
 	public void autoID() {
 		try {
 			if(d == null) {
@@ -788,7 +791,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 	}
 
 
-
+	/**
+	 * This method performed the button functionality of search customer
+	 * @param evt Search Customer
+	 * @return True
+	 */
 	public boolean jButton4ActionPerformed(ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 		String id = txtcustid.getText();
 		System.out.println(id);
@@ -834,6 +841,12 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return true;
 	}//GEN-LAST:event_jButton4ActionPerformed
 
+
+	/**
+	 *This method allows to check the t
+	 * @param evt Input the flight info to the text box from the table
+	 * @return True
+	 */
 	public int jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
 
 		DefaultTableModel Df = (DefaultTableModel) jTable1.getModel();
@@ -860,6 +873,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 
 	}//GEN-LAST:event_jTable1MouseClicked
 
+	/**
+	 * Seat change method
+	 * @param evt
+	 * @return true
+	 */
 	public int txtseatsStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtseatsStateChanged
 		System.out.println(txtseats.getValue().toString());
 		int price = Integer.parseInt(txtprice.getText());
@@ -870,6 +888,11 @@ public class Ticket extends javax.swing.JInternalFrame {
 		return tot;
 	}
 
+	/**
+	 * Method to book the ticket when clicked
+	 * @param evt ticket is booked
+	 * @return true
+	 */
 	public boolean jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 
 		String pattern = "\\d\\d\\d\\d-\\d\\d-\\d\\d";
