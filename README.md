@@ -1,5 +1,4 @@
 # Software-Testing-Group-Proj
-![58ftsv](https://user-images.githubusercontent.com/83718752/117228024-29c82d00-ade6-11eb-8f1b-634a64470faf.gif)
 This project is developed to understand unit testing, performance testing , and system tesing.
 
 ## Unit Test Branch and Statement Coverage:
